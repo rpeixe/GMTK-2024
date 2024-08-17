@@ -13,6 +13,7 @@ public class LevelManager : MonoBehaviour
     public int NumPlayers => _numPlayers;
     public Dictionary<int, float> Currencies { get; set; } = new Dictionary<int, float>();
     public Dictionary<int, int> NumBuildings { get; set; } = new Dictionary<int, int>();
+    public GridCell Selected { get; set; }
 
     public void AddCurrency(int player, float currency)
     {
@@ -22,6 +23,31 @@ public class LevelManager : MonoBehaviour
     public void RemoveCurrency(int player, float currency)
     {
         Currencies[player] -= currency;
+    }
+
+    public float CalculateCost(int player, Vector2Int pos, BuildingInformation buildingInformation)
+    {
+        return CalculateCost(player, GridController.Cells[pos.x, pos.y], buildingInformation);
+    }
+
+    public float CalculateCost(int player, GridCell cell, BuildingInformation buildingInformation)
+    {
+        float bc = buildingInformation.BaseCost;
+        float cf = cell.RegionClass.CostFactor;
+        float pi = cell.Influences[player];
+        float aa = cell.GetAntiInfluence(player);
+        float af = 0.05f * NumBuildings[player];
+        float finalCost = bc * cf * (100 - pi / 5) * (100 + aa) * (100 + af);
+
+        return finalCost;
+    }
+
+    public void ConstructBuilding(int player, GridCell cell, BuildingInformation buildingInformation)
+    {
+        RemoveCurrency(player, CalculateCost(player, cell, buildingInformation));
+        Building building = new GameObject("Building").AddComponent<Building>();
+        building.Build(player, cell, buildingInformation);
+        NumBuildings[player]++;
     }
 
     private void Awake()

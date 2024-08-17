@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -12,13 +13,26 @@ public class GridController : MonoBehaviour
     [SerializeField] private Tilemap _buildingTilemap;
     [SerializeField] private GameObject _blocker;
     [SerializeField] private GameObject _buildWheel;
+    [Header("Region Types")]
+    [SerializeField] private RegionClass _classA;
+    [SerializeField] private RegionClass _classB;
+    [SerializeField] private RegionClass _classC;
 
-    public GridCell[,] Cells { get; set; } = new GridCell[20,10];
+    public RegionClass ClassA => _classA;
+    public RegionClass ClassB => _classB;
+    public RegionClass ClassC => _classC;
+    public GridCell[,] Cells { get; set; } = new GridCell[20, 10];
 
 
     public void SetBuilding(Vector2Int pos, Building building)
     {
+        SetBuilding(Cells[pos.x, pos.y], building);
+    }
 
+    public void SetBuilding(GridCell cell, Building building)
+    {
+        cell.ConstructedBuilding = building;
+        _buildingTilemap.SetTile((Vector3Int)cell.Position, building.BuildingInformation.Tile);
     }
 
     public bool CanBuild(Vector2Int pos, Building building)
@@ -33,32 +47,31 @@ public class GridController : MonoBehaviour
         {
             for (int y = 0; y < Cells.GetLength(1); y++)
             {
-                Cells[x,y] = new GridCell();
+                Cells[x,y] = new GameObject("Grid Cell").AddComponent<GridCell>();
+                Cells[x,y].Position = new Vector2Int(x, y);
             }
         }
     }
 
 
-    private Vector2Int GetTilePos()
+    private Vector2Int GetTilePos(Vector2 worldPosition)
     {
-        Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2Int gridPos = (Vector2Int)_grid.WorldToCell(mouseWorldPos);
+        Vector2Int gridPos = (Vector2Int)_grid.WorldToCell(worldPosition);
         gridPos.x = Mathf.Clamp(gridPos.x, 0, Cells.GetLength(0) - 1);
         gridPos.y = Mathf.Clamp(gridPos.y, 0, Cells.GetLength(1) - 1);
         return gridPos;
     }
 
-    private void HandleGroundClick()
+    private void HandleGroundClick(Vector2 mousePosition)
     {
         if (!EventSystem.current.IsPointerOverGameObject())
         {
-            Vector2Int gridPos = GetTilePos();
-            
+            Vector2Int gridPos = GetTilePos(mousePosition);
+            Debug.Log(gridPos);
+
             if (Cells[gridPos.x, gridPos.y].CellType == GridCell.CellTypes.Buildable)
             {
-                _blocker.SetActive(true);
-                _buildWheel.GetComponent<RectTransform>().position = Input.mousePosition;
-                Debug.Log("O terreno está vazio!");
+                UIManager.Instance.OpenBuildMenu(Cells[gridPos.x, gridPos.y]);
             }
         }
     }
