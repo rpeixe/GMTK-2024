@@ -5,20 +5,22 @@ using UnityEngine;
 public class Building : MonoBehaviour
 {
     public int Owner { get; set; } = 0;
-    public Vector2Int Pos { get; set; }
+    public GridCell Cell { get; set; }
 
-    [SerializeField] private BuildingInformation info;
+    public BuildingInformation BuildingInformation { get; set; }
 
-    public void Build()
+    public void Build(int player, GridCell cell, BuildingInformation buildingInformation)
     {
-        LevelManager.Instance.RemoveCurrency(Owner, 1);
-        LevelManager.Instance.GridController.SetBuilding(Pos, this);
+        Owner = player;
+        Cell = cell;
+        BuildingInformation = buildingInformation;
+        LevelManager.Instance.GridController.SetBuilding(cell, this);
     }
 
     public void Sell()
     {
-        LevelManager.Instance.AddCurrency(Owner, 1);
-        LevelManager.Instance.GridController.SetBuilding(Pos, null);
+        LevelManager.Instance.AddCurrency(Owner, BuildingInformation.BaseCost / 10);
+        LevelManager.Instance.GridController.SetBuilding(Cell, null);
         Destroy(gameObject);
     }
 

@@ -12,10 +12,26 @@ public class GridCell : MonoBehaviour
     }
 
     public CellTypes CellType { get; set; } = CellTypes.Buildable;
-    public RegionClass RegionClass { get; set; }
+    public Vector2Int Position { get; set; }
+    public RegionClass RegionClass { get; set; } = LevelManager.Instance.GridController.ClassB;
     public Dictionary<int, int> Influences { get; set; } = new Dictionary<int, int>();
     public Dictionary<int, int> AntiInfluences { get; set; } = new Dictionary<int, int>();
     public Building ConstructedBuilding { get; set; }
+
+    public int GetAntiInfluence(int targetPlayer)
+    {
+        int antiInfluence = 0;
+
+        foreach (var item in AntiInfluences)
+        {
+            if (item.Key != targetPlayer)
+            {
+                antiInfluence += item.Value;
+            }
+        }
+
+        return antiInfluence;
+    }
 
     private void Start()
     {
