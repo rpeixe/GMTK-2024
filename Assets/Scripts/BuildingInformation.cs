@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "BuildingInfo")]
+[CreateAssetMenu(fileName = "BuildingInformation")]
 public class BuildingInformation : ScriptableObject
 {
     [SerializeField] private Sprite _sprite;
