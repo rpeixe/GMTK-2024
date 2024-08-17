@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
@@ -37,7 +38,8 @@ public class GridController : MonoBehaviour
         }
     }
 
-    private Vector2Int GetTile()
+
+    private Vector2Int GetTilePos()
     {
         Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2Int gridPos = (Vector2Int)grid.WorldToCell(mouseWorldPos);
@@ -60,4 +62,15 @@ public class GridController : MonoBehaviour
             }
         }
     }
+
+    public void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector2Int tilePos = GetTilePos();
+            GridCell cell = cells[tilePos.x, tilePos.y];
+            Debug.Log($"Cell = {tilePos}");
+        }
+    }
+
 }
