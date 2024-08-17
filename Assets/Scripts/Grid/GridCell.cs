@@ -17,4 +17,5 @@ public class GridCell
     public EconomicClasses EconomicClass { get; set; }
     public Dictionary<int, int> Influences { get; set; } = new Dictionary<int, int>();
     public IBuilding ConstructedBuilding { get; set; }
+
 }
