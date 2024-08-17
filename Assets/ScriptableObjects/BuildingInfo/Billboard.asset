@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Billboard
   m_EditorClassIdentifier: 
   _sprite: {fileID: 0}
-  _name: 
-  _baseCost: 0
-  _buildingTime: 0
-  _influenceRadius: 0
-  _influenceValue: 0
-  _income: 0
-  _antiInfluenceRadius: 0
-  _antiInfluenceValue: 0
+  _name: Billboard
+  _baseCost: 10
+  _buildingTime: 3
+  _influenceRadius: 2
+  _influenceValue: 5
+  _income: 0.1
+  _antiInfluenceRadius: 2
+  _antiInfluenceValue: 10
   _description: 
