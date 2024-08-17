@@ -113,12 +113,12 @@ TextureImporter:
       name: village0002_0
       rect:
         serializedVersion: 2
-        x: 63
-        y: 1261
-        width: 960
-        height: 630
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 73
+        y: 1299
+        width: 929
+        height: 581
+      alignment: 9
+      pivot: {x: 0.5, y: 0.48020655}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
