@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private GameObject _buildMenu;
     [SerializeField] private GameObject _buildWheel;
+    [SerializeField] private TextMeshProUGUI _currencyText;
 
     public static UIManager Instance { get; private set; }
 
@@ -25,5 +27,10 @@ public class UIManager : MonoBehaviour
     {
         LevelManager.Instance.Selected = null;
         _buildMenu.SetActive(false);
+    }
+
+    public void UpdateCurrencyText()
+    {
+        _currencyText.text = $"$ {LevelManager.Instance.Currencies[1]}";
     }
 }
