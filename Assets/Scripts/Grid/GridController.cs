@@ -68,11 +68,15 @@ public class GridController : MonoBehaviour
         if (!EventSystem.current.IsPointerOverGameObject())
         {
             Vector2Int gridPos = GetTilePos(mousePosition);
+            GridCell cell = Cells[gridPos.x, gridPos.y];
             Debug.Log(gridPos);
 
-            if (Cells[gridPos.x, gridPos.y].CellType == GridCell.CellTypes.Buildable)
+            if (cell.CellType == GridCell.CellTypes.Buildable)
             {
-                UIManager.Instance.OpenBuildMenu(Cells[gridPos.x, gridPos.y]);
+                if (cell.ConstructedBuilding == null)
+                {
+                    UIManager.Instance.OpenBuildMenu(Cells[gridPos.x, gridPos.y]);
+                }
             }
         }
     }

@@ -18,11 +18,13 @@ public class LevelManager : MonoBehaviour
     public void AddCurrency(int player, float currency)
     {
         Currencies[player] += currency;
+        UIManager.Instance.UpdateCurrencyText();
     }
 
     public void RemoveCurrency(int player, float currency)
     {
         Currencies[player] -= currency;
+        UIManager.Instance.UpdateCurrencyText();
     }
 
     public float CalculateCost(int player, Vector2Int pos, BuildingInformation buildingInformation)
@@ -34,10 +36,10 @@ public class LevelManager : MonoBehaviour
     {
         float bc = buildingInformation.BaseCost;
         float cf = cell.RegionClass.CostFactor;
-        float pi = cell.Influences[player];
-        float aa = cell.GetAntiInfluence(player);
+        float pi = cell.GetInfluencePercentage(player);
+       // float aa = cell.GetAntiInfluence(player);
         float af = 0.05f * NumBuildings[player];
-        float finalCost = bc * cf * (100 - pi / 5) * (100 + aa) * (100 + af);
+        float finalCost = bc * cf * (2 - pi) * (1 + af);
 
         return finalCost;
     }
@@ -62,5 +64,7 @@ public class LevelManager : MonoBehaviour
             Currencies[i] = _initialMoney;
             NumBuildings[i] = 0;
         }
+
+        UIManager.Instance.UpdateCurrencyText();
     }
 }

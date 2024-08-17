@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -31,6 +32,25 @@ public class GridCell : MonoBehaviour
         }
 
         return antiInfluence;
+    }
+
+    public int GetInfluence(int targetPlayer)
+    {
+        return Influences[targetPlayer] - GetAntiInfluence(targetPlayer);
+    }
+
+    public int GetTotalInfluence()
+    {
+        return Influences.Sum(item => item.Value);
+    }
+
+    public float GetInfluencePercentage(int targetPlayer)
+    {
+        if (GetTotalInfluence() == 0)
+        {
+            return 0f;
+        }
+        return GetInfluence(targetPlayer) / GetTotalInfluence();
     }
 
     private void Start()
