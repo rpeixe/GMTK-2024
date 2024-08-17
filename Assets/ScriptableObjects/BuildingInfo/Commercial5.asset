@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c51434231898a4a4b8d9d89f34094015, type: 3}
+  m_Name: Commercial5
+  m_EditorClassIdentifier: 
+  _tile: {fileID: 11400000, guid: dfd78aa585e7a924c990bb8a08e00a9f, type: 2}
+  _name: Commercial V
+  _baseCost: 300
+  _buildingTime: 30
+  _influenceRadius: 3
+  _influenceValue: 15
+  _income: 4
+  _antiInfluenceRadius: 0
+  _antiInfluenceValue: 0
+  _evolution: {fileID: 0}
+  _description: Certainly a great building for making profits!
