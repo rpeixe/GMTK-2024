@@ -15,8 +15,8 @@ public class BuildingInformation : ScriptableObject
     [SerializeField] private float _income;
     [SerializeField] private int _antiInfluenceRadius;
     [SerializeField] private int _antiInfluenceValue;
-    [TextArea][SerializeField] private string _description;
     [SerializeField] private BuildingInformation _evolution;
+    [TextArea][SerializeField] private string _description;
 
     public TileBase Tile => _tile;
     public string Name => _name;

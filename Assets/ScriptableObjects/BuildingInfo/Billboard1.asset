@@ -10,15 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c51434231898a4a4b8d9d89f34094015, type: 3}
-  m_Name: Monument
+  m_Name: Billboard1
   m_EditorClassIdentifier: 
-  _sprite: {fileID: 0}
-  _name: Monument
-  _baseCost: 0
-  _buildingTime: 20
-  _influenceRadius: 4
-  _influenceValue: 20
-  _income: 1
-  _antiInfluenceRadius: 0
-  _antiInfluenceValue: 0
-  _description: 
+  _tile: {fileID: 0}
+  _name: Billboard I
+  _baseCost: 10
+  _buildingTime: 3
+  _influenceRadius: 2
+  _influenceValue: 5
+  _income: 0.1
+  _antiInfluenceRadius: 2
+  _antiInfluenceValue: 10
+  _evolution: {fileID: 11400000, guid: 7f373b0e08555304189f438d1fa216a6, type: 2}
+  _description: Such a nice description!

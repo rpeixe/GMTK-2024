@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c51434231898a4a4b8d9d89f34094015, type: 3}
+  m_Name: Ornamental3
+  m_EditorClassIdentifier: 
+  _tile: {fileID: 0}
+  _name: Ornamental III
+  _baseCost: 40
+  _buildingTime: 15
+  _influenceRadius: 3
+  _influenceValue: 20
+  _income: 0.4
+  _antiInfluenceRadius: 2
+  _antiInfluenceValue: 5
+  _evolution: {fileID: 11400000, guid: bee7cd38b5044ba4ba51fa08e2300a06, type: 2}
+  _description: Definitely an inspiring design!
