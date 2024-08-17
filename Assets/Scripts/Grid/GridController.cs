@@ -11,6 +11,7 @@ public class GridController : MonoBehaviour
     [SerializeField] private Grid _grid;
     [SerializeField] private Tilemap _groundTilemap;
     [SerializeField] private Tilemap _buildingTilemap;
+    [SerializeField] private Tilemap _roadTilemap;
     [SerializeField] private GameObject _blocker;
     [SerializeField] private GameObject _buildWheel;
     [Header("Region Types")]
