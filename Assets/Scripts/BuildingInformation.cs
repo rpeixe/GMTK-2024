@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
-[CreateAssetMenu(fileName = "BuildingInfo")]
+[CreateAssetMenu(fileName = "BuildingInformation")]
 public class BuildingInformation : ScriptableObject
 {
-    [SerializeField] private Sprite _sprite;
+    [SerializeField] private TileBase _tile;
     [SerializeField] private string _name;
     [SerializeField] private float _baseCost;
     [SerializeField] private int _buildingTime;
@@ -15,8 +16,9 @@ public class BuildingInformation : ScriptableObject
     [SerializeField] private int _antiInfluenceRadius;
     [SerializeField] private int _antiInfluenceValue;
     [TextArea][SerializeField] private string _description;
+    [SerializeField] private BuildingInformation _evolution;
 
-    public Sprite Sprite => _sprite;
+    public TileBase Tile => _tile;
     public string Name => _name;
     public float BaseCost => _baseCost;
     public int BuildingTime => _buildingTime;
@@ -26,4 +28,5 @@ public class BuildingInformation : ScriptableObject
     public int AntiInfluenceRadius => _antiInfluenceRadius;
     public int AntiInfluenceValue => _antiInfluenceValue;
     public string Description => _description;
+    public BuildingInformation Evolution => _evolution;
 }

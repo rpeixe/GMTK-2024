@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class DetectGroundClick : MonoBehaviour
 {
-    public event Action OnGroundClick;
+    public event Action<Vector2> OnGroundClick;
+
     private void OnMouseUp()
     {
-        OnGroundClick?.Invoke();
+        OnGroundClick?.Invoke(Camera.main.ScreenToWorldPoint(Input.mousePosition));
     }
 }

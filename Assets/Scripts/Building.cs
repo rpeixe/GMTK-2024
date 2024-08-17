@@ -2,21 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Building : MonoBehaviour
+public class Building : MonoBehaviour
 {
     public int Owner { get; set; } = 0;
-    public Vector2Int Pos { get; set; }
+    public GridCell Cell { get; set; }
 
-    public abstract void Build();
+    public BuildingInformation BuildingInformation { get; set; }
+
+    public void Build(int player, GridCell cell, BuildingInformation buildingInformation)
+    {
+        Owner = player;
+        Cell = cell;
+        BuildingInformation = buildingInformation;
+        LevelManager.Instance.GridController.SetBuilding(cell, this);
+    }
 
     public void Sell()
     {
-        LevelManager.Instance.AddCurrency(Owner, 1);
-        LevelManager.Instance.GridController.SetBuilding(Pos, null);
+        LevelManager.Instance.AddCurrency(Owner, BuildingInformation.BaseCost / 10);
+        LevelManager.Instance.GridController.SetBuilding(Cell, null);
         Destroy(gameObject);
     }
 
-    public abstract void Upgrade();
+    public void Upgrade()
+    {
 
-    public abstract void ProcessTick();
+    }
+
+    public void ProcessTick()
+    {
+
+    }
 }
