@@ -15,12 +15,12 @@ public class GridController : MonoBehaviour
     private GridCell[,] cells = new GridCell[20,10];
 
 
-    public void SetBuilding(Building building, Vector2Int pos)
+    public void SetBuilding(Vector2Int pos, Building building)
     {
 
     }
 
-    public bool CanBuild(Building building, Vector2Int pos)
+    public bool CanBuild(Vector2Int pos, Building building)
     {
         return cells[pos.x,pos.y].CellType == GridCell.CellTypes.Buildable && cells[pos.x, pos.y].ConstructedBuilding == null;
     }

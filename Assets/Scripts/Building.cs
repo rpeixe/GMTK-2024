@@ -12,7 +12,7 @@ public abstract class Building : MonoBehaviour
     public void Sell()
     {
         LevelManager.Instance.AddCurrency(Owner, 1);
-        LevelManager.Instance.GridController.SetBuilding(null, Pos);
+        LevelManager.Instance.GridController.SetBuilding(Pos, null);
         Destroy(gameObject);
     }
 
