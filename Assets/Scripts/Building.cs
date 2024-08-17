@@ -2,12 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Building : MonoBehaviour
+public class Building : MonoBehaviour
 {
     public int Owner { get; set; } = 0;
     public Vector2Int Pos { get; set; }
 
-    public abstract void Build();
+    public void Build()
+    {
+        LevelManager.Instance.RemoveCurrency(Owner, 1);
+        LevelManager.Instance.GridController.SetBuilding(Pos, this);
+    }
 
     public void Sell()
     {
@@ -16,7 +20,13 @@ public abstract class Building : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public abstract void Upgrade();
+    public void Upgrade()
+    {
 
-    public abstract void ProcessTick();
+    }
+
+    public void ProcessTick()
+    {
+
+    }
 }
