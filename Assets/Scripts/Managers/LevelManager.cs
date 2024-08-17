@@ -10,6 +10,7 @@ public class LevelManager : MonoBehaviour
 
     public static LevelManager Instance { get; private set; }
     public GridController GridController => _gridController;
+    public int NumPlayers => _numPlayers;
     public Dictionary<int, float> Currencies { get; set; } = new Dictionary<int, float>();
     public Dictionary<int, int> NumBuildings { get; set; } = new Dictionary<int, int>();
 

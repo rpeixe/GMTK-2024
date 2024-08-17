@@ -7,7 +7,6 @@ using UnityEngine;
 
 public class GenerateInfluence : MonoBehaviour
 {
-    [SerializeField] private GridController gridController;
     //[SerializeField] private float propagationSpeed = 3f;
     [SerializeField] private int testInfluenceValue;
     [SerializeField] private int testPlayer;
@@ -17,7 +16,7 @@ public class GenerateInfluence : MonoBehaviour
 
     private void setInfluence(Vector2 cellPos, int value)
     {
-        GridCell cell = gridController.cells[Mathf.FloorToInt(cellPos.x), Mathf.FloorToInt(cellPos.y)];
+        GridCell cell = LevelManager.Instance.GridController.Cells[Mathf.FloorToInt(cellPos.x), Mathf.FloorToInt(cellPos.y)];
         cell.Influences[player] = value;
     }
 
