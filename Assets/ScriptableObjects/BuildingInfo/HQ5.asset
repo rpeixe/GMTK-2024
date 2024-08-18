@@ -20,4 +20,5 @@ MonoBehaviour:
   _influenceValue: 8
   _income: 2.5
   _evolution: {fileID: 11400000, guid: 711899f936d72ce4e84f7732a216e3af, type: 2}
+  _previous: {fileID: 11400000, guid: 77b15acea7950ef4db05d3c4679d6d50, type: 2}
   _description: Main Structure

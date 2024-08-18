@@ -14,6 +14,7 @@ public class BuildingInformation : ScriptableObject
     [SerializeField] private float _influenceValue;
     [SerializeField] private float _income;
     [SerializeField] private BuildingInformation _evolution;
+    [SerializeField] private BuildingInformation _previous;
     [TextArea][SerializeField] private string _description;
 
     public TileBase Tile => _tile;
@@ -25,4 +26,6 @@ public class BuildingInformation : ScriptableObject
     public float Income => _income;
     public string Description => _description;
     public BuildingInformation Evolution => _evolution;
+
+    public BuildingInformation Previous => _previous;
 }

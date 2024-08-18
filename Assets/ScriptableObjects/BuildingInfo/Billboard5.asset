@@ -20,4 +20,5 @@ MonoBehaviour:
   _influenceValue: 30
   _income: 0
   _evolution: {fileID: 0}
+  _previous: {fileID: 11400000, guid: 3bb03ef6e7e5a284088a9cd53345eb16, type: 2}
   _description: Such a nice description!
