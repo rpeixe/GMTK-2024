@@ -54,8 +54,12 @@ public class Building : MonoBehaviour
 
     public void Upgrade()
     {
-        LevelManager.Instance.RemoveCurrency(Owner, BuildingInformation.Evolution.BaseCost);
         Build(this.Owner, this.Cell, this.BuildingInformation.Evolution);
+    }
+
+    public void Downgrade()
+    {
+        Build(this.Owner, this.Cell, this.BuildingInformation.Previous);
     }
 
     public void ProcessTick()

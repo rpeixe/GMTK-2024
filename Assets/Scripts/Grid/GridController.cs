@@ -104,7 +104,7 @@ public class GridController : MonoBehaviour
 
         if (cell.ConstructedBuilding != null)
         {
-            UIManager.Instance.OpenUpgradeMenu(cell.ConstructedBuilding);
+            UIManager.Instance.OpenSelectedMenu(cell.ConstructedBuilding);
         }
     }
 

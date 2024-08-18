@@ -63,10 +63,16 @@ public class LevelManager : MonoBehaviour
     public void UpgradeBuilding(GridCell cell)
     {
         Building building = cell.ConstructedBuilding;
-        RemoveCurrency(building.Owner, CalculateCost(building.Owner, building.Cell, building.BuildingInformation));
+        RemoveCurrency(building.Owner, CalculateCost(building.Owner, building.Cell, building.BuildingInformation.Evolution));
         building.Upgrade();
     }
 
+    public void DowngradeBuilding(GridCell cell)
+    {
+        Building building = cell.ConstructedBuilding;
+        AddCurrency(building.Owner, CalculateCost(building.Owner, building.Cell, building.BuildingInformation)/2);
+        building.Downgrade();
+    }
     private void Awake()
     {
         Instance = this;

@@ -146,6 +146,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _highlitTile: {fileID: 11400000, guid: f2fcc8b988aeca6489477cdc774b4d03, type: 2}
+--- !u!1 &399593384 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8310807885293531598, guid: 71f8fcb17abc24b4db6e99c57d09f2e8, type: 3}
+  m_PrefabInstance: {fileID: 4674514643697370937}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1069,6 +1074,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Selected Menu
       objectReference: {fileID: 0}
+    - target: {fileID: 5495002579511655928, guid: 71f8fcb17abc24b4db6e99c57d09f2e8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -60
+      objectReference: {fileID: 0}
     - target: {fileID: 6661753466944602499, guid: 71f8fcb17abc24b4db6e99c57d09f2e8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1270,6 +1279,10 @@ PrefabInstance:
       propertyPath: _upgradeButton
       value: 
       objectReference: {fileID: 294992395}
+    - target: {fileID: 4498513539806438614, guid: f14e894a3deffbe4a8a3cfcfaba866fb, type: 3}
+      propertyPath: _downgradeButton
+      value: 
+      objectReference: {fileID: 399593384}
     - target: {fileID: 7757407579385085187, guid: f14e894a3deffbe4a8a3cfcfaba866fb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

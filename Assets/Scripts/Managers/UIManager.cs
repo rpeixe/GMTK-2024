@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _selectedMenu;
     [SerializeField] private GameObject _selectedWheel;
     [SerializeField] private GameObject _upgradeButton;
+    [SerializeField] private GameObject _downgradeButton;
     [SerializeField] private TextMeshProUGUI _currencyText;
 
     public static UIManager Instance { get; private set; }
@@ -25,13 +26,15 @@ public class UIManager : MonoBehaviour
         InvokeRepeating(nameof(UpdateCurrencyText), 0f, 0.01f);
     }
 
-    public void OpenUpgradeMenu(Building building)
+    public void OpenSelectedMenu(Building building)
     {
         _selectedMenu.SetActive(true);
         _selectedWheel.GetComponent<RectTransform>().position = Input.mousePosition;
         _upgradeButton.GetComponent<UpgradeButton>().buildingInformation = building.BuildingInformation;
+        _downgradeButton.GetComponent<DowngradeButton>().buildingInformation = building.BuildingInformation;
         LevelManager.Instance.Selected = building.Cell;
     }
+
 
     public void OpenBuildMenu(GridCell cell)
     {

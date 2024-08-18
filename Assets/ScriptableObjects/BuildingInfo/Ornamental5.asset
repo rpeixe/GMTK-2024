@@ -20,4 +20,5 @@ MonoBehaviour:
   _influenceValue: -8
   _income: 0
   _evolution: {fileID: 0}
+  _previous: {fileID: 11400000, guid: bee7cd38b5044ba4ba51fa08e2300a06, type: 2}
   _description: Definitely an inspiring design!
