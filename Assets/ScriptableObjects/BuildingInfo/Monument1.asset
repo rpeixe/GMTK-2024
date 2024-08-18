@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51434231898a4a4b8d9d89f34094015, type: 3}
   m_Name: Monument1
   m_EditorClassIdentifier: 
-  _tile: {fileID: 0}
+  _tile: {fileID: 11400000, guid: c1a707ac670b29741b9b92ab0cdf24e0, type: 2}
   _name: Monument
   _baseCost: 150
   _buildingTime: 20
@@ -20,4 +20,5 @@ MonoBehaviour:
   _influenceValue: 5
   _income: 5
   _evolution: {fileID: 0}
+  _previous: {fileID: 0}
   _description: 

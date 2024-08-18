@@ -7,6 +7,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GridController _gridController;
     [SerializeField] private int _numPlayers = 1;
     [SerializeField] private float _initialMoney = 10f;
+    private ILevelInitializer _levelInitializer;
 
     public static LevelManager Instance { get; private set; }
     public GridController GridController => _gridController;
@@ -42,11 +43,14 @@ public class LevelManager : MonoBehaviour
         return finalCost;
     }
 
-    public void ConstructBuilding(int player, GridCell cell, BuildingInformation buildingInformation)
+    public void ConstructBuilding(int player, GridCell cell, BuildingInformation buildingInformation, bool free=false, bool instant = false)
     {
-        RemoveCurrency(player, CalculateCost(player, cell, buildingInformation));
+        if (!free)
+        {
+            RemoveCurrency(player, CalculateCost(player, cell, buildingInformation));
+        }
         Building building = new GameObject("Building").AddComponent<Building>();
-        building.Build(player, cell, buildingInformation);
+        building.Build(player, cell, buildingInformation, instant);
         NumBuildings[player]++;
     }
 
@@ -80,10 +84,13 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 1; i <= _numPlayers; i++)
+        for (int i = 0; i <= _numPlayers; i++)
         {
             Currencies[i] = _initialMoney;
             NumBuildings[i] = 0;
         }
+
+        _levelInitializer = GetComponent<ILevelInitializer>();
+        _levelInitializer.InitializeLevel();
     }
 }
