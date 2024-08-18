@@ -12,7 +12,7 @@ public class GridCell : MonoBehaviour
         Blocked,
     }
 
-    public CellTypes CellType { get; set; } = CellTypes.Buildable;
+    public CellTypes CellType { get; set; } = CellTypes.Blocked;
     public Vector2Int Position { get; set; }
     public RegionClass RegionClass { get; set; } = LevelManager.Instance.GridController.ClassB;
     public Dictionary<int, int> Influences { get; set; } = new Dictionary<int, int>();

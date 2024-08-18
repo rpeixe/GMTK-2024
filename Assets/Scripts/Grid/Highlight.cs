@@ -31,7 +31,10 @@ public class Highlight : MonoBehaviour
             if (mousePos != previousMousePos)
             {
                 LevelManager.Instance.GridController.SetTarget(previousMousePos, null);
-                LevelManager.Instance.GridController.SetTarget(mousePos, _highlitTile);
+                if (LevelManager.Instance.GridController.Cells[mousePos.x, mousePos.y].CellType == GridCell.CellTypes.Buildable)
+                {
+                    LevelManager.Instance.GridController.SetTarget(mousePos, _highlitTile);
+                }
                 previousMousePos = mousePos;
             }
         }

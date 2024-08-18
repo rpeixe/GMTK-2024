@@ -9,12 +9,16 @@ using UnityEngine.Tilemaps;
 public class GridController : MonoBehaviour
 {
     [SerializeField] private Grid _grid;
+    [SerializeField] private GameObject _blocker;
+    [SerializeField] private GameObject _buildWheel;
+    [Header("Tilemaps")]
     [SerializeField] private Tilemap _groundTilemap;
     [SerializeField] private Tilemap _buildingTilemap;
     [SerializeField] private Tilemap _roadTilemap;
     [SerializeField] private Tilemap _targetTilemap;
-    [SerializeField] private GameObject _blocker;
-    [SerializeField] private GameObject _buildWheel;
+    [SerializeField] private Tilemap _classATilemap;
+    [SerializeField] private Tilemap _classBTilemap;
+    [SerializeField] private Tilemap _classCTilemap;
     [Header("Region Types")]
     [SerializeField] private RegionClass _classA;
     [SerializeField] private RegionClass _classB;
@@ -63,6 +67,22 @@ public class GridController : MonoBehaviour
             {
                 Cells[x,y] = new GameObject("Grid Cell").AddComponent<GridCell>();
                 Cells[x,y].Position = new Vector2Int(x, y);
+
+                if (_classATilemap.GetTile(new Vector3Int(x, y)))
+                {
+                    Cells[x,y].CellType = GridCell.CellTypes.Buildable;
+                    Cells[x,y].RegionClass = _classA;
+                }
+                else if (_classBTilemap.GetTile(new Vector3Int(x, y)))
+                {
+                    Cells[x, y].CellType = GridCell.CellTypes.Buildable;
+                    Cells[x, y].RegionClass = _classB;
+                }
+                else if (_classCTilemap.GetTile(new Vector3Int(x, y)))
+                {
+                    Cells[x, y].CellType = GridCell.CellTypes.Buildable;
+                    Cells[x, y].RegionClass = _classC;
+                }
             }
         }
     }
