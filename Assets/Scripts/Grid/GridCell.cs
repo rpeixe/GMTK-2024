@@ -36,7 +36,7 @@ public class GridCell : MonoBehaviour
 
     public int GetInfluence(int targetPlayer)
     {
-        return Influences[targetPlayer] - GetAntiInfluence(targetPlayer);
+        return Mathf.Max(Influences[targetPlayer] - GetAntiInfluence(targetPlayer), 0);
     }
 
     public int GetTotalInfluence()
