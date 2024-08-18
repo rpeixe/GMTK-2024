@@ -29,5 +29,6 @@ public class BuildButton : MonoBehaviour
     private void HandleClick()
     {
         LevelManager.Instance.ConstructBuilding(1, LevelManager.Instance.Selected, buildingInformation);
+        UIManager.Instance.Unselect();
     }
 }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51434231898a4a4b8d9d89f34094015, type: 3}
   m_Name: Commercial5
   m_EditorClassIdentifier: 
-  _tile: {fileID: 11400000, guid: dfd78aa585e7a924c990bb8a08e00a9f, type: 2}
+  _tile: {fileID: 11400000, guid: 4a5d6283647d8144abd5c60c3817b7b1, type: 2}
   _name: Commercial V
   _baseCost: 300
   _buildingTime: 30

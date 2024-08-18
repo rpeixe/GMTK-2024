@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51434231898a4a4b8d9d89f34094015, type: 3}
   m_Name: Billboard5
   m_EditorClassIdentifier: 
-  _tile: {fileID: 0}
+  _tile: {fileID: 11400000, guid: eed84101b69e8fd44bc6f932261128e2, type: 2}
   _name: Billboard V
   _baseCost: 600
   _buildingTime: 30

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Building : MonoBehaviour
@@ -16,6 +17,25 @@ public class Building : MonoBehaviour
         BuildingInformation = buildingInformation;
         gameObject.AddComponent<GenerateIncome>().Init(this);
         LevelManager.Instance.GridController.SetBuilding(cell, this);
+        Deactivate();
+        Invoke(nameof(HandleBuildComplete), buildingInformation.BuildingTime);
+    }
+
+    public void HandleBuildComplete()
+    {
+        Activate();
+    }
+
+    public void Deactivate()
+    {
+        Deactivated = true;
+        LevelManager.Instance.GridController.SetTileColor(Cell.Position, new Color(0.3f, 0.3f, 0.3f));
+    }
+
+    public void Activate()
+    {
+        Deactivated = false;
+        LevelManager.Instance.GridController.SetTileColor(Cell.Position, new Color(1f, 1f, 1f));
     }
 
     public void Sell()

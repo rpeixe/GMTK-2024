@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51434231898a4a4b8d9d89f34094015, type: 3}
   m_Name: Billboard4
   m_EditorClassIdentifier: 
-  _tile: {fileID: 0}
+  _tile: {fileID: 11400000, guid: eed84101b69e8fd44bc6f932261128e2, type: 2}
   _name: Billboard IV
   _baseCost: 300
   _buildingTime: 20
@@ -21,5 +21,5 @@ MonoBehaviour:
   _income: 0.8
   _antiInfluenceRadius: 4
   _antiInfluenceValue: 20
-  _evolution: {fileID: 0}
+  _evolution: {fileID: 11400000, guid: 6eaa652b142e4e14c97a03c9fa3a91fa, type: 2}
   _description: Such a nice description!

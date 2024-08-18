@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51434231898a4a4b8d9d89f34094015, type: 3}
   m_Name: HQ1
   m_EditorClassIdentifier: 
-  _tile: {fileID: 0}
+  _tile: {fileID: 11400000, guid: ad3a494ac0fe6f5439a23e87ecaf792c, type: 2}
   _name: HQ I
   _baseCost: 0
   _buildingTime: 0
