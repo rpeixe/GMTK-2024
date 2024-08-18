@@ -34,10 +34,10 @@ public class LevelManager : MonoBehaviour
     {
         float bc = buildingInformation.BaseCost;
         float cf = cell.RegionClass.CostFactor;
-        float pi = cell.GetInfluencePercentage(player);
-       // float aa = cell.GetAntiInfluence(player);
+        // float pi = cell.GetInfluencePercentage(player);
+        // float aa = cell.GetAntiInfluence(player);
         float af = 0.05f * NumBuildings[player];
-        float finalCost = bc * cf * (2 - pi) * (1 + af);
+        float finalCost = bc * cf * (1 + af);
 
         return finalCost;
     }
@@ -48,6 +48,16 @@ public class LevelManager : MonoBehaviour
         Building building = new GameObject("Building").AddComponent<Building>();
         building.Build(player, cell, buildingInformation);
         NumBuildings[player]++;
+    }
+
+    public void Victory()
+    {
+
+    }
+
+    public void Defeat()
+    {
+
     }
 
     private void Awake()
