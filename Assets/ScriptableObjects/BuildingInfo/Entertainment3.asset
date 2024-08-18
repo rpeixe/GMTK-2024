@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tile: {fileID: 11400000, guid: 7a43d249d0b2a1d4897309ef2d3bfecd, type: 2}
   _name: Entertainment I
-  _baseCost: 10
-  _buildingTime: 3
-  _influenceRadius: 5
-  _influenceValue: 25
+  _baseCost: 100
+  _buildingTime: 15
+  _influenceRadius: 7
+  _influenceValue: 50
   _income: 0
-  _evolution: {fileID: 11400000, guid: 01ec56c12f1648845a5735ddb8dae386, type: 2}
+  _evolution: {fileID: 11400000, guid: ecc3ceddcfe514547bce6ab1d732bdec, type: 2}
   _description: What a fun place to be!
