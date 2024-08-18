@@ -17,15 +17,18 @@ public class Building : MonoBehaviour
         return range >= Vector2Int.Distance(targetPos,Cell.Position);
     }
 
-    public void Build(int player, GridCell cell, BuildingInformation buildingInformation)
+    public void Build(int player, GridCell cell, BuildingInformation buildingInformation, bool instant = false)
     {
         Owner = player;
         Cell = cell;
         BuildingInformation = buildingInformation;
         gameObject.AddComponent<GenerateIncome>().Init(this);
         LevelManager.Instance.GridController.SetBuilding(cell, this);
-        Deactivate();
-        Invoke(nameof(HandleBuildComplete), buildingInformation.BuildingTime);
+        if (!instant)
+        {
+            Deactivate();
+            Invoke(nameof(HandleBuildComplete), buildingInformation.BuildingTime);
+        }
     }
 
     public void HandleBuildComplete()
