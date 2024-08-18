@@ -50,6 +50,13 @@ public class LevelManager : MonoBehaviour
         NumBuildings[player]++;
     }
 
+    public void UpgradeBuilding(GridCell cell)
+    {
+        Building building = cell.ConstructedBuilding;
+        RemoveCurrency(building.Owner, CalculateCost(building.Owner, building.Cell, building.BuildingInformation));
+        building.Upgrade();
+    }
+
     private void Awake()
     {
         Instance = this;

@@ -10,6 +10,13 @@ public class Building : MonoBehaviour
     public BuildingInformation BuildingInformation { get; set; }
     public bool Deactivated { get; set; } = false;
 
+    public bool inRange(GameObject target)
+    {
+        int range = BuildingInformation.InfluenceRadius;
+        Vector2Int targetPos = Vector2Int.FloorToInt((Vector2)target.transform.position);
+        return range >= Vector2Int.Distance(targetPos,Cell.Position);
+    }
+
     public void Build(int player, GridCell cell, BuildingInformation buildingInformation)
     {
         Owner = player;
@@ -47,7 +54,8 @@ public class Building : MonoBehaviour
 
     public void Upgrade()
     {
-
+        LevelManager.Instance.RemoveCurrency(Owner, BuildingInformation.Evolution.BaseCost);
+        Build(this.Owner, this.Cell, this.BuildingInformation.Evolution);
     }
 
     public void ProcessTick()
