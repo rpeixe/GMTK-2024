@@ -41,6 +41,12 @@ public class GridController : MonoBehaviour
         return Cells[pos.x,pos.y].CellType == GridCell.CellTypes.Buildable && Cells[pos.x, pos.y].ConstructedBuilding == null;
     }
 
+    public void SetTileColor(Vector2Int pos, Color color)
+    {
+        _buildingTilemap.SetTileFlags((Vector3Int)pos, TileFlags.None);
+        _buildingTilemap.SetColor((Vector3Int)pos, color);
+    }
+
     private void Start()
     {
         _groundTilemap.GetComponent<DetectGroundClick>().OnGroundClick += HandleGroundClick;
