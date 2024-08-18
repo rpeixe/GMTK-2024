@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class DetectGroundClick : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class DetectGroundClick : MonoBehaviour
 
     private void OnMouseUp()
     {
-        OnGroundClick?.Invoke(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            OnGroundClick?.Invoke(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        }
     }
 }

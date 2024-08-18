@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class BuildButton : MonoBehaviour
 {
     [SerializeField] BuildingInformation buildingInformation;
+    [SerializeField] TextMeshProUGUI priceText;
     private Button _button;
 
     private void Start()
@@ -16,7 +18,14 @@ public class BuildButton : MonoBehaviour
 
     private void Update()
     {
-        if (LevelManager.Instance.Currencies[1] < LevelManager.Instance.CalculateCost(1, LevelManager.Instance.Selected, buildingInformation))
+        UpdateCosts();
+    }
+
+    private void UpdateCosts()
+    {
+        float cost = LevelManager.Instance.CalculateCost(1, LevelManager.Instance.Selected, buildingInformation);
+        priceText.text = $"$ {cost:00.00}";
+        if (LevelManager.Instance.Currencies[1] < cost)
         {
             _button.interactable = false;
         }
