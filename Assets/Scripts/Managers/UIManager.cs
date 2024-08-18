@@ -16,6 +16,11 @@ public class UIManager : MonoBehaviour
         Instance = this;
     }
 
+    private void Start()
+    {
+        InvokeRepeating(nameof(UpdateCurrencyText), 0f, 0.01f);
+    }
+
     public void OpenBuildMenu(GridCell cell)
     {
         _buildMenu.SetActive(true);
@@ -31,6 +36,6 @@ public class UIManager : MonoBehaviour
 
     public void UpdateCurrencyText()
     {
-        _currencyText.text = $"$ {LevelManager.Instance.Currencies[1]}";
+        _currencyText.text = $"$ {LevelManager.Instance.Currencies[1]:00.00}";
     }
 }

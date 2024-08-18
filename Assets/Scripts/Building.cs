@@ -6,14 +6,15 @@ public class Building : MonoBehaviour
 {
     public int Owner { get; set; } = 0;
     public GridCell Cell { get; set; }
-
     public BuildingInformation BuildingInformation { get; set; }
+    public bool Deactivated { get; set; } = false;
 
     public void Build(int player, GridCell cell, BuildingInformation buildingInformation)
     {
         Owner = player;
         Cell = cell;
         BuildingInformation = buildingInformation;
+        gameObject.AddComponent<GenerateIncome>().Init(this);
         LevelManager.Instance.GridController.SetBuilding(cell, this);
     }
 

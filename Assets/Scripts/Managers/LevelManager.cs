@@ -18,13 +18,11 @@ public class LevelManager : MonoBehaviour
     public void AddCurrency(int player, float currency)
     {
         Currencies[player] += currency;
-        UIManager.Instance.UpdateCurrencyText();
     }
 
     public void RemoveCurrency(int player, float currency)
     {
         Currencies[player] -= currency;
-        UIManager.Instance.UpdateCurrencyText();
     }
 
     public float CalculateCost(int player, Vector2Int pos, BuildingInformation buildingInformation)
@@ -64,7 +62,5 @@ public class LevelManager : MonoBehaviour
             Currencies[i] = _initialMoney;
             NumBuildings[i] = 0;
         }
-
-        UIManager.Instance.UpdateCurrencyText();
     }
 }
