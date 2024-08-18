@@ -14,12 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tile: {fileID: 11400000, guid: 7a43d249d0b2a1d4897309ef2d3bfecd, type: 2}
   _name: Ornamental V
-  _baseCost: 300
+  _baseCost: 750
   _buildingTime: 30
-  _influenceRadius: 3
-  _influenceValue: 15
-  _income: 0.8
-  _antiInfluenceRadius: 3
-  _antiInfluenceValue: 10
+  _influenceRadius: 6
+  _influenceValue: -8
+  _income: 0
   _evolution: {fileID: 0}
   _description: Definitely an inspiring design!

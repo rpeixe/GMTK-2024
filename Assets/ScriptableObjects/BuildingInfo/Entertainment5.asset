@@ -10,16 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c51434231898a4a4b8d9d89f34094015, type: 3}
-  m_Name: Commercial1
+  m_Name: Entertainment5
   m_EditorClassIdentifier: 
-  _tile: {fileID: 11400000, guid: 4a5d6283647d8144abd5c60c3817b7b1, type: 2}
-  _name: Commercial I
-  _baseCost: 5
+  _tile: {fileID: 11400000, guid: 7a43d249d0b2a1d4897309ef2d3bfecd, type: 2}
+  _name: Entertainment I
+  _baseCost: 10
   _buildingTime: 3
-  _influenceRadius: 2
-  _influenceValue: 5
-  _income: 0.2
-  _antiInfluenceRadius: 0
-  _antiInfluenceValue: 0
-  _evolution: {fileID: 11400000, guid: 3131be8ecce79a347ba747c66cf70f02, type: 2}
-  _description: Certainly a great building for making profits!
+  _influenceRadius: 5
+  _influenceValue: 25
+  _income: 0
+  _evolution: {fileID: 11400000, guid: 01ec56c12f1648845a5735ddb8dae386, type: 2}
+  _description: What a fun place to be!

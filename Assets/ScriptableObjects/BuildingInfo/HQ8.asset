@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c51434231898a4a4b8d9d89f34094015, type: 3}
-  m_Name: Ornamental3
+  m_Name: HQ8
   m_EditorClassIdentifier: 
-  _tile: {fileID: 11400000, guid: 7a43d249d0b2a1d4897309ef2d3bfecd, type: 2}
-  _name: Ornamental III
-  _baseCost: 150
-  _buildingTime: 15
-  _influenceRadius: 4
-  _influenceValue: 4
-  _income: 0
-  _evolution: {fileID: 11400000, guid: bee7cd38b5044ba4ba51fa08e2300a06, type: 2}
-  _description: Definitely an inspiring design!
+  _tile: {fileID: 11400000, guid: b3b43b0433c5630439406c0fe2fdc1a7, type: 2}
+  _name: HQ VIII
+  _baseCost: 1500
+  _buildingTime: 30
+  _influenceRadius: 10
+  _influenceValue: 40
+  _income: 7
+  _evolution: {fileID: 11400000, guid: b2b8840f1b45f114484d9811b3298ffd, type: 2}
+  _description: Main Structure

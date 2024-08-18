@@ -16,10 +16,8 @@ MonoBehaviour:
   _name: Billboard III
   _baseCost: 100
   _buildingTime: 15
-  _influenceRadius: 2
-  _influenceValue: 10
-  _income: 0.4
-  _antiInfluenceRadius: 3
-  _antiInfluenceValue: 20
+  _influenceRadius: 4
+  _influenceValue: 20
+  _income: 0
   _evolution: {fileID: 11400000, guid: 3bb03ef6e7e5a284088a9cd53345eb16, type: 2}
   _description: Such a nice description!

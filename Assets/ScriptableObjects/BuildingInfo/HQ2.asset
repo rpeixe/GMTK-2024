@@ -14,12 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tile: {fileID: 11400000, guid: b3b43b0433c5630439406c0fe2fdc1a7, type: 2}
   _name: HQ II
-  _baseCost: 50
-  _buildingTime: 10
+  _baseCost: 25
+  _buildingTime: 5
   _influenceRadius: 3
-  _influenceValue: 10
+  _influenceValue: 1
   _income: 0.5
-  _antiInfluenceRadius: 0
-  _antiInfluenceValue: 0
   _evolution: {fileID: 11400000, guid: 40bd74df7a082fd468ede843a093717c, type: 2}
   _description: Main Structure

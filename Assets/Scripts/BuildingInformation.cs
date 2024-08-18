@@ -11,10 +11,8 @@ public class BuildingInformation : ScriptableObject
     [SerializeField] private float _baseCost;
     [SerializeField] private int _buildingTime;
     [SerializeField] private int _influenceRadius;
-    [SerializeField] private int _influenceValue;
+    [SerializeField] private float _influenceValue;
     [SerializeField] private float _income;
-    [SerializeField] private int _antiInfluenceRadius;
-    [SerializeField] private int _antiInfluenceValue;
     [SerializeField] private BuildingInformation _evolution;
     [TextArea][SerializeField] private string _description;
 
@@ -23,10 +21,8 @@ public class BuildingInformation : ScriptableObject
     public float BaseCost => _baseCost;
     public int BuildingTime => _buildingTime;
     public int InfluenceRadius => _influenceRadius;
-    public int InfluenceValue => _influenceValue;
+    public float InfluenceValue => InfluenceValue;
     public float Income => _income;
-    public int AntiInfluenceRadius => _antiInfluenceRadius;
-    public int AntiInfluenceValue => _antiInfluenceValue;
     public string Description => _description;
     public BuildingInformation Evolution => _evolution;
 }

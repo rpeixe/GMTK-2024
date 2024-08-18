@@ -14,12 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tile: {fileID: 11400000, guid: 7a43d249d0b2a1d4897309ef2d3bfecd, type: 2}
   _name: Ornamental IV
-  _baseCost: 120
+  _baseCost: 400
   _buildingTime: 20
-  _influenceRadius: 4
-  _influenceValue: 20
-  _income: 0.8
-  _antiInfluenceRadius: 2
-  _antiInfluenceValue: 10
+  _influenceRadius: 5
+  _influenceValue: -6
+  _income: 0
   _evolution: {fileID: 11400000, guid: f141904c7fd7de5438074f24250c7986, type: 2}
   _description: Definitely an inspiring design!

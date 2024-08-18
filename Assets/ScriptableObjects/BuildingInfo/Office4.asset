@@ -10,16 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c51434231898a4a4b8d9d89f34094015, type: 3}
-  m_Name: Commercial3
+  m_Name: Office4
   m_EditorClassIdentifier: 
   _tile: {fileID: 11400000, guid: 4a5d6283647d8144abd5c60c3817b7b1, type: 2}
-  _name: Commercial III
-  _baseCost: 40
-  _buildingTime: 15
-  _influenceRadius: 2
-  _influenceValue: 10
-  _income: 1
-  _antiInfluenceRadius: 0
-  _antiInfluenceValue: 0
-  _evolution: {fileID: 11400000, guid: 4b08ab6beb2f11a41b1117d8d353ad85, type: 2}
+  _name: Office IV
+  _baseCost: 120
+  _buildingTime: 17
+  _influenceRadius: 0
+  _influenceValue: 0
+  _income: 2
+  _evolution: {fileID: 11400000, guid: 7f1460cedd2c32d45bd1c6b2f7aef98a, type: 2}
   _description: Certainly a great building for making profits!

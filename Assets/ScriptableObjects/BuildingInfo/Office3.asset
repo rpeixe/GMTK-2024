@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c51434231898a4a4b8d9d89f34094015, type: 3}
-  m_Name: Ornamental3
+  m_Name: Office3
   m_EditorClassIdentifier: 
-  _tile: {fileID: 11400000, guid: 7a43d249d0b2a1d4897309ef2d3bfecd, type: 2}
-  _name: Ornamental III
-  _baseCost: 150
-  _buildingTime: 15
-  _influenceRadius: 4
-  _influenceValue: 4
-  _income: 0
-  _evolution: {fileID: 11400000, guid: bee7cd38b5044ba4ba51fa08e2300a06, type: 2}
-  _description: Definitely an inspiring design!
+  _tile: {fileID: 11400000, guid: 4a5d6283647d8144abd5c60c3817b7b1, type: 2}
+  _name: Office III
+  _baseCost: 40
+  _buildingTime: 12
+  _influenceRadius: 0
+  _influenceValue: 0
+  _income: 1
+  _evolution: {fileID: 11400000, guid: 4b08ab6beb2f11a41b1117d8d353ad85, type: 2}
+  _description: Certainly a great building for making profits!
