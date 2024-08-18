@@ -12,6 +12,7 @@ public class GridController : MonoBehaviour
     [SerializeField] private Tilemap _groundTilemap;
     [SerializeField] private Tilemap _buildingTilemap;
     [SerializeField] private Tilemap _roadTilemap;
+    [SerializeField] private Tilemap _targetTilemap;
     [SerializeField] private GameObject _blocker;
     [SerializeField] private GameObject _buildWheel;
     [Header("Region Types")]
@@ -34,6 +35,11 @@ public class GridController : MonoBehaviour
     {
         cell.ConstructedBuilding = building;
         _buildingTilemap.SetTile((Vector3Int)cell.Position, building.BuildingInformation.Tile);
+    }
+
+    public void SetTarget(Vector2Int pos, TileBase tile)
+    {
+        _targetTilemap.SetTile((Vector3Int)pos, tile);
     }
 
     public bool CanBuild(Vector2Int pos, Building building)
@@ -61,7 +67,7 @@ public class GridController : MonoBehaviour
     }
 
 
-    private Vector2Int GetTilePos(Vector2 worldPosition)
+    public Vector2Int GetTilePos(Vector2 worldPosition)
     {
         Vector2Int gridPos = (Vector2Int)_grid.WorldToCell(worldPosition);
         gridPos.x = Mathf.Clamp(gridPos.x, 0, Cells.GetLength(0) - 1);
@@ -71,18 +77,15 @@ public class GridController : MonoBehaviour
 
     private void HandleGroundClick(Vector2 mousePosition)
     {
-        if (!EventSystem.current.IsPointerOverGameObject())
-        {
-            Vector2Int gridPos = GetTilePos(mousePosition);
-            GridCell cell = Cells[gridPos.x, gridPos.y];
-            Debug.Log(gridPos);
+        Vector2Int gridPos = GetTilePos(mousePosition);
+        GridCell cell = Cells[gridPos.x, gridPos.y];
+        Debug.Log(gridPos);
 
-            if (cell.CellType == GridCell.CellTypes.Buildable)
+        if (cell.CellType == GridCell.CellTypes.Buildable)
+        {
+            if (cell.ConstructedBuilding == null)
             {
-                if (cell.ConstructedBuilding == null)
-                {
-                    UIManager.Instance.OpenBuildMenu(Cells[gridPos.x, gridPos.y]);
-                }
+                UIManager.Instance.OpenBuildMenu(Cells[gridPos.x, gridPos.y]);
             }
         }
     }
