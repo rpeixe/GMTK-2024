@@ -56,6 +56,7 @@ public class GridController : MonoBehaviour
     private void Start()
     {
         _groundTilemap.GetComponent<DetectGroundClick>().OnGroundClick += HandleGroundClick;
+        _groundTilemap.GetComponent<DetectGroundClick>().OnGroundClick += HandleBuildingClick;
         for (int x = 0; x < Cells.GetLength(0); x++)
         {
             for (int y = 0; y < Cells.GetLength(1); y++)
@@ -73,6 +74,18 @@ public class GridController : MonoBehaviour
         gridPos.x = Mathf.Clamp(gridPos.x, 0, Cells.GetLength(0) - 1);
         gridPos.y = Mathf.Clamp(gridPos.y, 0, Cells.GetLength(1) - 1);
         return gridPos;
+    }
+
+    private void HandleBuildingClick(Vector2 mousePosition)
+    {
+        Vector2Int gridPos = GetTilePos(mousePosition);
+        GridCell cell = Cells[gridPos.x, gridPos.y];
+        Debug.Log(cell.ConstructedBuilding);
+
+        if (cell.ConstructedBuilding != null)
+        {
+            UIManager.Instance.OpenUpgradeMenu(cell.ConstructedBuilding);
+        }
     }
 
     private void HandleGroundClick(Vector2 mousePosition)
