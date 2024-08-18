@@ -19,5 +19,5 @@ MonoBehaviour:
   _influenceRadius: 5
   _influenceValue: 25
   _income: 0
-  _evolution: {fileID: 11400000, guid: 01ec56c12f1648845a5735ddb8dae386, type: 2}
+  _evolution: {fileID: 11400000, guid: cd658e09abdca594cacef35161ac0630, type: 2}
   _description: What a fun place to be!
