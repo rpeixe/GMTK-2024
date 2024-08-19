@@ -21,7 +21,11 @@ public class Building : MonoBehaviour
     private bool _onCooldown = false;
     private GenerateIncome _generateIncome;
     private bool _rangeActive = false;
+    private bool _initialBuild = true;
 
+    public event Action<Building> OnBuildingConstructed;
+    public event Action<Building, int, int> OnBuildingCaptured;
+    public event Action<Building, int> OnBuildingUpgraded;
 
     public bool InRange(Building Target)
     {
@@ -48,7 +52,7 @@ public class Building : MonoBehaviour
     {
         
         var cells = LevelManager.Instance.GridController.Cells;
-        var targetList = new System.Collections.ArrayList();
+        var targetList = new ArrayList();
         int radius = BuildingInformation.InfluenceRadius;
         for (int x = -radius; x <= radius; x++)
         {
@@ -62,7 +66,7 @@ public class Building : MonoBehaviour
                 var xPos = Mathf.Clamp(Cell.Position.x + x, 0, LevelManager.Instance.MapWidth-1);
                 var yPos = Mathf.Clamp(Cell.Position.y + y, 0, LevelManager.Instance.MapHeight-1);
                 Building target = cells[xPos, yPos].ConstructedBuilding;
-                Debug.Log($"{cells}");
+
                 if (cells[xPos,yPos].ConstructedBuilding?.Owner != Owner)
                 {
                     targetList.Add(target);
@@ -125,7 +129,6 @@ public class Building : MonoBehaviour
                 else
                 {
                     cells[xPos,yPos].Buildable[Owner]--;
-                    Debug.Log(cells[xPos, yPos].Buildable[Owner]);
                     
                     if (Owner == 1 && cells[xPos, yPos].CellType == GridCell.CellTypes.Buildable && cells[xPos, yPos].Buildable[1] <= 0)
                     {
@@ -161,7 +164,6 @@ public class Building : MonoBehaviour
                 if (cells[xPos, yPos].ConstructedBuilding?.Owner != Owner &&
                     cells[xPos, yPos].ConstructedBuilding?.Owner != null)
                 {
-                    LevelManager.Instance.GridController.SetTileColor(Cell.Position, Color.cyan);
                     return target;
                 }
             }
@@ -171,20 +173,27 @@ public class Building : MonoBehaviour
 
     public void ChangeOwner(int player)
     {
+        int oldOwner = Owner;
+        LevelManager.Instance.NumBuildings[Owner]--;
+
         for (int i = 1; i <= LevelManager.Instance.NumPlayers; i++)
         {
             Damage[i] = 0;
         }
+
         if (BuildingInformation.PermitsBuildingWithinRange)
         {
             ToggleBuilding(false);
             Owner = player;
             ToggleBuilding(true);
-            return;
+        }
+        else
+        {
+            Owner = player;
         }
 
-        Owner = player;
-
+        LevelManager.Instance.NumBuildings[Owner]++;
+        OnBuildingCaptured?.Invoke(this, oldOwner, Owner);
     }
 
     public IEnumerator BuildingCooldown()
@@ -204,7 +213,6 @@ public class Building : MonoBehaviour
         }
 
         target.Damage[Owner] += marketing;
-        Debug.Log(target.Damage[Owner]);
 
         if (target.Damage[Owner] >= target.BuildingInformation.BaseCost)
         {
@@ -226,6 +234,13 @@ public class Building : MonoBehaviour
         _cooldownTime = 1 / MarketingSpeed;
         marketing = BuildingInformation.InfluenceValue;
         LevelManager.Instance.GridController.SetBuilding(cell, this);
+
+        if (_initialBuild)
+        {
+            _initialBuild = false;
+            OnBuildingConstructed?.Invoke(this);
+        }
+
         for (int i = 0; i <= LevelManager.Instance.NumPlayers; i++)
         {
             Damage[i] = 0;
@@ -280,6 +295,7 @@ public class Building : MonoBehaviour
             ToggleBuilding(false);
         }
         Build(Owner, Cell, BuildingInformation.Evolution);
+        OnBuildingUpgraded?.Invoke(this, Owner);
     }
 
     public void Downgrade()

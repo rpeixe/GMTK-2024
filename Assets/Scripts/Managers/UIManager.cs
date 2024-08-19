@@ -10,6 +10,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _buildWheel;
     [SerializeField] private GameObject _selectedMenu;
     [SerializeField] private GameObject _selectedWheel;
+    [SerializeField] private GameObject _victoryScreen;
+    [SerializeField] private GameObject _defeatScreen;
     [SerializeField] private BuildingInfoDisplay _buildingInfoDisplay;
     [SerializeField] private TextMeshProUGUI _currencyText;
 
@@ -61,5 +63,17 @@ public class UIManager : MonoBehaviour
     public void UpdateCurrencyText()
     {
         _currencyText.text = LevelManager.Instance.Currencies[1].ToString("00.00");
+    }
+
+    public void ShowVictoryScreen()
+    {
+        Unselect();
+        _victoryScreen.SetActive(true);
+    }
+
+    public void ShowDefeatScreen()
+    {
+        Unselect();
+        _defeatScreen.SetActive(true);
     }
 }

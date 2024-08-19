@@ -46,4 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gridController: {fileID: 0}
   _numPlayers: 1
-  _initialMoney: 1000
+  _initialMoney: 10
+  _mapWidth: 20
+  _mapHeight: 10

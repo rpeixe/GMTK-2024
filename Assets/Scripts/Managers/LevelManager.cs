@@ -9,15 +9,13 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private float _initialMoney = 10f;
     [SerializeField] private int _mapWidth = 20;
     [SerializeField] private int _mapHeight = 10;
-    [SerializeField] private GameObject _victoryScreen;
-    [SerializeField] private GameObject _defeatScreen;
     private ILevelInitializer _levelInitializer;
 
     public static LevelManager Instance { get; private set; }
     public GridController GridController => _gridController;
     public int NumPlayers => _numPlayers;
     public Dictionary<int, float> Currencies { get; set; } = new Dictionary<int, float>();
-    public Dictionary<int, Dictionary<string, List<Building>>> Buildings { get; set; } = new Dictionary<int, Dictionary<string, List<Building>>>();
+    public Dictionary<int, float> Incomes { get; set; } = new Dictionary<int, float>();
     public Dictionary<int, int> NumBuildings { get; set; } = new Dictionary<int, int>();
     public float BankruptcyTimeLimit { get; set; } = 30f;
     public int MapWidth => _mapWidth;
@@ -63,7 +61,7 @@ public class LevelManager : MonoBehaviour
         return finalCost;
     }
 
-    public void ConstructBuilding(int player, GridCell cell, BuildingInformation buildingInformation, bool free=false, bool instant = false)
+    public Building ConstructBuilding(int player, GridCell cell, BuildingInformation buildingInformation, bool free=false, bool instant = false)
     {
         if (!free)
         {
@@ -72,20 +70,19 @@ public class LevelManager : MonoBehaviour
         Building building = new GameObject("Building").AddComponent<Building>();
         building.Build(player, cell, buildingInformation, instant);
         NumBuildings[player]++;
+        return building;
     }
 
     public void Victory()
     {
-        UIManager.Instance.Unselect();
         Time.timeScale = 0f;
-        _victoryScreen.SetActive(true);
+        UIManager.Instance.ShowVictoryScreen();
     }
 
     public void Defeat()
     {
-        UIManager.Instance.Unselect();
         Time.timeScale = 0f;
-        _defeatScreen.SetActive(true);
+        UIManager.Instance.ShowDefeatScreen();
     }
 
     public void UpgradeBuilding(GridCell cell)
@@ -112,6 +109,7 @@ public class LevelManager : MonoBehaviour
         {
             Currencies[i] = _initialMoney;
             NumBuildings[i] = 0;
+            Incomes[i] = 0;
         }
 
         GridController.Cells = new GridCell[_mapWidth, _mapHeight];
