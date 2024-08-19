@@ -17,6 +17,7 @@ public class LevelManager : MonoBehaviour
     public GridController GridController => _gridController;
     public int NumPlayers => _numPlayers;
     public Dictionary<int, float> Currencies { get; set; } = new Dictionary<int, float>();
+    public Dictionary<int, Dictionary<string, List<Building>>> Buildings { get; set; } = new Dictionary<int, Dictionary<string, List<Building>>>();
     public Dictionary<int, int> NumBuildings { get; set; } = new Dictionary<int, int>();
     public float BankruptcyTimeLimit { get; set; } = 30f;
     public GridCell Selected { get; set; }
