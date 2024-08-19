@@ -149,7 +149,7 @@ public class Building : MonoBehaviour
     public void Deactivate()
     {
         Deactivated = true;
-        LevelManager.Instance.GridController.SetGroundTileColor(Cell.Position, new Color(0.3f, 0.3f, 0.3f));
+        LevelManager.Instance.GridController.SetTileColor(Cell.Position, new Color(0.3f, 0.3f, 0.3f));
     }
 
     public void Activate()
