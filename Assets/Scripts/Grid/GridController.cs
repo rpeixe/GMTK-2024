@@ -7,8 +7,7 @@ using UnityEngine.Tilemaps;
 public class GridController : MonoBehaviour
 {
     [SerializeField] private Grid _grid;
-    [SerializeField] private GameObject _blocker;
-    [SerializeField] private GameObject _buildWheel;
+    [SerializeField] private TileBase rangeTile;
     [Header("Tilemaps")]
     [SerializeField] private Tilemap _groundTilemap;
     [SerializeField] private Tilemap _buildingTilemap;
@@ -17,6 +16,7 @@ public class GridController : MonoBehaviour
     [SerializeField] private Tilemap _classATilemap;
     [SerializeField] private Tilemap _classBTilemap;
     [SerializeField] private Tilemap _classCTilemap;
+    [SerializeField] private Tilemap _rangeTilemap;
     [Header("Region Types")]
     [SerializeField] private RegionClass _classA;
     [SerializeField] private RegionClass _classB;
@@ -26,6 +26,7 @@ public class GridController : MonoBehaviour
     public RegionClass ClassB => _classB;
     public RegionClass ClassC => _classC;
     public GridCell[,] Cells { get; set; }
+    public bool TerrainView { get; private set; } = false;
 
 
     public void SetBuilding(Vector2Int pos, Building building)
@@ -55,10 +56,26 @@ public class GridController : MonoBehaviour
         _buildingTilemap.SetColor((Vector3Int)pos, color);
     }
 
-    public void SetGroundTileColor(Vector2Int pos, Color color)
+    public void SetRangeTile(Vector2Int pos, bool boolean)
     {
-        _groundTilemap.SetTileFlags((Vector3Int)pos, TileFlags.None);
-        _groundTilemap.SetColor((Vector3Int)pos, color);
+        if (boolean)
+        {
+            _rangeTilemap.SetTile((Vector3Int)pos, rangeTile);
+        }
+        else
+        {
+            _rangeTilemap.SetTile((Vector3Int)pos, null);
+        }
+    }
+
+    public void ChangeViewType()
+    {
+        TerrainView = !TerrainView;
+
+        _rangeTilemap.GetComponent<ToggleTilemap>().ToggleRenderer();
+        _classATilemap.GetComponent<ToggleTilemap>().ToggleRenderer();
+        _classBTilemap.GetComponent<ToggleTilemap>().ToggleRenderer();
+        _classCTilemap.GetComponent<ToggleTilemap>().ToggleRenderer();
     }
 
     private void Start()

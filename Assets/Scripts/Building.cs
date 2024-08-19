@@ -83,6 +83,12 @@ public class Building : MonoBehaviour
 
                 var xPos = Mathf.Clamp(Cell.Position.x + x,0,LevelManager.Instance.MapWidth);
                 var yPos = Mathf.Clamp(Cell.Position.y + y,0,LevelManager.Instance.MapHeight);
+
+                cells[xPos, yPos].Buildable[Owner] = boolean;
+                if (boolean && Owner==1)
+                {
+                    LevelManager.Instance.GridController.SetRangeTile(new Vector2Int(xPos,yPos), true);
+                }
                 
                 if (boolean)
                 {
@@ -111,11 +117,7 @@ public class Building : MonoBehaviour
 
                 else
                 {
-                    cells[xPos, yPos].Buildable[Owner]--;
-                    if (cells[xPos, yPos].Buildable[Owner] == 0)
-                    {
-                        LevelManager.Instance.GridController.SetGroundTileColor(new Vector2Int(xPos, yPos), Color.white);
-                    }
+                    LevelManager.Instance.GridController.SetRangeTile(new Vector2Int(xPos, yPos), false);
                 }
             }
         }
