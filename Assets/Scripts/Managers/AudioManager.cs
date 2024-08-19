@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
 
-    public AudioSource musicSource;
-    public AudioSource effectsSource;
+    [SerializeField] public AudioSource _musicSource;
+    [SerializeField] public AudioSource _sfxSource;
 
     private void Awake()
     {
@@ -24,16 +25,26 @@ public class AudioManager : MonoBehaviour
 
     public void PlayMusic(AudioClip clip)
     {
-        if (clip != musicSource.clip)
+        if (clip != _musicSource.clip)
         {
-            musicSource.Stop();
-            musicSource.clip = clip;
-            musicSource.Play();
+            _musicSource.Stop();
+            _musicSource.clip = clip;
+            _musicSource.Play();
         }
     }
 
     public void PlayEffect(AudioClip clip)
     {
-        effectsSource.PlayOneShot(clip);
+        _sfxSource.PlayOneShot(clip);
+    }
+
+    public void ToggleMusic()
+    {
+        _musicSource.mute = !_musicSource.mute;
+    }
+
+    public void ToggleSfx()
+    {
+        _sfxSource.mute = !_sfxSource.mute;
     }
 }
