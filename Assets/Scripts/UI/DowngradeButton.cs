@@ -6,8 +6,7 @@ using UnityEngine.UI;
 
 public class DowngradeButton : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI upgradeText;
-    public BuildingInformation buildingInformation;
+    [SerializeField] TextMeshProUGUI _priceText;
     private Button _button;
 
     private void Start()
@@ -18,26 +17,25 @@ public class DowngradeButton : MonoBehaviour
 
     private void Update()
     { 
-        if (_button.IsActive())
-        {
-            UpdateCosts();
-        }
+        UpdateCosts();
         
     }
 
     private void UpdateCosts()
     {
+        BuildingInformation buildingInformation = LevelManager.Instance.Selected.ConstructedBuilding.BuildingInformation;
+
         if (buildingInformation.Previous == null)
         {
             _button.interactable = false;
-            upgradeText.text = $"Downgrade\nRefund: n/a";
+            _priceText.text = $"";
             return;
         }
 
         float cost = LevelManager.Instance.CalculateCost(1, LevelManager.Instance.Selected, buildingInformation.Previous)/2;
-        upgradeText.text = $"Downgrade\nRefund: {cost}";
+        _priceText.text = $"$ {cost:00.00}";
 
-        if (LevelManager.Instance.Currencies[1] < cost || LevelManager.Instance.Selected.ConstructedBuilding.Deactivated)
+        if (LevelManager.Instance.Selected.ConstructedBuilding.Deactivated)
         {
             _button.interactable = false;
         }
