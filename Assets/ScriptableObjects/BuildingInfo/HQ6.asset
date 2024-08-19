@@ -21,4 +21,5 @@ MonoBehaviour:
   _income: 3.5
   _evolution: {fileID: 11400000, guid: aef2f8cc87b22784ea4d4406f0a2c778, type: 2}
   _previous: {fileID: 11400000, guid: 94757aa6fe3e503479f5435e52f2e0a2, type: 2}
+  _permitsBuildingWithinRange: 1
   _description: Main Structure

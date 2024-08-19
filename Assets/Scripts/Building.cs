@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class Building : MonoBehaviour
 {
@@ -9,12 +10,105 @@ public class Building : MonoBehaviour
     public GridCell Cell { get; set; }
     public BuildingInformation BuildingInformation { get; set; }
     public bool Deactivated { get; set; } = false;
-
-    public bool inRange(GameObject target)
+    public bool inRange(Building Target)
     {
-        int range = BuildingInformation.InfluenceRadius;
-        Vector2Int targetPos = Vector2Int.FloorToInt((Vector2)target.transform.position);
-        return range >= Vector2Int.Distance(targetPos,Cell.Position);
+        int radius = BuildingInformation.InfluenceRadius;
+        for (int x = -radius; x <= radius; x++)
+        {
+            for (int y = -radius; y <= radius; y++)
+            {
+                if (Mathf.Abs(x) + Mathf.Abs(y) > radius)
+                {
+                    continue;
+                }
+                if(Target.Cell.Position == new Vector2Int(Cell.Position.x + x, Cell.Position.y + y))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public ArrayList GetTargets()
+    {
+        var cells = LevelManager.Instance.GridController.Cells;
+        var targetList = new System.Collections.ArrayList();
+        int radius = BuildingInformation.InfluenceRadius;
+        for (int x = -radius; x <= radius; x++)
+        {
+            for (int y = -radius; y <= radius; y++)
+            {
+                if (Mathf.Abs(x) + Mathf.Abs(y) > radius)
+                {
+                    continue;
+                }
+
+                var xPos = Mathf.Clamp(Cell.Position.x + x, 0, 19);
+                var yPos = Mathf.Clamp(Cell.Position.y + y, 0, 9);
+                Building target = cells[xPos, yPos].ConstructedBuilding;
+
+                if (cells[xPos,yPos].ConstructedBuilding?.Owner != Owner)
+                {
+                    targetList.Add(target);
+                }
+            }
+        }
+        return targetList;
+    }
+
+    public void ToggleBuilding(bool boolean)
+    {
+        if (!BuildingInformation.PermitsBuildingWithinRange)
+        {
+            return;
+        }
+
+        int radius = BuildingInformation.InfluenceRadius;
+        var cells = LevelManager.Instance.GridController.Cells;
+
+        for (int x = -radius; x <= radius; x++)
+        {
+            for (int y = -radius; y <= radius; y++)
+            {
+                if (Mathf.Abs(x) + Mathf.Abs(y) > radius)
+                {
+                    continue;
+                }
+
+                var xPos = Mathf.Clamp(Cell.Position.x + x,0,19);
+                var yPos = Mathf.Clamp(Cell.Position.y + y,0,9);
+                cells[xPos, yPos].Buildable[Owner] = boolean;
+                LevelManager.Instance.GridController.SetGroundTileColor(new Vector2Int(xPos,yPos), Color.red);
+            }
+        }
+    }
+    public Building GetFirstTarget()
+    {
+        var cells = LevelManager.Instance.GridController.Cells;
+        var targetList = new System.Collections.ArrayList();
+        int radius = BuildingInformation.InfluenceRadius;
+        for (int x = -radius; x <= radius; x++)
+        {
+            for (int y = -radius; y <= radius; y++)
+            {
+                if (Mathf.Abs(x) + Mathf.Abs(y) > radius)
+                {
+                    continue;
+                }
+
+                var xPos = Cell.Position.x + x;
+                var yPos = Cell.Position.y + y;
+                Building target = cells[xPos, yPos].ConstructedBuilding;
+
+                if (cells[xPos, yPos].ConstructedBuilding?.Owner != Owner)
+                {
+                    return target;
+                }
+            }
+        }
+        return null;
     }
 
     public void Build(int player, GridCell cell, BuildingInformation buildingInformation)
@@ -28,21 +122,37 @@ public class Building : MonoBehaviour
         Invoke(nameof(HandleBuildComplete), buildingInformation.BuildingTime);
     }
 
+    public void Attack(Building target)
+    {
+
+    }
+
+    public Building TargetBuilding(Building target)
+    {
+        if (inRange(target))
+        {
+            Attack(target);
+            return target;
+        }
+        return null;
+    }
+
     public void HandleBuildComplete()
     {
         Activate();
+        ToggleBuilding(BuildingInformation.PermitsBuildingWithinRange);
     }
 
     public void Deactivate()
     {
         Deactivated = true;
-        LevelManager.Instance.GridController.SetTileColor(Cell.Position, new Color(0.3f, 0.3f, 0.3f));
+        LevelManager.Instance.GridController.SetGroundTileColor(Cell.Position, new Color(0.3f, 0.3f, 0.3f));
     }
 
     public void Activate()
     {
         Deactivated = false;
-        LevelManager.Instance.GridController.SetTileColor(Cell.Position, new Color(1f, 1f, 1f));
+        LevelManager.Instance.GridController.SetGroundTileColor(Cell.Position, new Color(1f, 1f, 1f));
     }
 
     public void Sell()
@@ -65,5 +175,11 @@ public class Building : MonoBehaviour
     public void ProcessTick()
     {
 
+    }
+
+    public void OnCapture()
+    {
+        ToggleBuilding(false);
+        ToggleBuilding(true);
     }
 }
