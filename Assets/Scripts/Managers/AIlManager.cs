@@ -72,7 +72,7 @@ public class AIManager : MonoBehaviour
 	int n = buildings_list[MyID].Count;
 	for (int i = 0; i < n; ++i)
 	{
-	    if (buildings_list[MyID][i].inRange(CurrentGoal))
+	    if (buildings_list[MyID][i].InRange(CurrentGoal))
 	    {
 	        CurrentGoalInRange = true;
 	        return;
@@ -86,7 +86,7 @@ public class AIManager : MonoBehaviour
     {
         for(int i = 0; i < GoalBuildings.Count; ++i) 
 	{
-    	    if ((new_building.inRange(GoalBuildings[i]) && (GoalBuildings[1].Owner != MyID)))
+    	    if ((new_building.InRange(GoalBuildings[i]) && (GoalBuildings[1].Owner != MyID)))
     	    {
     	        IsBerzerk = true;
     	        return;
@@ -102,7 +102,7 @@ public class AIManager : MonoBehaviour
     	{
     	    for (int j = 0; j < GoalBuildings.Count; ++j)
     	    {
-    	        if (buildings_list[MyID][i].inRange(GoalBuildings[j]))
+    	        if (buildings_list[MyID][i].InRange(GoalBuildings[j]))
     	        {
     	            IsBerzerk = true;
     	            return;
@@ -123,7 +123,7 @@ public class AIManager : MonoBehaviour
     	        int n = buildings_list[player].Count;
     	        for (int i = 0; i < n; ++i) 
     	        {
-    	            if ((buildings_list[player][i].inRange(new_building)) || (new_building.inRange(buildings_list[player][i])))
+    	            if ((buildings_list[player][i].InRange(new_building)) || (new_building.InRange(buildings_list[player][i])))
     	            {
     	                WarStarted = true;
     	                return;
@@ -136,7 +136,7 @@ public class AIManager : MonoBehaviour
     	    int n = buildings_list[MyID].Count;
     	    for (int i = 0; i < n; ++i) 
     	    {
-    	        if (new_building.inRange(new_building))
+    	        if (new_building.InRange(new_building))
     	        {
     	            WarStarted = true;
     	            return;
@@ -154,7 +154,7 @@ public class AIManager : MonoBehaviour
     	    int n = buildings_list[player].Count;
     	    for (int i = 0; i < n; ++i) 
     	    {
-    	        if (buildings_list[player][i].inRange(MyHQ))
+    	        if (buildings_list[player][i].InRange(MyHQ))
     	        {
     	            InPanic = true;
     	            return;
@@ -166,7 +166,7 @@ public class AIManager : MonoBehaviour
 
     void CheckPanic(Building new_building)
     {
-        if (new_building.inRange(MyHQ))
+        if (new_building.InRange(MyHQ))
             InPanic = true;
     }
 
