@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4397932763681550172
 RectTransform:
   m_ObjectHideFlags: 0
@@ -124,7 +124,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: Unselect
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -292,8 +292,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce66a663f4954de43bcf0bf22ecb0af7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingInformation: {fileID: 11400000, guid: 65d14c31345c21b468410bc865fb86a1, type: 2}
-  priceText: {fileID: 2651858910048592820}
+  _buildingInformation: {fileID: 11400000, guid: 65d14c31345c21b468410bc865fb86a1, type: 2}
+  _priceText: {fileID: 2651858910048592820}
+  _buildingInfoDisplay: {fileID: 0}
 --- !u!1 &3140625515975205388
 GameObject:
   m_ObjectHideFlags: 0
@@ -574,8 +575,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce66a663f4954de43bcf0bf22ecb0af7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingInformation: {fileID: 11400000, guid: 94f105c28cae36247b099a16f0166060, type: 2}
-  priceText: {fileID: 6163134908483549321}
+  _buildingInformation: {fileID: 11400000, guid: 94f105c28cae36247b099a16f0166060, type: 2}
+  _priceText: {fileID: 6163134908483549321}
+  _buildingInfoDisplay: {fileID: 0}
 --- !u!1 &3927781563742724873
 GameObject:
   m_ObjectHideFlags: 0
@@ -1174,5 +1176,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce66a663f4954de43bcf0bf22ecb0af7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingInformation: {fileID: 11400000, guid: 8ba6f0c514ba4ed4fa42f07be557b238, type: 2}
-  priceText: {fileID: 25593248349318197}
+  _buildingInformation: {fileID: 11400000, guid: 8ba6f0c514ba4ed4fa42f07be557b238, type: 2}
+  _priceText: {fileID: 25593248349318197}
+  _buildingInfoDisplay: {fileID: 0}

@@ -78,12 +78,12 @@ public class Building : MonoBehaviour
                 cells[xPos, yPos].Buildable[Owner] = boolean;
                 if (boolean && Owner==1)
                 {
-                    LevelManager.Instance.GridController.SetGroundTileColor(new Vector2Int(xPos,yPos), Color.red);
+                    LevelManager.Instance.GridController.SetRangeTile(new Vector2Int(xPos,yPos), true);
                 }
                 
                 else
                 {
-                    LevelManager.Instance.GridController.SetGroundTileColor(new Vector2Int(xPos, yPos), Color.white);
+                    LevelManager.Instance.GridController.SetRangeTile(new Vector2Int(xPos, yPos), false);
                 }
             }
         }

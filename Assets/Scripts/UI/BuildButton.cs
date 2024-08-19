@@ -8,8 +8,8 @@ using UnityEngine.UI;
 
 public class BuildButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField] BuildingInformation buildingInformation;
-    [SerializeField] TextMeshProUGUI priceText;
+    [SerializeField] private BuildingInformation _buildingInformation;
+    [SerializeField] private TextMeshProUGUI _priceText;
     [SerializeField] private BuildingInfoDisplay _buildingInfoDisplay;
     private Button _button;
 
@@ -26,8 +26,8 @@ public class BuildButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     private void UpdateCosts()
     {
-        float cost = LevelManager.Instance.CalculateCost(1, LevelManager.Instance.Selected, buildingInformation);
-        priceText.text = $"$ {cost:00.00}";
+        float cost = LevelManager.Instance.CalculateCost(1, LevelManager.Instance.Selected, _buildingInformation);
+        _priceText.text = $"$ {cost:00.00}";
         if (LevelManager.Instance.Currencies[1] < cost)
         {
             _button.interactable = false;
@@ -40,18 +40,17 @@ public class BuildButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     private void HandleClick()
     {
-        LevelManager.Instance.ConstructBuilding(1, LevelManager.Instance.Selected, buildingInformation);
+        LevelManager.Instance.ConstructBuilding(1, LevelManager.Instance.Selected, _buildingInformation);
         UIManager.Instance.Unselect();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        _buildingInfoDisplay.Information = buildingInformation;
-        _buildingInfoDisplay.gameObject.SetActive(true);
+        UIManager.Instance.ShowBuildingInfo(_buildingInformation);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        _buildingInfoDisplay.gameObject.SetActive(false);
+        UIManager.Instance.HideBuildingInfo();
     }
 }
