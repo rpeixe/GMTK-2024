@@ -74,8 +74,9 @@ public class Building : MonoBehaviour
 
                 var xPos = Mathf.Clamp(Cell.Position.x + x,0,19);
                 var yPos = Mathf.Clamp(Cell.Position.y + y,0,9);
+
                 cells[xPos, yPos].Buildable[Owner] = boolean;
-                if (boolean)
+                if (boolean && Owner==1)
                 {
                     LevelManager.Instance.GridController.SetGroundTileColor(new Vector2Int(xPos,yPos), Color.red);
                 }
