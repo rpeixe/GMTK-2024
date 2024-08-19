@@ -10,8 +10,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _buildWheel;
     [SerializeField] private GameObject _selectedMenu;
     [SerializeField] private GameObject _selectedWheel;
-    [SerializeField] private GameObject _upgradeButton;
-    [SerializeField] private GameObject _downgradeButton;
+    [SerializeField] private BuildingInfoDisplay _buildingInfoDisplay;
     [SerializeField] private TextMeshProUGUI _currencyText;
 
     public static UIManager Instance { get; private set; }
@@ -30,8 +29,6 @@ public class UIManager : MonoBehaviour
     {
         _selectedMenu.SetActive(true);
         _selectedWheel.GetComponent<RectTransform>().position = Input.mousePosition;
-        _upgradeButton.GetComponent<UpgradeButton>().buildingInformation = building.BuildingInformation;
-        _downgradeButton.GetComponent<DowngradeButton>().buildingInformation = building.BuildingInformation;
         LevelManager.Instance.Selected = building.Cell;
     }
 
@@ -48,10 +45,21 @@ public class UIManager : MonoBehaviour
         LevelManager.Instance.Selected = null;
         _buildMenu.SetActive(false);
         _selectedMenu.SetActive(false);
+        HideBuildingInfo();
+    }
+
+    public void ShowBuildingInfo(BuildingInformation buildingInformation, GridCell cell = null)
+    {
+        _buildingInfoDisplay.Popup(buildingInformation, cell == null ? LevelManager.Instance.Selected : cell);
+    }
+
+    public void HideBuildingInfo()
+    {
+        _buildingInfoDisplay.Hide();
     }
 
     public void UpdateCurrencyText()
     {
-        _currencyText.text = $"$ {LevelManager.Instance.Currencies[1]:00.00}";
+        _currencyText.text = LevelManager.Instance.Currencies[1].ToString("00.00");
     }
 }

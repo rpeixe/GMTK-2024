@@ -1,8 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class Building : MonoBehaviour
 {
@@ -10,7 +9,21 @@ public class Building : MonoBehaviour
     public GridCell Cell { get; set; }
     public BuildingInformation BuildingInformation { get; set; }
     public bool Deactivated { get; set; } = false;
-    public bool inRange(Building Target)
+    public Dictionary<int, float> Damage { get; set; } = new Dictionary<int, float>();
+    public float MarketingSpeed { get; set; } = 1f;
+    
+    public Building Target { get; set; } = null;
+
+    private float marketing;
+
+    private float _cooldownTime = 0.2f;
+ 
+    private bool _onCooldown = false;
+    private GenerateIncome _generateIncome;
+    private bool _rangeActive = false;
+
+
+    public bool InRange(Building Target)
     {
         int radius = BuildingInformation.InfluenceRadius;
         for (int x = -radius; x <= radius; x++)
@@ -21,7 +34,7 @@ public class Building : MonoBehaviour
                 {
                     continue;
                 }
-                if(Target.Cell.Position == new Vector2Int(Cell.Position.x + x, Cell.Position.y + y))
+                if (Target.Cell.Position == new Vector2Int(Cell.Position.x + x, Cell.Position.y + y))
                 {
                     return true;
                 }
@@ -33,6 +46,7 @@ public class Building : MonoBehaviour
 
     public ArrayList GetTargets()
     {
+        
         var cells = LevelManager.Instance.GridController.Cells;
         var targetList = new System.Collections.ArrayList();
         int radius = BuildingInformation.InfluenceRadius;
@@ -45,10 +59,10 @@ public class Building : MonoBehaviour
                     continue;
                 }
 
-                var xPos = Mathf.Clamp(Cell.Position.x + x, 0, 19);
-                var yPos = Mathf.Clamp(Cell.Position.y + y, 0, 9);
+                var xPos = Mathf.Clamp(Cell.Position.x + x, 0, LevelManager.Instance.MapWidth-1);
+                var yPos = Mathf.Clamp(Cell.Position.y + y, 0, LevelManager.Instance.MapHeight-1);
                 Building target = cells[xPos, yPos].ConstructedBuilding;
-
+                Debug.Log($"{cells}");
                 if (cells[xPos,yPos].ConstructedBuilding?.Owner != Owner)
                 {
                     targetList.Add(target);
@@ -60,9 +74,16 @@ public class Building : MonoBehaviour
 
     public void ToggleBuilding(bool boolean)
     {
+        if (_rangeActive == boolean)
+        {
+            return;
+        }
+
+        _rangeActive = boolean;
+
         int radius = BuildingInformation.InfluenceRadius;
         var cells = LevelManager.Instance.GridController.Cells;
-
+        // range logic
         for (int x = -radius; x <= radius; x++)
         {
             for (int y = -radius; y <= radius; y++)
@@ -72,18 +93,44 @@ public class Building : MonoBehaviour
                     continue;
                 }
 
-                var xPos = Mathf.Clamp(Cell.Position.x + x,0,19);
-                var yPos = Mathf.Clamp(Cell.Position.y + y,0,9);
+                var xPos = Cell.Position.x + x;
+                var yPos = Cell.Position.y + y;
 
-                cells[xPos, yPos].Buildable[Owner] = boolean;
-                if (boolean && Owner==1)
+                if (xPos >= LevelManager.Instance.MapWidth || yPos >= LevelManager.Instance.MapHeight
+                    || xPos < 0 || yPos < 0)
                 {
-                    LevelManager.Instance.GridController.SetGroundTileColor(new Vector2Int(xPos,yPos), Color.red);
+                    continue;
                 }
-                
+
+                if (boolean)
+                {
+                    cells[xPos, yPos].Buildable[Owner]++;
+
+                    if (Owner == 1 && cells[xPos,yPos].CellType == GridCell.CellTypes.Buildable)
+                    {
+                        LevelManager.Instance.GridController.SetRangeTile(new Vector2Int(xPos, yPos), true);
+                    }
+
+                    else if (Owner == 2 && cells[xPos, yPos].CellType == GridCell.CellTypes.Buildable)
+                    {
+                        LevelManager.Instance.GridController.SetRangeTile(new Vector2Int(xPos, yPos), false);
+                    }
+
+                    else if (Owner == 3 && cells[xPos, yPos].CellType == GridCell.CellTypes.Buildable)
+                    {
+                        LevelManager.Instance.GridController.SetRangeTile(new Vector2Int(xPos, yPos), false);
+                    }
+                }
+
                 else
                 {
-                    LevelManager.Instance.GridController.SetGroundTileColor(new Vector2Int(xPos, yPos), Color.white);
+                    cells[xPos,yPos].Buildable[Owner]--;
+                    Debug.Log(cells[xPos, yPos].Buildable[Owner]);
+                    
+                    if (Owner == 1 && cells[xPos, yPos].CellType == GridCell.CellTypes.Buildable && cells[xPos, yPos].Buildable[1] <= 0)
+                    {
+                        LevelManager.Instance.GridController.SetRangeTile(new Vector2Int(xPos, yPos), false);
+                    }
                 }
             }
         }
@@ -91,7 +138,6 @@ public class Building : MonoBehaviour
     public Building GetFirstTarget()
     {
         var cells = LevelManager.Instance.GridController.Cells;
-        var targetList = new System.Collections.ArrayList();
         int radius = BuildingInformation.InfluenceRadius;
         for (int x = -radius; x <= radius; x++)
         {
@@ -104,10 +150,18 @@ public class Building : MonoBehaviour
 
                 var xPos = Cell.Position.x + x;
                 var yPos = Cell.Position.y + y;
+
+                if (xPos >= LevelManager.Instance.MapWidth || yPos >= LevelManager.Instance.MapHeight
+                    || xPos < 0 || yPos < 0)
+                {
+                    continue;
+                }
                 Building target = cells[xPos, yPos].ConstructedBuilding;
 
-                if (cells[xPos, yPos].ConstructedBuilding?.Owner != Owner)
+                if (cells[xPos, yPos].ConstructedBuilding?.Owner != Owner &&
+                    cells[xPos, yPos].ConstructedBuilding?.Owner != null)
                 {
+                    LevelManager.Instance.GridController.SetTileColor(Cell.Position, Color.cyan);
                     return target;
                 }
             }
@@ -115,44 +169,81 @@ public class Building : MonoBehaviour
         return null;
     }
 
+    public void ChangeOwner(int player)
+    {
+        for (int i = 1; i <= LevelManager.Instance.NumPlayers; i++)
+        {
+            Damage[i] = 0;
+        }
+        if (BuildingInformation.PermitsBuildingWithinRange)
+        {
+            ToggleBuilding(false);
+            Owner = player;
+            ToggleBuilding(true);
+            return;
+        }
+
+        Owner = player;
+
+    }
+
+    public IEnumerator BuildingCooldown()
+    {
+        _onCooldown = true;
+        yield return new WaitForSeconds(_cooldownTime);
+        _onCooldown = false;
+
+    }
+
+    public void Capture(Building target)
+    {
+        if (Owner == target.Owner)
+        {
+            Target = null;
+            return;
+        }
+
+        target.Damage[Owner] += marketing;
+        Debug.Log(target.Damage[Owner]);
+
+        if (target.Damage[Owner] >= target.BuildingInformation.BaseCost)
+        {
+            target.ChangeOwner(Owner);
+            Target = null;
+        }
+    }
+
     public void Build(int player, GridCell cell, BuildingInformation buildingInformation, bool instant = false)
     {
         Owner = player;
         Cell = cell;
+        if (_generateIncome == null)
+        {
+            _generateIncome = gameObject.AddComponent<GenerateIncome>();
+        }
+        _generateIncome.Init(this);
         BuildingInformation = buildingInformation;
-        gameObject.AddComponent<GenerateIncome>().Init(this);
+        _cooldownTime = 1 / MarketingSpeed;
+        marketing = BuildingInformation.InfluenceValue;
         LevelManager.Instance.GridController.SetBuilding(cell, this);
+        for (int i = 0; i <= LevelManager.Instance.NumPlayers; i++)
+        {
+            Damage[i] = 0;
+        }
         if (!instant)
         {
             Deactivate();
             Invoke(nameof(HandleBuildComplete), buildingInformation.BuildingTime);
         }
-
         else
         {
-            ToggleBuilding(BuildingInformation.PermitsBuildingWithinRange);
+            HandleBuildComplete();
         }
-    }
-
-    public void Attack(Building target)
-    {
-
-    }
-
-    public Building TargetBuilding(Building target)
-    {
-        if (inRange(target))
-        {
-            Attack(target);
-            return target;
-        }
-        return null;
     }
 
     public void HandleBuildComplete()
     {
         Activate();
-        
     }
 
     public void Deactivate()
@@ -184,22 +275,35 @@ public class Building : MonoBehaviour
 
     public void Upgrade()
     {
-        Build(this.Owner, this.Cell, this.BuildingInformation.Evolution);
+        if (BuildingInformation.PermitsBuildingWithinRange)
+        {
+            ToggleBuilding(false);
+        }
+        Build(Owner, Cell, BuildingInformation.Evolution);
     }
 
     public void Downgrade()
     {
-        Build(this.Owner, this.Cell, this.BuildingInformation.Previous);
+        Build(Owner, Cell, BuildingInformation.Previous);
     }
 
-    public void ProcessTick()
+    public void Update()
     {
+        if (Owner == 0)
+        {
+            
+        }
 
+        else if (Target == null)
+        {
+            Target = GetFirstTarget();
+        }
+
+        else if (!_onCooldown && !Deactivated)
+        {
+            Capture(Target);
+            StartCoroutine(BuildingCooldown());
+        }
     }
 
-    public void OnCapture()
-    {
-        ToggleBuilding(false);
-        ToggleBuilding(true);
-    }
 }

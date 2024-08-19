@@ -9,34 +9,46 @@ public class BuildingInfoDisplay : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _descriptionText;
     [SerializeField] private TextMeshProUGUI _priceText;
     [SerializeField] private TextMeshProUGUI _incomeText;
+    [SerializeField] private GameObject _infoPanel;
 
-    private RectTransform _rectTransform;
+    private RectTransform _infoPanelRectTransform;
+    private BuildingInformation _buildingInformation;
 
-    public BuildingInformation Information { get; set; }
+    public void Popup(BuildingInformation buildingInformation, GridCell cell)
+    {
+        _buildingInformation = buildingInformation;
+        _nameText.text = buildingInformation.name;
+        _descriptionText.text = buildingInformation.Description;
+        _priceText.text = $"{LevelManager.Instance.CalculateCost(1, cell, buildingInformation):00.00}";
+        _incomeText.text = $"{buildingInformation.Income * cell.RegionClass.ResourceGenerationFactor:00.00} / s";
+        _infoPanel.SetActive(true);
+    }
+
+    public void Hide()
+    {
+        _infoPanel.SetActive(false);
+    }
 
     private void Start()
     {
-        _rectTransform = GetComponent<RectTransform>();
-    }
-
-    private void OnEnable()
-    {
-        _nameText.text = Information.name;
-        _descriptionText.text = Information.Description;
-        _priceText.text = $"{LevelManager.Instance.CalculateCost(1, LevelManager.Instance.Selected, Information):00.00}";
-        _incomeText.text = $"{Information.Income * LevelManager.Instance.Selected.RegionClass.ResourceGenerationFactor:00.00} / s";
+        _infoPanelRectTransform = _infoPanel.GetComponent<RectTransform>();
     }
 
     private void Update()
     {
-        if (Input.mousePosition.x < Screen.width)
+        CalculatePosition();
+    }
+
+    private void CalculatePosition()
+    {
+        if (Input.mousePosition.x > Screen.width/2)
         {
-            _rectTransform.pivot = new Vector2(1f, 0.5f);
+            _infoPanelRectTransform.pivot = new Vector2(1f, 0.5f);
         }
         else
         {
-            _rectTransform.pivot = new Vector2(0f, 0.5f);
+            _infoPanelRectTransform.pivot = new Vector2(0f, 0.5f);
         }
-        _rectTransform.position = Input.mousePosition;
+        _infoPanelRectTransform.position = Input.mousePosition;
     }
 }

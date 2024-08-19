@@ -23,7 +23,7 @@ public class BuildingInformation : ScriptableObject
     public float BaseCost => _baseCost;
     public int BuildingTime => _buildingTime;
     public int InfluenceRadius => _influenceRadius;
-    public float InfluenceValue => InfluenceValue;
+    public float InfluenceValue => _influenceValue;
     public float Income => _income;
     public string Description => _description;
     public BuildingInformation Evolution => _evolution;

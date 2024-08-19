@@ -6,8 +6,7 @@ using UnityEngine.UI;
 
 public class UpgradeButton : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI upgradeText;
-    public BuildingInformation buildingInformation;
+    [SerializeField] TextMeshProUGUI _priceText;
     private Button _button;
 
     private void Start()
@@ -18,24 +17,23 @@ public class UpgradeButton : MonoBehaviour
 
     private void Update()
     { 
-        if (_button.IsActive())
-        {
-            UpdateCosts();
-        }
+        UpdateCosts();
         
     }
 
     private void UpdateCosts()
     {
+        BuildingInformation buildingInformation = LevelManager.Instance.Selected.ConstructedBuilding.BuildingInformation;
+
         if (buildingInformation.Evolution == null)
         {
             _button.interactable = false;
-            upgradeText.text = $"Upgrade\nCost: n/a";
+            _priceText.text = $"";
             return;
         }
 
         float cost = LevelManager.Instance.CalculateCost(1, LevelManager.Instance.Selected, buildingInformation.Evolution);
-        upgradeText.text = $"Upgrade\nCost: {cost}";
+        _priceText.text = $"$ {cost:00.00}";
 
         if (LevelManager.Instance.Currencies[1] < cost || LevelManager.Instance.Selected.ConstructedBuilding.Deactivated)
         {
