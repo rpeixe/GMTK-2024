@@ -888,6 +888,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Build Menu
       objectReference: {fileID: 0}
+    - target: {fileID: 101482794161824479, guid: c6ed4a69df88b4a4483c2a7aa0f86e4d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2232545815843129523, guid: c6ed4a69df88b4a4483c2a7aa0f86e4d, type: 3}
       propertyPath: _buildingInfoDisplay
       value: 
