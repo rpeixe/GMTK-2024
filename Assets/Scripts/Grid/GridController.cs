@@ -27,7 +27,7 @@ public class GridController : MonoBehaviour
     public RegionClass ClassA => _classA;
     public RegionClass ClassB => _classB;
     public RegionClass ClassC => _classC;
-    public GridCell[,] Cells { get; set; } = new GridCell[20, 10];
+    public GridCell[,] Cells { get; set; }
 
 
     public void SetBuilding(Vector2Int pos, Building building)
@@ -61,17 +61,22 @@ public class GridController : MonoBehaviour
     {
         _groundTilemap.GetComponent<DetectGroundClick>().OnGroundClick += HandleGroundClick;
         _groundTilemap.GetComponent<DetectGroundClick>().OnGroundClick += HandleBuildingClick;
+        
+    }
+
+    public void InitializeCells()
+    {
         for (int x = 0; x < Cells.GetLength(0); x++)
         {
             for (int y = 0; y < Cells.GetLength(1); y++)
             {
-                Cells[x,y] = new GameObject("Grid Cell").AddComponent<GridCell>();
-                Cells[x,y].Position = new Vector2Int(x, y);
+                Cells[x, y] = new GameObject("Grid Cell").AddComponent<GridCell>();
+                Cells[x, y].Position = new Vector2Int(x, y);
 
                 if (_classATilemap.GetTile(new Vector3Int(x, y)))
                 {
-                    Cells[x,y].CellType = GridCell.CellTypes.Buildable;
-                    Cells[x,y].RegionClass = _classA;
+                    Cells[x, y].CellType = GridCell.CellTypes.Buildable;
+                    Cells[x, y].RegionClass = _classA;
                 }
                 else if (_classBTilemap.GetTile(new Vector3Int(x, y)))
                 {
