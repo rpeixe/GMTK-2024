@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +19,10 @@ public class Building : MonoBehaviour
     private float _cooldownTime = 0.2f;
  
     private bool _onCooldown = false;
+    private GenerateIncome _generateIncome;
+    private bool _rangeActive = false;
+
+
     public bool InRange(Building Target)
     {
         int radius = BuildingInformation.InfluenceRadius;
@@ -69,6 +74,13 @@ public class Building : MonoBehaviour
 
     public void ToggleBuilding(bool boolean)
     {
+        if (_rangeActive == boolean)
+        {
+            return;
+        }
+
+        _rangeActive = boolean;
+
         int radius = BuildingInformation.InfluenceRadius;
         var cells = LevelManager.Instance.GridController.Cells;
         // range logic
@@ -81,8 +93,14 @@ public class Building : MonoBehaviour
                     continue;
                 }
 
-                var xPos = Mathf.Clamp(Cell.Position.x + x,0,LevelManager.Instance.MapWidth-1);
-                var yPos = Mathf.Clamp(Cell.Position.y + y,0,LevelManager.Instance.MapHeight-1);
+                var xPos = Cell.Position.x + x;
+                var yPos = Cell.Position.y + y;
+
+                if (xPos >= LevelManager.Instance.MapWidth || yPos >= LevelManager.Instance.MapHeight
+                    || xPos < 0 || yPos < 0)
+                {
+                    continue;
+                }
 
                 if (boolean)
                 {
@@ -107,6 +125,7 @@ public class Building : MonoBehaviour
                 else
                 {
                     cells[xPos,yPos].Buildable[Owner]--;
+                    Debug.Log(cells[xPos, yPos].Buildable[Owner]);
                     
                     if (Owner == 1 && cells[xPos, yPos].CellType == GridCell.CellTypes.Buildable && cells[xPos, yPos].Buildable[1] <= 0)
                     {
@@ -129,8 +148,14 @@ public class Building : MonoBehaviour
                     continue;
                 }
 
-                var xPos = Mathf.Clamp(Cell.Position.x + x, 0, LevelManager.Instance.MapWidth-1);
-                var yPos = Mathf.Clamp(Cell.Position.y + y, 0, LevelManager.Instance.MapHeight-1);
+                var xPos = Cell.Position.x + x;
+                var yPos = Cell.Position.y + y;
+
+                if (xPos >= LevelManager.Instance.MapWidth || yPos >= LevelManager.Instance.MapHeight
+                    || xPos < 0 || yPos < 0)
+                {
+                    continue;
+                }
                 Building target = cells[xPos, yPos].ConstructedBuilding;
 
                 if (cells[xPos, yPos].ConstructedBuilding?.Owner != Owner &&
@@ -142,30 +167,6 @@ public class Building : MonoBehaviour
             }
         }
         return null;
-    }
-
-    public void Build(int player, GridCell cell, BuildingInformation buildingInformation, bool instant = false)
-    {
-        Owner = player;
-        Cell = cell;
-        gameObject.AddComponent<GenerateIncome>().Init(this);
-        BuildingInformation = buildingInformation;
-        _cooldownTime = 1 / MarketingSpeed;
-        marketing = BuildingInformation.InfluenceValue;
-        LevelManager.Instance.GridController.SetBuilding(cell, this);
-        for (int i = 0; i <= LevelManager.Instance.NumPlayers; i++)
-        {
-            Damage[i] = 0;
-        }
-        if (!instant)
-        {
-            Deactivate();
-            Invoke(nameof(HandleBuildComplete), buildingInformation.BuildingTime);
-        }
-        if (buildingInformation.PermitsBuildingWithinRange)
-        {
-            ToggleBuilding(true);
-        }
     }
 
     public void ChangeOwner(int player)
@@ -181,9 +182,9 @@ public class Building : MonoBehaviour
             ToggleBuilding(true);
             return;
         }
-        
+
         Owner = player;
-        
+
     }
 
     public IEnumerator BuildingCooldown()
@@ -201,14 +202,42 @@ public class Building : MonoBehaviour
             Target = null;
             return;
         }
-        
+
         target.Damage[Owner] += marketing;
         Debug.Log(target.Damage[Owner]);
 
-        if (target.Damage[Owner] == target.BuildingInformation.BaseCost)
+        if (target.Damage[Owner] >= target.BuildingInformation.BaseCost)
         {
             target.ChangeOwner(Owner);
             Target = null;
+        }
+    }
+
+    public void Build(int player, GridCell cell, BuildingInformation buildingInformation, bool instant = false)
+    {
+        Owner = player;
+        Cell = cell;
+        if (_generateIncome == null)
+        {
+            _generateIncome = gameObject.AddComponent<GenerateIncome>();
+        }
+        _generateIncome.Init(this);
+        BuildingInformation = buildingInformation;
+        _cooldownTime = 1 / MarketingSpeed;
+        marketing = BuildingInformation.InfluenceValue;
+        LevelManager.Instance.GridController.SetBuilding(cell, this);
+        for (int i = 0; i <= LevelManager.Instance.NumPlayers; i++)
+        {
+            Damage[i] = 0;
+        }
+        if (!instant)
+        {
+            Deactivate();
+            Invoke(nameof(HandleBuildComplete), buildingInformation.BuildingTime);
+        }
+        else
+        {
+            HandleBuildComplete();
         }
     }
 
@@ -246,17 +275,16 @@ public class Building : MonoBehaviour
 
     public void Upgrade()
     {
+        if (BuildingInformation.PermitsBuildingWithinRange)
+        {
+            ToggleBuilding(false);
+        }
         Build(Owner, Cell, BuildingInformation.Evolution);
     }
 
     public void Downgrade()
     {
         Build(Owner, Cell, BuildingInformation.Previous);
-    }
-
-    public void ProcessTick()
-    {
-
     }
 
     public void Update()

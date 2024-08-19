@@ -22,6 +22,13 @@ public class GenerateIncome : MonoBehaviour
     public void AddIncome()
     {
         float income = _parentBuilding.BuildingInformation.Income * _parentBuilding.Cell.RegionClass.ResourceGenerationFactor;
-        LevelManager.Instance.AddCurrency(_parentBuilding.Owner, income * Time.deltaTime);
+        if (income > 0)
+        {
+            LevelManager.Instance.AddCurrency(_parentBuilding.Owner, income * Time.deltaTime);
+        }
+        else if (income < 0)
+        {
+            LevelManager.Instance.RemoveCurrency(_parentBuilding.Owner, -income * Time.deltaTime);
+        }
     }
 }
