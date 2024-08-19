@@ -94,6 +94,11 @@ public class GridController : MonoBehaviour
                     Cells[x, y].CellType = GridCell.CellTypes.Buildable;
                     Cells[x, y].RegionClass = _classC;
                 }
+
+                for (int i = 0; i <= LevelManager.Instance.NumPlayers; i++)
+                {
+                    Cells[x, y].Buildable[i] = false;
+                }
             }
         }
     }
@@ -122,8 +127,6 @@ public class GridController : MonoBehaviour
     {
         Vector2Int gridPos = GetTilePos(mousePosition);
         GridCell cell = Cells[gridPos.x, gridPos.y];
-        Debug.Log(gridPos);
-        Debug.Log(cell.Buildable[1]);
 
         if (cell.CellType == GridCell.CellTypes.Buildable && cell.Buildable[1] == true)
         {
