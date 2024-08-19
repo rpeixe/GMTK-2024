@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class BuildButton : MonoBehaviour
+public class BuildButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] BuildingInformation buildingInformation;
     [SerializeField] TextMeshProUGUI priceText;
+    [SerializeField] private BuildingInfoDisplay _buildingInfoDisplay;
     private Button _button;
 
     private void Start()
@@ -39,5 +42,16 @@ public class BuildButton : MonoBehaviour
     {
         LevelManager.Instance.ConstructBuilding(1, LevelManager.Instance.Selected, buildingInformation);
         UIManager.Instance.Unselect();
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        _buildingInfoDisplay.Information = buildingInformation;
+        _buildingInfoDisplay.gameObject.SetActive(true);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        _buildingInfoDisplay.gameObject.SetActive(false);
     }
 }
