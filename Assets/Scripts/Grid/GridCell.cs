@@ -16,27 +16,12 @@ public class GridCell : MonoBehaviour
     public Vector2Int Position { get; set; }
     public RegionClass RegionClass { get; set; } = LevelManager.Instance.GridController.ClassB;
     public Dictionary<int, int> Influences { get; set; } = new Dictionary<int, int>();
-    public Dictionary<int, int> AntiInfluences { get; set; } = new Dictionary<int, int>();
+    public Dictionary<int, bool> Buildable { get; set; } = new Dictionary<int, bool>();
     public Building ConstructedBuilding { get; set; }
-
-    public int GetAntiInfluence(int targetPlayer)
-    {
-        int antiInfluence = 0;
-
-        foreach (var item in AntiInfluences)
-        {
-            if (item.Key != targetPlayer)
-            {
-                antiInfluence += item.Value;
-            }
-        }
-
-        return antiInfluence;
-    }
 
     public int GetInfluence(int targetPlayer)
     {
-        return Mathf.Max(Influences[targetPlayer] - GetAntiInfluence(targetPlayer), 0);
+        return Influences[targetPlayer];
     }
 
     public int GetTotalInfluence()
@@ -58,7 +43,8 @@ public class GridCell : MonoBehaviour
         for (int i = 1; i <= LevelManager.Instance.NumPlayers; i++)
         {
             Influences[i] = 0;
-            AntiInfluences[i] = 0;
+            Buildable[i] = false;
         }
+
     }
 }
