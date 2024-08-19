@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using static Unity.Collections.AllocatorManager;
 
 public class Building : MonoBehaviour
 {
@@ -10,7 +8,16 @@ public class Building : MonoBehaviour
     public GridCell Cell { get; set; }
     public BuildingInformation BuildingInformation { get; set; }
     public bool Deactivated { get; set; } = false;
-    public float Health { get; set; }
+    public Dictionary<int, float> Damage { get; set; } = new Dictionary<int, float>();
+    public float MarketingSpeed { get; set; } = 1f;
+    
+    public Building Target { get; set; } = null;
+
+    private float marketing;
+
+    private float _cooldownTime = 0.2f;
+ 
+    private bool _onCooldown = false;
     public bool InRange(Building Target)
     {
         int radius = BuildingInformation.InfluenceRadius;
@@ -80,9 +87,25 @@ public class Building : MonoBehaviour
                 if (boolean)
                 {
                     cells[xPos, yPos].Buildable[Owner]++;
-                    if (Owner == 1 && cells[xPos,yPos].CellType == GridCell.CellTypes.Buildable)
+
+                    if (Owner == 0 && cells[xPos, yPos].CellType == GridCell.CellTypes.Buildable)
+                    {
+                        LevelManager.Instance.GridController.SetGroundTileColor(new Vector2Int(xPos, yPos), Color.gray);
+                    }
+
+                    else if (Owner == 1 && cells[xPos,yPos].CellType == GridCell.CellTypes.Buildable)
                     {
                         LevelManager.Instance.GridController.SetGroundTileColor(new Vector2Int(xPos,yPos), Color.red);
+                    }
+
+                    else if (Owner == 2 && cells[xPos, yPos].CellType == GridCell.CellTypes.Buildable)
+                    {
+                        LevelManager.Instance.GridController.SetGroundTileColor(new Vector2Int(xPos, yPos), Color.green);
+                    }
+
+                    else if (Owner == 3 && cells[xPos, yPos].CellType == GridCell.CellTypes.Buildable)
+                    {
+                        LevelManager.Instance.GridController.SetGroundTileColor(new Vector2Int(xPos, yPos), Color.blue);
                     }
                 }
 
@@ -100,7 +123,6 @@ public class Building : MonoBehaviour
     public Building GetFirstTarget()
     {
         var cells = LevelManager.Instance.GridController.Cells;
-        var targetList = new ArrayList();
         int radius = BuildingInformation.InfluenceRadius;
         for (int x = -radius; x <= radius; x++)
         {
@@ -111,12 +133,14 @@ public class Building : MonoBehaviour
                     continue;
                 }
 
-                var xPos = Cell.Position.x + x;
-                var yPos = Cell.Position.y + y;
+                var xPos = Mathf.Clamp(Cell.Position.x + x, 0, LevelManager.Instance.MapWidth);
+                var yPos = Mathf.Clamp(Cell.Position.y + y, 0, LevelManager.Instance.MapHeight);
                 Building target = cells[xPos, yPos].ConstructedBuilding;
 
-                if (cells[xPos, yPos].ConstructedBuilding?.Owner != Owner)
+                if (cells[xPos, yPos].ConstructedBuilding?.Owner != Owner &&
+                    cells[xPos, yPos].ConstructedBuilding?.Owner != null)
                 {
+                    LevelManager.Instance.GridController.SetTileColor(Cell.Position, Color.cyan);
                     return target;
                 }
             }
@@ -128,9 +152,15 @@ public class Building : MonoBehaviour
     {
         Owner = player;
         Cell = cell;
-        BuildingInformation = buildingInformation;
         gameObject.AddComponent<GenerateIncome>().Init(this);
+        BuildingInformation = buildingInformation;
+        _cooldownTime = 1 / MarketingSpeed;
+        marketing = BuildingInformation.InfluenceValue;
         LevelManager.Instance.GridController.SetBuilding(cell, this);
+        for (int i = 0; i <= LevelManager.Instance.NumPlayers; i++)
+        {
+            Damage[i] = 0;
+        }
         if (!instant)
         {
             Deactivate();
@@ -142,19 +172,40 @@ public class Building : MonoBehaviour
         }
     }
 
-    public void Attack(Building target)
+    public void ChangeOwner(int player)
     {
+        for (int i = 1; i <= LevelManager.Instance.NumPlayers; i++)
+        {
+            Damage[i] = 0;
+        }
+        if (BuildingInformation.PermitsBuildingWithinRange)
+        {
+            ToggleBuilding(false);
+            Owner = player;
+            ToggleBuilding(true);
+            return;
+        }
+        
+        Owner = player;
+        
+    }
+
+    public IEnumerator BuildingCooldown()
+    {
+        _onCooldown = true;
+        Debug.Log("cooldown");
+        yield return new WaitForSeconds(_cooldownTime);
+        _onCooldown = false;
 
     }
 
-    public Building TargetBuilding(Building target)
+    public void Capture(Building target)
     {
-        if (InRange(target))
+        target.Damage[Owner] += marketing;
+        if (target.Damage[Owner] == target.BuildingInformation.BaseCost)
         {
-            Attack(target);
-            return target;
+            target.ChangeOwner(Owner);
         }
-        return null;
     }
 
     public void HandleBuildComplete()
@@ -204,9 +255,24 @@ public class Building : MonoBehaviour
 
     }
 
-    public void OnCapture()
+    public void Update()
     {
-        ToggleBuilding(false);
-        ToggleBuilding(true);
+        if (Owner == 0)
+        {
+            
+        }
+
+        else if (Target == null)
+        {
+            LevelManager.Instance.GridController.SetTileColor(Cell.Position, Color.white);
+            Target = GetFirstTarget();
+        }
+
+        else if (!_onCooldown)
+        {
+            Capture(Target);
+            StartCoroutine(BuildingCooldown());
+        }
     }
+
 }
