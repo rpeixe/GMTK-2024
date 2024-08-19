@@ -54,8 +54,8 @@ public class Building : MonoBehaviour
                     continue;
                 }
 
-                var xPos = Mathf.Clamp(Cell.Position.x + x, 0, LevelManager.Instance.MapWidth);
-                var yPos = Mathf.Clamp(Cell.Position.y + y, 0, LevelManager.Instance.MapHeight);
+                var xPos = Mathf.Clamp(Cell.Position.x + x, 0, LevelManager.Instance.MapWidth-1);
+                var yPos = Mathf.Clamp(Cell.Position.y + y, 0, LevelManager.Instance.MapHeight-1);
                 Building target = cells[xPos, yPos].ConstructedBuilding;
                 Debug.Log($"{cells}");
                 if (cells[xPos,yPos].ConstructedBuilding?.Owner != Owner)
@@ -71,7 +71,7 @@ public class Building : MonoBehaviour
     {
         int radius = BuildingInformation.InfluenceRadius;
         var cells = LevelManager.Instance.GridController.Cells;
-
+        // range logic
         for (int x = -radius; x <= radius; x++)
         {
             for (int y = -radius; y <= radius; y++)
@@ -81,43 +81,37 @@ public class Building : MonoBehaviour
                     continue;
                 }
 
-                var xPos = Mathf.Clamp(Cell.Position.x + x,0,LevelManager.Instance.MapWidth);
-                var yPos = Mathf.Clamp(Cell.Position.y + y,0,LevelManager.Instance.MapHeight);
+                var xPos = Mathf.Clamp(Cell.Position.x + x,0,LevelManager.Instance.MapWidth-1);
+                var yPos = Mathf.Clamp(Cell.Position.y + y,0,LevelManager.Instance.MapHeight-1);
 
-                cells[xPos, yPos].Buildable[Owner] = boolean;
-                if (boolean && Owner==1)
-                {
-                    LevelManager.Instance.GridController.SetRangeTile(new Vector2Int(xPos,yPos), true);
-                }
-                
                 if (boolean)
                 {
                     cells[xPos, yPos].Buildable[Owner]++;
 
-                    if (Owner == 0 && cells[xPos, yPos].CellType == GridCell.CellTypes.Buildable)
+                    if (Owner == 1 && cells[xPos,yPos].CellType == GridCell.CellTypes.Buildable)
                     {
-                        LevelManager.Instance.GridController.SetGroundTileColor(new Vector2Int(xPos, yPos), Color.gray);
-                    }
-
-                    else if (Owner == 1 && cells[xPos,yPos].CellType == GridCell.CellTypes.Buildable)
-                    {
-                        LevelManager.Instance.GridController.SetGroundTileColor(new Vector2Int(xPos,yPos), Color.red);
+                        LevelManager.Instance.GridController.SetRangeTile(new Vector2Int(xPos, yPos), true);
                     }
 
                     else if (Owner == 2 && cells[xPos, yPos].CellType == GridCell.CellTypes.Buildable)
                     {
-                        LevelManager.Instance.GridController.SetGroundTileColor(new Vector2Int(xPos, yPos), Color.green);
+                        LevelManager.Instance.GridController.SetRangeTile(new Vector2Int(xPos, yPos), false);
                     }
 
                     else if (Owner == 3 && cells[xPos, yPos].CellType == GridCell.CellTypes.Buildable)
                     {
-                        LevelManager.Instance.GridController.SetGroundTileColor(new Vector2Int(xPos, yPos), Color.blue);
+                        LevelManager.Instance.GridController.SetRangeTile(new Vector2Int(xPos, yPos), false);
                     }
                 }
 
                 else
                 {
-                    LevelManager.Instance.GridController.SetRangeTile(new Vector2Int(xPos, yPos), false);
+                    cells[xPos,yPos].Buildable[Owner]--;
+                    
+                    if (Owner == 1 && cells[xPos, yPos].CellType == GridCell.CellTypes.Buildable && cells[xPos, yPos].Buildable[1] <= 0)
+                    {
+                        LevelManager.Instance.GridController.SetRangeTile(new Vector2Int(xPos, yPos), false);
+                    }
                 }
             }
         }
@@ -135,8 +129,8 @@ public class Building : MonoBehaviour
                     continue;
                 }
 
-                var xPos = Mathf.Clamp(Cell.Position.x + x, 0, LevelManager.Instance.MapWidth);
-                var yPos = Mathf.Clamp(Cell.Position.y + y, 0, LevelManager.Instance.MapHeight);
+                var xPos = Mathf.Clamp(Cell.Position.x + x, 0, LevelManager.Instance.MapWidth-1);
+                var yPos = Mathf.Clamp(Cell.Position.y + y, 0, LevelManager.Instance.MapHeight-1);
                 Building target = cells[xPos, yPos].ConstructedBuilding;
 
                 if (cells[xPos, yPos].ConstructedBuilding?.Owner != Owner &&
@@ -195,7 +189,6 @@ public class Building : MonoBehaviour
     public IEnumerator BuildingCooldown()
     {
         _onCooldown = true;
-        Debug.Log("cooldown");
         yield return new WaitForSeconds(_cooldownTime);
         _onCooldown = false;
 
@@ -203,10 +196,19 @@ public class Building : MonoBehaviour
 
     public void Capture(Building target)
     {
+        if (Owner == target.Owner)
+        {
+            Target = null;
+            return;
+        }
+        
         target.Damage[Owner] += marketing;
+        Debug.Log(target.Damage[Owner]);
+
         if (target.Damage[Owner] == target.BuildingInformation.BaseCost)
         {
             target.ChangeOwner(Owner);
+            Target = null;
         }
     }
 
@@ -266,11 +268,10 @@ public class Building : MonoBehaviour
 
         else if (Target == null)
         {
-            LevelManager.Instance.GridController.SetTileColor(Cell.Position, Color.white);
             Target = GetFirstTarget();
         }
 
-        else if (!_onCooldown)
+        else if (!_onCooldown && !Deactivated)
         {
             Capture(Target);
             StartCoroutine(BuildingCooldown());
