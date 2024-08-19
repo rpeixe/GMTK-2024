@@ -30,7 +30,9 @@ public class UIManager : MonoBehaviour
     public void OpenSelectedMenu(Building building)
     {
         _selectedMenu.SetActive(true);
-        _selectedWheel.GetComponent<RectTransform>().position = Input.mousePosition;
+        float x = Mathf.Clamp(Input.mousePosition.x, (1f / 5) * Screen.width, (4f / 5) * Screen.width);
+        float y = Mathf.Clamp(Input.mousePosition.y, (1f / 5) * Screen.width, (4f / 5) * Screen.height);
+        _selectedWheel.GetComponent<RectTransform>().position = new Vector2(x, y);
         LevelManager.Instance.Selected = building.Cell;
     }
 
@@ -38,7 +40,9 @@ public class UIManager : MonoBehaviour
     public void OpenBuildMenu(GridCell cell)
     {
         _buildMenu.SetActive(true);
-        _buildWheel.GetComponent<RectTransform>().position = Input.mousePosition;
+        float x = Mathf.Clamp(Input.mousePosition.x, (1f / 5) * Screen.width, (4f / 5) * Screen.width);
+        float y = Mathf.Clamp(Input.mousePosition.y, (1f / 5) * Screen.width, (4f / 5) * Screen.height);
+        _buildWheel.GetComponent<RectTransform>().position = new Vector2(x, y);
         LevelManager.Instance.Selected = cell;
     }
 

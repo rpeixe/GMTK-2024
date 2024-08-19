@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -132,7 +133,7 @@ public class GridController : MonoBehaviour
         Vector2Int gridPos = GetTilePos(mousePosition);
         GridCell cell = Cells[gridPos.x, gridPos.y];
 
-        if (cell.ConstructedBuilding != null)
+        if (cell.ConstructedBuilding != null && cell.ConstructedBuilding.Owner == 1)
         {
             UIManager.Instance.OpenSelectedMenu(cell.ConstructedBuilding);
         }
@@ -142,11 +143,6 @@ public class GridController : MonoBehaviour
     {
         Vector2Int gridPos = GetTilePos(mousePosition);
         GridCell cell = Cells[gridPos.x, gridPos.y];
-        Debug.Log($"({gridPos.x},{gridPos.y})");
-        foreach (var item in Cells[gridPos.x, gridPos.y].Buildable)
-        {
-            Debug.Log($"Player = {item.Key}, Value = {item.Value}");
-        }
 
         if (cell.CellType == GridCell.CellTypes.Buildable && cell.Buildable[1] > 0)
         {
