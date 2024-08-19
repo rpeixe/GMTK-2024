@@ -20,6 +20,8 @@ public class LevelManager : MonoBehaviour
     public Dictionary<int, Dictionary<string, List<Building>>> Buildings { get; set; } = new Dictionary<int, Dictionary<string, List<Building>>>();
     public Dictionary<int, int> NumBuildings { get; set; } = new Dictionary<int, int>();
     public float BankruptcyTimeLimit { get; set; } = 30f;
+    public int MapWidth => _mapWidth;
+    public int MapHeight => _mapHeight;
     public GridCell Selected { get; set; }
 
     public void AddCurrency(int player, float currency)

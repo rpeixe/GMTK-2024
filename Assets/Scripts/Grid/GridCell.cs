@@ -15,6 +15,6 @@ public class GridCell : MonoBehaviour
     public CellTypes CellType { get; set; } = CellTypes.Blocked;
     public Vector2Int Position { get; set; }
     public RegionClass RegionClass { get; set; } = LevelManager.Instance.GridController.ClassB;
-    public Dictionary<int, bool> Buildable { get; set; } = new Dictionary<int, bool>();
+    public Dictionary<int, int> Buildable { get; set; } = new Dictionary<int, int>();
     public Building ConstructedBuilding { get; set; }
 }
