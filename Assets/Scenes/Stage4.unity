@@ -14726,6 +14726,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1632359797674939735, guid: 095ba098a4886cb47b7deb90323347bd, type: 3}
+      propertyPath: _mapHeight
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1632359797674939735, guid: 095ba098a4886cb47b7deb90323347bd, type: 3}
       propertyPath: _initialMoney
       value: 10
       objectReference: {fileID: 0}
