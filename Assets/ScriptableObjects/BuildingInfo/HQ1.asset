@@ -20,4 +20,6 @@ MonoBehaviour:
   _influenceValue: 0.5
   _income: 0
   _evolution: {fileID: 11400000, guid: 50115bdfc42abc243930508048143b74, type: 2}
+  _previous: {fileID: 0}
+  _permitsBuildingWithinRange: 1
   _description: Main Structure

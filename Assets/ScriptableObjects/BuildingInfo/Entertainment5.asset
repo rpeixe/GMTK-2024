@@ -21,4 +21,5 @@ MonoBehaviour:
   _income: 0
   _evolution: {fileID: 0}
   _previous: {fileID: 11400000, guid: ecc3ceddcfe514547bce6ab1d732bdec, type: 2}
+  _permitsBuildingWithinRange: 1
   _description: What a fun place to be!
