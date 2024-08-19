@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
@@ -123,6 +121,10 @@ public class GridController : MonoBehaviour
         Vector2Int gridPos = GetTilePos(mousePosition);
         GridCell cell = Cells[gridPos.x, gridPos.y];
         Debug.Log(gridPos);
+        foreach (var data in cell.Buildable)
+        {
+            Debug.Log($"Player = {data.Key} Value = {data.Value}");
+        }
         Debug.Log(cell.Buildable[1]);
 
         if (cell.CellType == GridCell.CellTypes.Buildable && cell.Buildable[1] == true)

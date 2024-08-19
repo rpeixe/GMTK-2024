@@ -42,7 +42,6 @@ public class GridCell : MonoBehaviour
     {
         for (int i = 1; i <= LevelManager.Instance.NumPlayers; i++)
         {
-            Influences[i] = 0;
             Buildable[i] = false;
         }
 

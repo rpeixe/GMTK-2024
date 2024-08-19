@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class Building : MonoBehaviour
 {
@@ -21,7 +20,7 @@ public class Building : MonoBehaviour
                 {
                     continue;
                 }
-                if(Target.Cell.Position == new Vector2Int(Cell.Position.x + x, Cell.Position.y + y))
+                if (Target.Cell.Position == new Vector2Int(Cell.Position.x + x, Cell.Position.y + y))
                 {
                     return true;
                 }
@@ -33,6 +32,7 @@ public class Building : MonoBehaviour
 
     public ArrayList GetTargets()
     {
+        
         var cells = LevelManager.Instance.GridController.Cells;
         var targetList = new System.Collections.ArrayList();
         int radius = BuildingInformation.InfluenceRadius;
@@ -45,10 +45,10 @@ public class Building : MonoBehaviour
                     continue;
                 }
 
-                var xPos = Mathf.Clamp(Cell.Position.x + x, 0, 19);
-                var yPos = Mathf.Clamp(Cell.Position.y + y, 0, 9);
+                var xPos = Mathf.Clamp(Cell.Position.x + x, 0, LevelManager.Instance.MapWidth);
+                var yPos = Mathf.Clamp(Cell.Position.y + y, 0, LevelManager.Instance.MapHeight);
                 Building target = cells[xPos, yPos].ConstructedBuilding;
-
+                Debug.Log($"{cells}");
                 if (cells[xPos,yPos].ConstructedBuilding?.Owner != Owner)
                 {
                     targetList.Add(target);
@@ -72,8 +72,8 @@ public class Building : MonoBehaviour
                     continue;
                 }
 
-                var xPos = Mathf.Clamp(Cell.Position.x + x,0,19);
-                var yPos = Mathf.Clamp(Cell.Position.y + y,0,9);
+                var xPos = Mathf.Clamp(Cell.Position.x + x,0,LevelManager.Instance.MapWidth);
+                var yPos = Mathf.Clamp(Cell.Position.y + y,0,LevelManager.Instance.MapHeight);
                 cells[xPos, yPos].Buildable[Owner] = boolean;
                 if (boolean)
                 {
@@ -90,7 +90,7 @@ public class Building : MonoBehaviour
     public Building GetFirstTarget()
     {
         var cells = LevelManager.Instance.GridController.Cells;
-        var targetList = new System.Collections.ArrayList();
+        var targetList = new ArrayList();
         int radius = BuildingInformation.InfluenceRadius;
         for (int x = -radius; x <= radius; x++)
         {
@@ -151,7 +151,6 @@ public class Building : MonoBehaviour
     public void HandleBuildComplete()
     {
         Activate();
-        
     }
 
     public void Deactivate()
@@ -170,6 +169,7 @@ public class Building : MonoBehaviour
         LevelManager.Instance.GridController.SetTileColor(Cell.Position, new Color(1f, 1f, 1f));
         if (BuildingInformation.PermitsBuildingWithinRange)
         {
+            Debug.Log("A");
             ToggleBuilding(true);
         }
     }
@@ -183,12 +183,12 @@ public class Building : MonoBehaviour
 
     public void Upgrade()
     {
-        Build(this.Owner, this.Cell, this.BuildingInformation.Evolution);
+        Build(Owner, Cell, BuildingInformation.Evolution);
     }
 
     public void Downgrade()
     {
-        Build(this.Owner, this.Cell, this.BuildingInformation.Previous);
+        Build(Owner, Cell, BuildingInformation.Previous);
     }
 
     public void ProcessTick()
