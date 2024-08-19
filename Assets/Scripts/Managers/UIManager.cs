@@ -38,7 +38,6 @@ public class UIManager : MonoBehaviour
 
     public void OpenBuildMenu(GridCell cell)
     {
-        Debug.Log("A");
         _buildMenu.SetActive(true);
         _buildWheel.GetComponent<RectTransform>().position = Input.mousePosition;
         LevelManager.Instance.Selected = cell;

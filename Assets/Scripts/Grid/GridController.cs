@@ -120,7 +120,7 @@ public class GridController : MonoBehaviour
         Debug.Log(gridPos);
         Debug.Log(cell.Buildable[1]);
 
-        if (cell.CellType == GridCell.CellTypes.Buildable)
+        if (cell.CellType == GridCell.CellTypes.Buildable && cell.Buildable[1] == true)
         {
             if (cell.ConstructedBuilding == null)
             {

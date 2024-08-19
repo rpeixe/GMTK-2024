@@ -60,11 +60,6 @@ public class Building : MonoBehaviour
 
     public void ToggleBuilding(bool boolean)
     {
-        if (!BuildingInformation.PermitsBuildingWithinRange)
-        {
-            return;
-        }
-
         int radius = BuildingInformation.InfluenceRadius;
         var cells = LevelManager.Instance.GridController.Cells;
 
@@ -80,7 +75,15 @@ public class Building : MonoBehaviour
                 var xPos = Mathf.Clamp(Cell.Position.x + x,0,19);
                 var yPos = Mathf.Clamp(Cell.Position.y + y,0,9);
                 cells[xPos, yPos].Buildable[Owner] = boolean;
-                LevelManager.Instance.GridController.SetGroundTileColor(new Vector2Int(xPos,yPos), Color.red);
+                if (boolean)
+                {
+                    LevelManager.Instance.GridController.SetGroundTileColor(new Vector2Int(xPos,yPos), Color.red);
+                }
+                
+                else
+                {
+                    LevelManager.Instance.GridController.SetGroundTileColor(new Vector2Int(xPos, yPos), Color.white);
+                }
             }
         }
     }
@@ -123,6 +126,11 @@ public class Building : MonoBehaviour
             Deactivate();
             Invoke(nameof(HandleBuildComplete), buildingInformation.BuildingTime);
         }
+
+        else
+        {
+            ToggleBuilding(BuildingInformation.PermitsBuildingWithinRange);
+        }
     }
 
     public void Attack(Building target)
@@ -143,19 +151,27 @@ public class Building : MonoBehaviour
     public void HandleBuildComplete()
     {
         Activate();
-        ToggleBuilding(BuildingInformation.PermitsBuildingWithinRange);
+        
     }
 
     public void Deactivate()
     {
         Deactivated = true;
         LevelManager.Instance.GridController.SetTileColor(Cell.Position, new Color(0.3f, 0.3f, 0.3f));
+        if (BuildingInformation.PermitsBuildingWithinRange)
+        {
+            ToggleBuilding(false);
+        }
     }
 
     public void Activate()
     {
         Deactivated = false;
-        LevelManager.Instance.GridController.SetGroundTileColor(Cell.Position, new Color(1f, 1f, 1f));
+        LevelManager.Instance.GridController.SetTileColor(Cell.Position, new Color(1f, 1f, 1f));
+        if (BuildingInformation.PermitsBuildingWithinRange)
+        {
+            ToggleBuilding(true);
+        }
     }
 
     public void Sell()
