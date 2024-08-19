@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static Unity.Collections.AllocatorManager;
 
 public class Building : MonoBehaviour
 {
@@ -9,7 +10,8 @@ public class Building : MonoBehaviour
     public GridCell Cell { get; set; }
     public BuildingInformation BuildingInformation { get; set; }
     public bool Deactivated { get; set; } = false;
-    public bool inRange(Building Target)
+    public float Health { get; set; }
+    public bool InRange(Building Target)
     {
         int radius = BuildingInformation.InfluenceRadius;
         for (int x = -radius; x <= radius; x++)
@@ -74,15 +76,23 @@ public class Building : MonoBehaviour
 
                 var xPos = Mathf.Clamp(Cell.Position.x + x,0,LevelManager.Instance.MapWidth);
                 var yPos = Mathf.Clamp(Cell.Position.y + y,0,LevelManager.Instance.MapHeight);
-                cells[xPos, yPos].Buildable[Owner] = boolean;
-                if (boolean && Owner==1)
-                {
-                    LevelManager.Instance.GridController.SetGroundTileColor(new Vector2Int(xPos,yPos), Color.red);
-                }
                 
+                if (boolean)
+                {
+                    cells[xPos, yPos].Buildable[Owner]++;
+                    if (Owner == 1 && cells[xPos,yPos].CellType == GridCell.CellTypes.Buildable)
+                    {
+                        LevelManager.Instance.GridController.SetGroundTileColor(new Vector2Int(xPos,yPos), Color.red);
+                    }
+                }
+
                 else
                 {
-                    LevelManager.Instance.GridController.SetGroundTileColor(new Vector2Int(xPos, yPos), Color.white);
+                    cells[xPos, yPos].Buildable[Owner]--;
+                    if (cells[xPos, yPos].Buildable[Owner] == 0)
+                    {
+                        LevelManager.Instance.GridController.SetGroundTileColor(new Vector2Int(xPos, yPos), Color.white);
+                    }
                 }
             }
         }
@@ -126,10 +136,9 @@ public class Building : MonoBehaviour
             Deactivate();
             Invoke(nameof(HandleBuildComplete), buildingInformation.BuildingTime);
         }
-
-        else
+        if (buildingInformation.PermitsBuildingWithinRange)
         {
-            ToggleBuilding(BuildingInformation.PermitsBuildingWithinRange);
+            ToggleBuilding(true);
         }
     }
 
@@ -140,7 +149,7 @@ public class Building : MonoBehaviour
 
     public Building TargetBuilding(Building target)
     {
-        if (inRange(target))
+        if (InRange(target))
         {
             Attack(target);
             return target;
@@ -169,7 +178,6 @@ public class Building : MonoBehaviour
         LevelManager.Instance.GridController.SetTileColor(Cell.Position, new Color(1f, 1f, 1f));
         if (BuildingInformation.PermitsBuildingWithinRange)
         {
-            Debug.Log("A");
             ToggleBuilding(true);
         }
     }

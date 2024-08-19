@@ -44,9 +44,9 @@ public class GridController : MonoBehaviour
         _targetTilemap.SetTile((Vector3Int)pos, tile);
     }
 
-    public bool CanBuild(Vector2Int pos, Building building)
+    public bool CanBuild(GridCell cell)
     {
-        return Cells[pos.x,pos.y].CellType == GridCell.CellTypes.Buildable && Cells[pos.x, pos.y].ConstructedBuilding == null;
+        return (cell.CellType == GridCell.CellTypes.Buildable && cell.Buildable[1] > 0);
     }
 
     public void SetTileColor(Vector2Int pos, Color color)
@@ -95,7 +95,7 @@ public class GridController : MonoBehaviour
 
                 for (int i = 0; i <= LevelManager.Instance.NumPlayers; i++)
                 {
-                    Cells[x, y].Buildable[i] = false;
+                    Cells[x, y].Buildable[i] = 0;
                 }
             }
         }
@@ -125,8 +125,13 @@ public class GridController : MonoBehaviour
     {
         Vector2Int gridPos = GetTilePos(mousePosition);
         GridCell cell = Cells[gridPos.x, gridPos.y];
+        Debug.Log($"({gridPos.x},{gridPos.y})");
+        foreach (var item in Cells[gridPos.x, gridPos.y].Buildable)
+        {
+            Debug.Log($"Player = {item.Key}, Value = {item.Value}");
+        }
 
-        if (cell.CellType == GridCell.CellTypes.Buildable && cell.Buildable[1] == true)
+        if (cell.CellType == GridCell.CellTypes.Buildable && cell.Buildable[1] > 0)
         {
             if (cell.ConstructedBuilding == null)
             {
