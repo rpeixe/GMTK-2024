@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    [SerializeField] private GameObject _gui;
     [SerializeField] private GameObject _buildMenu;
     [SerializeField] private GameObject _buildWheel;
     [SerializeField] private GameObject _selectedMenu;
@@ -54,6 +55,16 @@ public class UIManager : MonoBehaviour
         _buildMenu.SetActive(false);
         _selectedMenu.SetActive(false);
         HideBuildingInfo();
+    }
+
+    public void ShowGui()
+    {
+        _gui.SetActive(true);
+    }
+
+    public void HideGui()
+    {
+        _gui.SetActive(false);
     }
 
     public void ShowBuildingInfo(BuildingInformation buildingInformation, GridCell cell = null)

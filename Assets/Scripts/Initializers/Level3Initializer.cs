@@ -8,12 +8,23 @@ public class Level3Initializer : MonoBehaviour, ILevelInitializer
 {
     [SerializeField] private BuildingInformation _hq;
     [SerializeField] private BuildingInformation _monument;
+    [SerializeField] private GameObject _dialogueBox;
 
     private int _player1Monuments = 0;
     private int _player2Monuments = 0;
-
+    private Dialogue d;
+    public void Dialogue()
+    {
+        d = _dialogueBox.GetComponent<Dialogue>();
+        d.InitDialog();
+        d.lines = new (int, string)[2];
+        d.lines[0] = (2, "I have another bussines for you. Can you get dominate Maiduguri before the competition?");
+        d.lines[1] = (0, "Competition? Oh, oh, sounds harder than the others…");
+        d.StartDialogue();
+    }
     public void InitializeLevel()
     {
+        Dialogue();
         Building hq1 = LevelManager.Instance.ConstructBuilding(1, LevelManager.Instance.GridController.Cells[17,3], _hq, true, true);
         Building hq2 = LevelManager.Instance.ConstructBuilding(2, LevelManager.Instance.GridController.Cells[3,16], _hq, true, true);
         Building monument1 = LevelManager.Instance.ConstructBuilding(0, LevelManager.Instance.GridController.Cells[16,10], _monument, true, true);

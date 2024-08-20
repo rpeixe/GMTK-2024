@@ -8,12 +8,25 @@ public class Level5Initializer : MonoBehaviour, ILevelInitializer
 {
     [SerializeField] private BuildingInformation _hq;
     [SerializeField] private BuildingInformation _monument;
+    [SerializeField] private GameObject _dialogueBox;
+    private Dialogue d;
 
     private int _player1Monuments = 0;
     private int _player2Monuments = 0;
 
+    public void Dialogue()
+    {
+        d = _dialogueBox.GetComponent<Dialogue>();
+        d.InitDialog();
+        d.lines = new (int, string)[2];
+        d.lines[0] = (2, "Now it is time to prove yourself. Go and take out your rival’s main HQ.");
+        d.lines[1] = (0, "Sounds hot here in Florianopolis. I will do it.");
+        d.StartDialogue();
+    }
+
     public void InitializeLevel()
     {
+        Dialogue();
         Building hq1 = LevelManager.Instance.ConstructBuilding(1, LevelManager.Instance.GridController.Cells[16,4], _hq, true, true);
         Building hq2 = LevelManager.Instance.ConstructBuilding(2, LevelManager.Instance.GridController.Cells[4,15], _hq, true, true);
 

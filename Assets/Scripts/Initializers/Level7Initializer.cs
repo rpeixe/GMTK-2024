@@ -9,11 +9,23 @@ public class Level7Initializer : MonoBehaviour, ILevelInitializer
     [SerializeField] private BuildingInformation _hq;
     [SerializeField] private BuildingInformation _hq3;
     [SerializeField] private BuildingInformation _monument;
+    [SerializeField] private GameObject _dialogueBox;
 
     private int _playerMonuments = 0;
-
-    public void InitializeLevel()
+    private Dialogue d;
+    public void Dialogue()
     {
+        d = _dialogueBox.GetComponent<Dialogue>();
+        d.InitDialog();
+        d.lines = new (int, string)[2]; 
+        d.lines[0] = (2, "I have bribed the only low - cost building here, as they are too loyal to your rival.");
+        d.lines[1] = (0, "Ok, ok, got it. Maximum disadvantage requires a quick job.");
+        d.StartDialogue();
+    }
+
+        public void InitializeLevel()
+    {
+        Dialogue();
         Building hq1 = LevelManager.Instance.ConstructBuilding(1, LevelManager.Instance.GridController.Cells[17,18], _hq, true, true);
         Building hq2 = LevelManager.Instance.ConstructBuilding(2, LevelManager.Instance.GridController.Cells[7,7], _hq3, true, true);
 
