@@ -1,0 +1,62 @@
+Level 1:
+Start:
+P1: Man, the company is dead. There is no way we can survive this market crash!
+P1: Hold on a sec. Maybe I can do something on this Island.
+Goal: Influence the Jeju Island’s monument to save your company.
+
+End:
+P1: Yes, I am the best CEO of the world!
+
+Level 2:
+Start:
+Investor: Hey, you. Nice Job at Jeju Island. Can you do the same here? I will invest in your company.
+P1: Wow, three monuments in Bruges, and with support. I am on it!
+Goal: Influence the three monuments in Bruges. This time, the investor is in a hurry.
+
+End:
+P1: Yahoo! Who’s the boss?
+
+Level 3:
+Start:
+Investor:I have another bussines for you. Can you get dominate Maiduguri before the competition?
+P1: Competition? Oh, oh, sounds harder than the others…
+Goal: Influence the two monuments before your Rival.
+
+End:
+P1: How about that! The world is ours.
+
+Level 4:
+Start:
+Rival: I didn’t like a bit what you did to me. Now is the time for my revenge.
+P1: Ok, no monuments! That is a death match in the old west style.
+Goal: Influence your rival HQ.
+
+End:
+P1: Ok, baby, take this!
+
+Level 5:
+Start:
+Investor: Now it is time to prove yourself. Go and take out your rival’s main HQ.
+P1: Sounds hot here in Florianópolis. I will do it.
+Goal: Influence your rival HQ or the two monumnets before she does.
+
+End:
+P1: Phew, that was close!
+
+Level 6:
+Start:
+Rival: Bring it on. Do you think you got it? Now try beating me and my ally.
+P1: Minamitorishima triangles me up, I mean… you got it.
+Goal: Get your HQ to level 10 or conquer the other HQs.
+
+End:
+P1: That is a triple! Nobody can beat me.
+
+Level 7:
+Start:
+Investor: I have bribed the only low-cost building here, as they are too loyal to your rival.
+P1: Ok, ok, got it. Maximum disadvantage requires a quick job.
+Goal: Get all monuments or your rival's last base.
+
+End:
+P1: I just can’t believe it, Man, I am good!
