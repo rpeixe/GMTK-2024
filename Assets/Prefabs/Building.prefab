@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6675491054940716456
+--- !u!1 &2308709664244103435
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5425807454248290702}
-  - component: {fileID: 1632359797674939735}
+  - component: {fileID: 1920268049588897931}
+  - component: {fileID: 632090616491609251}
   m_Layer: 0
-  m_Name: LevelManager
+  m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5425807454248290702
+--- !u!4 &1920268049588897931
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6675491054940716456}
+  m_GameObject: {fileID: 2308709664244103435}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -32,25 +32,16 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1632359797674939735
+--- !u!114 &632090616491609251
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6675491054940716456}
+  m_GameObject: {fileID: 2308709664244103435}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60c6b573cdc546a4c85168916c94ed19, type: 3}
+  m_Script: {fileID: 11500000, guid: f6837054b0bd81d4097fff9c4a30508c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gridController: {fileID: 0}
-  _numPlayers: 1
-  _initialMoney: 10
-  _mapWidth: 20
-  _mapHeight: 10
-  _victorySound: {fileID: 8300000, guid: 6e463e230205ce4449997b82c9b4cf12, type: 3}
-  _defeatSound: {fileID: 8300000, guid: 2e34d1b163d9c7d429e629d0ecb230d1, type: 3}
-  buildingPrefab: {fileID: 2308709664244103435, guid: f7a12b25c67d3a44eabbf1f2e4b4ddc3, type: 3}
-  aiManagerPrefab: {fileID: 3602130609217349374, guid: 5ebc88b4cc604d945a2893016fd91cc6, type: 3}
-  BriberyFactor: 5
+  _particleSystemPrefab: {fileID: 7970658082211608213, guid: 83c1f1e1940c7c141bb625badf759434, type: 3}

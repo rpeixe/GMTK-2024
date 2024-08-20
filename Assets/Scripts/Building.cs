@@ -2,8 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEngine.GraphicsBuffer;
 
 public class Building : MonoBehaviour
 {
@@ -28,6 +26,9 @@ public class Building : MonoBehaviour
     private GenerateIncome _generateIncome;
     private bool _rangeActive = false;
     private bool _initialBuild = true;
+    [SerializeField] GameObject _particleSystemPrefab;
+    private ParticleSystem _particleSystem;
+    private bool wasDamaged = false;
 
     public static event Action<Building> OnBuildingConstructed;
     public static event Action<Building, int, int> OnBuildingCaptured;
@@ -36,6 +37,18 @@ public class Building : MonoBehaviour
     public bool IsAllied(Building target)
     {
         return Owner == target.Owner;
+    }
+
+    public bool IsDamaged()
+    {
+        for (int i = 1; i <= LevelManager.Instance.NumPlayers; i++)
+        {
+            if (Damage[i] > 0)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public bool InRange(Building target)
@@ -311,6 +324,29 @@ public class Building : MonoBehaviour
             _generateIncome = gameObject.AddComponent<GenerateIncome>();
         }
         _generateIncome.Init(this);
+        if (_particleSystem == null)
+        {
+            _particleSystem = Instantiate(_particleSystemPrefab).GetComponent<ParticleSystem>();
+        }
+        _particleSystem.GetComponent<Transform>().position = LevelManager.Instance.GridController.GetWorldPos(Cell.Position);
+        var main = _particleSystem.main;
+        if (Owner == 0)
+        {
+            main.startColor = Color.white;
+        }
+        else if (Owner == 1)
+        {
+            main.startColor = Color.blue;
+        }
+        else if (Owner == 2)
+        {
+            main.startColor = Color.red;
+        }
+        else if (Owner == 3)
+        {
+            main.startColor = Color.yellow;
+        }
+        _particleSystem.Stop();
         BuildingInformation = buildingInformation;
         _captureTick = 1f / MarketingSpeed;
         marketing = BuildingInformation.InfluenceValue;
@@ -412,7 +448,7 @@ public class Building : MonoBehaviour
 
             else
             {
-                foreach (var target in Targets) 
+                foreach (var target in Targets)
                 {
                     Capture(target);
                 }
@@ -421,6 +457,19 @@ public class Building : MonoBehaviour
             StartCoroutine(CaptureTick());
         }
 
+        if (_particleSystem != null)
+        {
+            bool isDamaged = IsDamaged();
+            if (isDamaged && !wasDamaged)
+            {
+                _particleSystem.Play();
+            }
+            else if (wasDamaged && !isDamaged)
+            {
+                _particleSystem.Stop();
+            }
+            wasDamaged = isDamaged;
+        }
     }
 
 }
