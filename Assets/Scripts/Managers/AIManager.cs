@@ -24,7 +24,6 @@ public class AIManager : MonoBehaviour
     public AIWarState WarState = new AIWarState();
     public AIBerzerkState BerzerkState = new AIBerzerkState();
     public AIPanicState PanicState = new AIPanicState();
-    public AIManager manager = new AIManager();
 
     void Start()
     {
@@ -64,6 +63,12 @@ public class AIManager : MonoBehaviour
 	GoalBuildings = goal_buildings;
     }
 
+    public void StartPlaying()
+    {
+        InvokeRepeating(nameof(CheckDowngrades), 0.0f, 2.0f);
+        InvokeRepeating(nameof(currentState.SelectAction), 0.0f, 2.0f);
+    }
+
     // Called to check if goal building changed after a building is added to a player.
     public void NextGoal() {
     	int n_goals = GoalBuildings.Count;
@@ -96,6 +101,24 @@ public class AIManager : MonoBehaviour
     	        return;
     	    }
     	}
+    }
+    
+    public bool HasEnemyBuildingInRange(Building my_building)
+    {
+	for(int player = 0; player < LevelManager.Instance.NumPlayers; ++player)
+    	{
+    	    if (player == MyID)
+    	        continue;
+    	    int n = buildings_list[player].Count;
+    	    for (int i = 0; i < n; ++i) 
+    	    {
+    	        if ((buildings_list[player][i].InRange(my_building)) || (my_building.InRange(buildings_list[player][i])))
+    	        {
+    		    return true;
+    	        }
+    	    }
+    	}
+    	return false;
     }
     
     // Called when AI loses a building. It may happen to lose a goal building or the last building in the range of a goal buinding.
@@ -381,7 +404,7 @@ public class AIManager : MonoBehaviour
 	    int dist = HQs[(MyID+1) % 2].DistanceTo(cells[sel]);
 	    // Precisa fazer o build information de office.
 	    if ((min_dist > dist) && 
-	        (LevelManager.Instance.CalculateCost(MyID, cells[sel], new BuildingInformation()) <= LevelManager.Instance.Currencies[MyID]))
+	        (LevelManager.Instance.CalculateCost(MyID, cells[sel], _officeBuilding) <= LevelManager.Instance.Currencies[MyID]))
 	    {
 	        min_dist = dist;
 	        coords = cells[sel];
@@ -397,7 +420,14 @@ public class AIManager : MonoBehaviour
 	for (int i = 0; i < cells.Count; ++i) 
 	{
 	    int sel = rnd.Next(cells.Count);
-	    if (LevelManager.Instance.CalculateCost(MyID, cells[sel], new BuildingInformation()) <= LevelManager.Instance.Currencies[MyID])
+	    float build_cost;
+	    if (building_type == "Billboard")
+	        build_cost = LevelManager.Instance.CalculateCost(MyID, cells[sel], _billboardBuilding);
+	    else if (building_type == "Ornamental")
+	        build_cost = LevelManager.Instance.CalculateCost(MyID, cells[sel], _ornamentalBuilding);
+	    else
+	        build_cost = LevelManager.Instance.CalculateCost(MyID, cells[sel], _entertainmentBuilding);
+	    if (build_cost <= LevelManager.Instance.Currencies[MyID])
 	    {
 	        coords = cells[sel];
 	        break;
@@ -415,9 +445,14 @@ public class AIManager : MonoBehaviour
 	{
 	    int sel = rnd.Next(cells.Count);
 	    int dist = CurrentGoal.DistanceTo(cells[sel]);
-	    // Precisa fazer o build information de office.
-	    if ((min_dist > dist) && 
-	        (LevelManager.Instance.CalculateCost(MyID, cells[sel], new BuildingInformation()) <= LevelManager.Instance.Currencies[MyID]))
+	    float build_cost;
+	    if (building_type == "Billboard")
+	        build_cost = LevelManager.Instance.CalculateCost(MyID, cells[sel], _billboardBuilding);
+	    else if (building_type == "Ornamental")
+	        build_cost = LevelManager.Instance.CalculateCost(MyID, cells[sel], _ornamentalBuilding);
+	    else
+	        build_cost = LevelManager.Instance.CalculateCost(MyID, cells[sel], _entertainmentBuilding);
+	    if ((min_dist > dist) && (build_cost <= LevelManager.Instance.Currencies[MyID]))
 	    {
 	        min_dist = dist;
 	        coords = cells[sel];
@@ -435,9 +470,14 @@ public class AIManager : MonoBehaviour
 	{
 	    int sel = rnd.Next(cells.Count);
 	    int dist = reference_building.DistanceTo(cells[sel]);
-	    // Precisa fazer o build information de office.
-	    if ((min_dist > dist) && 
-	        (LevelManager.Instance.CalculateCost(MyID, cells[sel], new BuildingInformation()) <= LevelManager.Instance.Currencies[MyID]))
+	    float build_cost;
+	    if (building_type == "Billboard")
+	        build_cost = LevelManager.Instance.CalculateCost(MyID, cells[sel], _billboardBuilding);
+	    else if (building_type == "Ornamental")
+	        build_cost = LevelManager.Instance.CalculateCost(MyID, cells[sel], _ornamentalBuilding);
+	    else
+	        build_cost = LevelManager.Instance.CalculateCost(MyID, cells[sel], _entertainmentBuilding);
+	    if ((min_dist > dist) && (build_cost <= LevelManager.Instance.Currencies[MyID]))
 	    {
 	        min_dist = dist;
 	        coords = cells[sel];
@@ -446,6 +486,31 @@ public class AIManager : MonoBehaviour
         return(coords);
     }
 
+    public void CreateBuilding(Vector2Int location, string building_type) {
+        if (building_type == "Offince")
+            LevelManager.Instance.ConstructBuilding(MyID, LevelManager.Instance.GridController.Cells[location[0],location[1]], _officeBuilding);
+    	else if (building_type == "Billboard")
+	    LevelManager.Instance.ConstructBuilding(MyID, LevelManager.Instance.GridController.Cells[location[0],location[1]], _billboardBuilding);
+	else if (building_type == "Ornamental")
+	    LevelManager.Instance.ConstructBuilding(MyID, LevelManager.Instance.GridController.Cells[location[0],location[1]], _ornamentalBuilding);
+        else
+	    LevelManager.Instance.ConstructBuilding(MyID, LevelManager.Instance.GridController.Cells[location[0],location[1]], _entertainmentBuilding);
+    }
+    
+    public void CheckDowngrades() {
+	int n = buildings_list[MyID].Count;
+	for (int i = 0; i < n; ++i)
+	{
+	    System.Random rnd = new System.Random();
+            int prob = rnd.Next(20);
+	    List<Building> targets = buildings_list[MyID][i].GetTargets(false);
+	    if ((targets.Count == 0) && (prob == 0) && 
+	       LevelManager.Instance.CalculateCost(buildings_list[MyID][i].Owner, buildings_list[MyID][i].Cell, 
+	           buildings_list[MyID][i].BuildingInformation)/2 <= LevelManager.Instance.Currencies[MyID])
+	       LevelManager.Instance.DowngradeBuilding(buildings_list[MyID][i].Cell);
+	}
+    }
+    
 }
 
 

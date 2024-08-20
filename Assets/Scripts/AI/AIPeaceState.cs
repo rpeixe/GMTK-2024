@@ -47,11 +47,8 @@ public class AIPeaceState : AIBaseState
         case 0:
             local_building = ai.SelectDefensiveBuilding();
             Vector2Int location = ai.NewOfficeCoordinates(local_building);
-            if (location[0] != -1) {
-                // Precisa fazer o build information de office e verificar os parâmetros de Cells
-                LevelManager.Instance.ConstructBuilding(ai.MyID, LevelManager.Instance.GridController.Cells[location[0],location[1]], 
-                					new BuildingInformation());
-            }
+            if (location[0] != -1)
+                ai.CreateBuilding(location, "Office");
             break;
         case 1:
 	    local_building = ai.SelectDefensiveBuilding();
@@ -64,22 +61,17 @@ public class AIPeaceState : AIBaseState
 	            building_type = "Entertainment";
 	    }
             location = ai.NewDefensiveCoordinates(local_building, building_type);
-            if (location[0] != -1) {
-                // Precisa fazer o build information de office e verificar os parâmetros de Cells
-                LevelManager.Instance.ConstructBuilding(ai.MyID, LevelManager.Instance.GridController.Cells[location[0],location[1]], 
-                					new BuildingInformation());
-            }
+            if (location[0] != -1)
+                ai.CreateBuilding(location, building_type);
             break;        
         case 2:
             // While in peace, build Billboards for offensive power.
 	    local_building = ai.SelectOffensiveBuilding();
 	    building_type = "Billboard";
+	    // For other states, use NewOffensiveCoordinates
             location = ai.NewExpansionCoordinates(local_building, building_type);
-            if (location[0] != -1) {
-                // Precisa fazer o build information de office e verificar os parâmetros de Cells
-                LevelManager.Instance.ConstructBuilding(ai.MyID, LevelManager.Instance.GridController.Cells[location[0],location[1]], 
-                					new BuildingInformation());
-            }
+            if (location[0] != -1) 
+                ai.CreateBuilding(location, building_type);
             break;        
         case 3:
             // Wait
@@ -90,7 +82,5 @@ public class AIPeaceState : AIBaseState
             }
             break;
 	}
-        //ai.SelectDefensiveBuilding();
-        //ai.SelectOffensiveBuilding();
     }
 }
