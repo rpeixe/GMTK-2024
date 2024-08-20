@@ -12,11 +12,13 @@ public class Level1Initializer : MonoBehaviour, ILevelInitializer
         Building monument = LevelManager.Instance.ConstructBuilding(0, LevelManager.Instance.GridController.Cells[6,5], _monument, true, true);
         LevelManager.Instance.ConstructBuilding(1, LevelManager.Instance.GridController.Cells[12,3], _hq, true, true);
 
-        monument.OnBuildingCaptured += HandleMonumentCaptured;
+        Building.OnBuildingCaptured += HandleMonumentCaptured;
     }
 
     private void HandleMonumentCaptured(Building building, int oldOwner, int newOwner)
     {
+        if (building.BuildingInformation.Type != BuildingInformation.BuildingType.monument) return;
+
         LevelManager.Instance.Victory();
     }
 }

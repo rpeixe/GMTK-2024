@@ -22,17 +22,13 @@ public class Level6Initializer : MonoBehaviour, ILevelInitializer
 
         LevelManager.Instance.ConstructBuilding(0, LevelManager.Instance.GridController.Cells[10, 10], _monument, true, true);
 
-        _hq1.OnBuildingCaptured += HandleHqCaptured;
-        _hq2.OnBuildingCaptured += HandleHqCaptured;
-        _hq3.OnBuildingCaptured += HandleHqCaptured;
-
-        _hq1.OnBuildingUpgraded += HandleHqUpgraded;
-        _hq2.OnBuildingUpgraded += HandleHqUpgraded;
-        _hq3.OnBuildingUpgraded += HandleHqUpgraded;
+        Building.OnBuildingCaptured += HandleHqCaptured;
     }
 
     private void HandleHqCaptured(Building building, int oldOwner, int newOwner)
     {
+        if (building.BuildingInformation.Type != BuildingInformation.BuildingType.hq) return;
+
         if (_hq1.Owner != 1 && _hq2.Owner != 1 && _hq3.Owner != 1)
         {
             LevelManager.Instance.Defeat();

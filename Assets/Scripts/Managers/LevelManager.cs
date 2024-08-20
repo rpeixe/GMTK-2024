@@ -9,6 +9,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private float _initialMoney = 10f;
     [SerializeField] private int _mapWidth = 20;
     [SerializeField] private int _mapHeight = 10;
+    public GameObject aiManagerPrefab;
 
     public static LevelManager Instance { get; private set; }
     public float BriberyFactor = 5.0f;

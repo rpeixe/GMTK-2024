@@ -26,11 +26,19 @@ public class Level7Initializer : MonoBehaviour, ILevelInitializer
         Building monument7 = LevelManager.Instance.ConstructBuilding(0, LevelManager.Instance.GridController.Cells[2, 12], _monument, true, true);
         Building monument8 = LevelManager.Instance.ConstructBuilding(0, LevelManager.Instance.GridController.Cells[7, 13], _monument, true, true);
 
-        hq1.OnBuildingCaptured += HandleHqCaptured;
-        hq2.OnBuildingCaptured += HandleHqCaptured;
+        Building.OnBuildingCaptured += HandleBuildingCaptured;
+    }
 
-        monument1.OnBuildingCaptured += HandleMonumentCaptured;
-        monument2.OnBuildingCaptured += HandleMonumentCaptured;
+    private void HandleBuildingCaptured(Building building, int oldOwner, int newOwner)
+    {
+        if (building.BuildingInformation.Type == BuildingInformation.BuildingType.monument)
+        {
+            HandleMonumentCaptured(building, oldOwner, newOwner);
+        }
+        else if (building.BuildingInformation.Type == BuildingInformation.BuildingType.hq)
+        {
+            HandleHqCaptured(building, oldOwner, newOwner);
+        }
     }
 
     private void HandleMonumentCaptured(Building building, int oldOwner, int newOwner)

@@ -29,9 +29,9 @@ public class Building : MonoBehaviour
     private bool _rangeActive = false;
     private bool _initialBuild = true;
 
-    public event Action<Building> OnBuildingConstructed;
-    public event Action<Building, int, int> OnBuildingCaptured;
-    public event Action<Building, int> OnBuildingUpgraded;
+    public static event Action<Building> OnBuildingConstructed;
+    public static event Action<Building, int, int> OnBuildingCaptured;
+    public static event Action<Building, int> OnBuildingUpgraded;
 
     public bool IsAllied(Building target)
     {
@@ -85,9 +85,17 @@ public class Building : MonoBehaviour
                 {
                     continue;
                 }
-                var xPos = Mathf.Clamp(Cell.Position.x + x, 0, LevelManager.Instance.MapWidth-1);
-                var yPos = Mathf.Clamp(Cell.Position.y + y, 0, LevelManager.Instance.MapHeight-1);
-                if (cells[xPos,yPos].CellType == GridCell.CellTypes.Buildable)
+
+                var xPos = Cell.Position.x + x;
+                var yPos = Cell.Position.y + y;
+
+                if (xPos >= LevelManager.Instance.MapWidth || yPos >= LevelManager.Instance.MapHeight
+                    || xPos < 0 || yPos < 0)
+                {
+                    continue;
+                }
+
+                if (cells[xPos,yPos].CellType == GridCell.CellTypes.Buildable && cells[xPos, yPos].ConstructedBuilding == null)
                     cell_list.Add(new Vector2Int(xPos,yPos));
             }
         }
@@ -109,8 +117,16 @@ public class Building : MonoBehaviour
                     continue;
                 }
 
-                var xPos = Mathf.Clamp(Cell.Position.x + x, 0, LevelManager.Instance.MapWidth-1);
-                var yPos = Mathf.Clamp(Cell.Position.y + y, 0, LevelManager.Instance.MapHeight-1);
+
+                var xPos = Cell.Position.x + x;
+                var yPos = Cell.Position.y + y;
+
+                if (xPos >= LevelManager.Instance.MapWidth || yPos >= LevelManager.Instance.MapHeight
+                    || xPos < 0 || yPos < 0)
+                {
+                    continue;
+                }
+
                 Building target = cells[xPos, yPos].ConstructedBuilding;
                 if (cells[xPos, yPos].ConstructedBuilding == null || target == this)
                 {
@@ -146,8 +162,8 @@ public class Building : MonoBehaviour
                     continue;
                 }
 
-                var xPos = Mathf.Clamp(Cell.Position.x + x,0, LevelManager.Instance.MapWidth-1);
-                var yPos = Mathf.Clamp(Cell.Position.y + y,0, LevelManager.Instance.MapHeight-1);
+                var xPos = Cell.Position.x + x;
+                var yPos = Cell.Position.y + y;
 
                 if (xPos >= LevelManager.Instance.MapWidth || yPos >= LevelManager.Instance.MapHeight
                     || xPos < 0 || yPos < 0)

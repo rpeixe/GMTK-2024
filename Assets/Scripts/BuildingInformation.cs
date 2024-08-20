@@ -6,6 +6,16 @@ using UnityEngine.Tilemaps;
 [CreateAssetMenu(fileName = "BuildingInformation")]
 public class BuildingInformation : ScriptableObject
 {
+    public enum BuildingType
+    {
+        hq,
+        office,
+        ornamental,
+        billboard,
+        entertainment,
+        monument,
+    }
+
     [SerializeField] private TileBase _tile;
     [SerializeField] private string _name;
     [SerializeField] private float _baseCost;
@@ -16,11 +26,13 @@ public class BuildingInformation : ScriptableObject
     [SerializeField] private BuildingInformation _evolution;
     [SerializeField] private BuildingInformation _previous;
     [SerializeField] private bool _permitsBuildingWithinRange = false;
+    [SerializeField] private BuildingType _type;
     [TextArea][SerializeField] private string _description;
 
     public TileBase Tile => _tile;
     public string Name => _name;
     public float BaseCost => _baseCost;
+    public BuildingType Type => _type;
     public int BuildingTime => _buildingTime;
     public int InfluenceRadius => _influenceRadius;
     public float InfluenceValue => _influenceValue;
