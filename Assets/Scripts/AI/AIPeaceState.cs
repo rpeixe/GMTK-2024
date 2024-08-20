@@ -11,12 +11,12 @@ using UnityEngine;
 public class AIPeaceState : AIBaseState 
 {
     float[] IncomeLevel = new float[5]{10, 20, 40,80, 160};
-    int[][] BuildChoice = new int[6][]  {new int[5]{80, 80, 80, 100, 100},
-		    			 new int[5]{50, 50, 80, 100, 100},
-		    			 new int[5]{30, 40, 80, 100, 100},
-    				   	 new int[5]{20, 50, 90, 100, 100},
-    				  	 new int[5]{10, 40, 90, 100, 100},
-    					 new int[5]{0, 30, 100, 100, 100}};
+    int[,] BuildChoice = new int[6,5]  {{80, 80, 80, 100, 100},
+		    			{50, 50, 80, 100, 100},
+		    			{30, 40, 80, 100, 100},
+    				   	{20, 50, 90, 100, 100},
+    				  	{10, 40, 90, 100, 100},
+    					{0, 30, 100, 100, 100}};
     public override void EnterState(AIManager ai) {}
 
     public override void UpdateState(AIManager ai) 
@@ -38,7 +38,7 @@ public class AIPeaceState : AIBaseState
         while ((income_index < IncomeLevel.Length) && (current_income > IncomeLevel[income_index]))
             income_index++;
 	int prob_index = 0;
-	while ((prob_index < BuildChoice.Length - 1) && (prob > BuildChoice[income_index][prob_index]))
+	while ((prob_index < BuildChoice.Length - 1) && (prob > BuildChoice[income_index, prob_index]))
             prob_index++;
         Building local_building;
         string building_type;
@@ -63,7 +63,7 @@ public class AIPeaceState : AIBaseState
 	        else if (type_prob < 3)
 	            building_type = "Entertainment";
 	    }
-            location = ai.NewDefensiveCoordinates(local_building);
+            location = ai.NewDefensiveCoordinates(local_building, building_type);
             if (location[0] != -1) {
                 // Precisa fazer o build information de office e verificar os parâmetros de Cells
                 LevelManager.Instance.ConstructBuilding(ai.MyID, LevelManager.Instance.GridController.Cells[location[0],location[1]], 
@@ -74,7 +74,7 @@ public class AIPeaceState : AIBaseState
             // While in peace, build Billboards for offensive power.
 	    local_building = ai.SelectOffensiveBuilding();
 	    building_type = "Billboard";
-            location = ai.NewOffensiveCoordinates(local_building);
+            location = ai.NewExpansionCoordinates(local_building, building_type);
             if (location[0] != -1) {
                 // Precisa fazer o build information de office e verificar os parâmetros de Cells
                 LevelManager.Instance.ConstructBuilding(ai.MyID, LevelManager.Instance.GridController.Cells[location[0],location[1]], 
