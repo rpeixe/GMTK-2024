@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UpgradeButton : MonoBehaviour
+public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] TextMeshProUGUI _priceText;
     private Button _button;
+    private BuildingInformation _buildingInformation;
 
     private void Start()
     {
@@ -23,16 +25,16 @@ public class UpgradeButton : MonoBehaviour
 
     private void UpdateCosts()
     {
-        BuildingInformation buildingInformation = LevelManager.Instance.Selected.ConstructedBuilding.BuildingInformation;
+        _buildingInformation = LevelManager.Instance.Selected.ConstructedBuilding.BuildingInformation;
 
-        if (buildingInformation.Evolution == null)
+        if (_buildingInformation.Evolution == null)
         {
             _button.interactable = false;
             _priceText.text = $"";
             return;
         }
 
-        float cost = LevelManager.Instance.CalculateCost(1, LevelManager.Instance.Selected, buildingInformation.Evolution);
+        float cost = LevelManager.Instance.CalculateCost(1, LevelManager.Instance.Selected, _buildingInformation.Evolution);
         _priceText.text = $"$ {cost:00.00}";
 
         if (LevelManager.Instance.Currencies[1] < cost || LevelManager.Instance.Selected.ConstructedBuilding.Deactivated)
@@ -49,5 +51,18 @@ public class UpgradeButton : MonoBehaviour
     {
         LevelManager.Instance.UpgradeBuilding(LevelManager.Instance.Selected);
         UIManager.Instance.Unselect();
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (_buildingInformation.Evolution)
+        {
+            UIManager.Instance.ShowBuildingInfo(_buildingInformation.Evolution);
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        UIManager.Instance.HideBuildingInfo();
     }
 }
