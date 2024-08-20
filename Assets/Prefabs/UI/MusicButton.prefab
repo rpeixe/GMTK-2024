@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3169755130369991526}
   - component: {fileID: 8449803395148025307}
   - component: {fileID: 9175222024518145166}
+  - component: {fileID: 7150378374649814421}
   m_Layer: 5
   m_Name: MusicButton
   m_TagString: Untagged
@@ -135,3 +136,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onSprite: {fileID: 65221237, guid: 01b58f4ec9a74a446ac812a7f819e6ca, type: 3}
   offSprite: {fileID: -52873142, guid: 01b58f4ec9a74a446ac812a7f819e6ca, type: 3}
+--- !u!114 &7150378374649814421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7927610257374015886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5532e923f867467409b250ded1d695b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundClip: {fileID: 8300000, guid: d5f8eb55d6374aa419cc2dcaac3b3a1a, type: 3}

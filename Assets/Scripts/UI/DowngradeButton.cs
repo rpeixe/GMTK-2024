@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class DowngradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] TextMeshProUGUI _priceText;
+    [SerializeField] AudioClip _buildSound;
     private Button _button;
     private BuildingInformation _buildingInformation;
 
@@ -50,6 +51,7 @@ public class DowngradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     private void HandleClick()
     {
         LevelManager.Instance.DowngradeBuilding(LevelManager.Instance.Selected);
+        AudioManager.Instance.PlayEffect(_buildSound);
         UIManager.Instance.Unselect();
     }
 
