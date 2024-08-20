@@ -49,5 +49,7 @@ MonoBehaviour:
   _initialMoney: 10
   _mapWidth: 20
   _mapHeight: 10
+  _victorySound: {fileID: 8300000, guid: 6e463e230205ce4449997b82c9b4cf12, type: 3}
+  _defeatSound: {fileID: 8300000, guid: 2e34d1b163d9c7d429e629d0ecb230d1, type: 3}
   aiManagerPrefab: {fileID: 3602130609217349374, guid: 5ebc88b4cc604d945a2893016fd91cc6, type: 3}
   BriberyFactor: 5

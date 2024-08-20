@@ -22,7 +22,7 @@ public class Building : MonoBehaviour
 
     private float _searchTargetTick = 0.1f;
 
-    private float _captureTick = 0.2f;
+    private float _captureTick = 1f;
  
     private bool _onCooldown = false;
     private GenerateIncome _generateIncome;
@@ -246,22 +246,16 @@ public class Building : MonoBehaviour
             Damage[i] = 0;
         }
 
+
+        _generateIncome.ToggleIncome(false);
         if (BuildingInformation.PermitsBuildingWithinRange)
         {
             ToggleBuilding(false);
-            _generateIncome.ToggleIncome(false);
-            Owner = player;
-            _generateIncome.ToggleIncome(true);
-            ToggleBuilding(true);
-        }
-        else
-        {
-            _generateIncome.ToggleIncome(false);
-            Owner = player;
-            _generateIncome.ToggleIncome(true);
         }
 
+        Build(player, Cell, BuildingInformation, false);
         LevelManager.Instance.NumBuildings[Owner]++;
+
         OnBuildingCaptured?.Invoke(this, oldOwner, Owner);
     }
 
@@ -282,7 +276,7 @@ public class Building : MonoBehaviour
 
     public void ReduceCapture(Building target)
     {
-        for (int i = 1; i < LevelManager.Instance.NumPlayers; i++)
+        for (int i = 1; i <= LevelManager.Instance.NumPlayers; i++)
         {
             if (target.Damage[i] < Math.Abs(marketing))
             {

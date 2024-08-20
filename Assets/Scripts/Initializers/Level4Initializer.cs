@@ -13,7 +13,23 @@ public class Level4Initializer : MonoBehaviour, ILevelInitializer
         Building hq1 = LevelManager.Instance.ConstructBuilding(1, LevelManager.Instance.GridController.Cells[14,4], _hq, true, true);
         Building hq2 = LevelManager.Instance.ConstructBuilding(2, LevelManager.Instance.GridController.Cells[5,14], _hq, true, true);
 
+
+        Dictionary<int, Building> hqDicts = new Dictionary<int, Building>();
+        hqDicts[1] = hq1;
+        hqDicts[2] = hq2;
+
         Building.OnBuildingCaptured += HandleHqCaptured;
+
+        AIManager ai1 = Instantiate(LevelManager.Instance.aiManagerPrefab).GetComponent<AIManager>();
+
+        ai1.setPlayers(2);
+        ai1.SetHQs(hqDicts);
+        ai1.SetGoals(new List<Building>() { hq1 });
+
+        ai1.AddBuilding(hq1);
+        ai1.AddBuilding(hq2);
+
+        ai1.StartPlaying();
     }
 
     private void HandleHqCaptured(Building building, int oldOwner, int newOwner)

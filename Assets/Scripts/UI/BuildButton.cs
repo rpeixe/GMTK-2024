@@ -11,6 +11,7 @@ public class BuildButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     [SerializeField] private BuildingInformation _buildingInformation;
     [SerializeField] private TextMeshProUGUI _priceText;
     [SerializeField] private BuildingInfoDisplay _buildingInfoDisplay;
+    [SerializeField] private AudioClip _buildSound;
     private Button _button;
 
     private void Start()
@@ -41,6 +42,7 @@ public class BuildButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private void HandleClick()
     {
         LevelManager.Instance.ConstructBuilding(1, LevelManager.Instance.Selected, _buildingInformation);
+        AudioManager.Instance.PlayEffect(_buildSound);
         UIManager.Instance.Unselect();
     }
 

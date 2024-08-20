@@ -67,10 +67,10 @@ public class AIPeaceState : AIBaseState
                 if (ai.buildings_list[ai.MyID].Count > 10)
                 {
                     int type_prob = rnd.Next(6);
-                    if (type_prob < 2)
+                    if (type_prob < 3)
                         building_type = "Ornamental";
-                    else if (type_prob < 3)
-                        building_type = "Entertainment";
+                    //else if (type_prob < 3)
+                    //    building_type = "Entertainment";
                 }
                 location = ai.NewDefensiveCoordinates(local_building, building_type);
                 if (location[0] != -1)

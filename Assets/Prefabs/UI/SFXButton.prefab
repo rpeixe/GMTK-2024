@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8936149655642495413}
   - component: {fileID: 5931268669623306445}
   - component: {fileID: 7496268743596832113}
+  - component: {fileID: 4716054375598610583}
   m_Layer: 5
   m_Name: SFXButton
   m_TagString: Untagged
@@ -135,3 +136,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onSprite: {fileID: 1340506188, guid: 01b58f4ec9a74a446ac812a7f819e6ca, type: 3}
   offSprite: {fileID: 1445705597, guid: 01b58f4ec9a74a446ac812a7f819e6ca, type: 3}
+--- !u!114 &4716054375598610583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3413634257930899908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5532e923f867467409b250ded1d695b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundClip: {fileID: 8300000, guid: d5f8eb55d6374aa419cc2dcaac3b3a1a, type: 3}
