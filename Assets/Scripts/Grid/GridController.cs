@@ -32,6 +32,15 @@ public class GridController : MonoBehaviour
 
     public void SetBuilding(GridCell cell, Building building, int player)
     {
+        var xPos = cell.Position.x;
+        var yPos = cell.Position.y;
+
+        if (xPos >= LevelManager.Instance.MapWidth || yPos >= LevelManager.Instance.MapHeight
+            || xPos < 0 || yPos < 0)
+        {
+            return;
+        }
+
         cell.ConstructedBuilding = building;
         _buildingTilemap.SetTile((Vector3Int)cell.Position, building.BuildingInformation.Tiles[player]);
     }

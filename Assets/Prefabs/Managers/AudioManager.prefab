@@ -48,6 +48,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _musicSource: {fileID: 1866024094723250927}
   _sfxSource: {fileID: 1678834998191492101}
+  musicList:
+  - {fileID: 8300000, guid: 7b8eede96d8408040950f43b72c3f5fb, type: 3}
+  - {fileID: 8300000, guid: 2b192761be282c54aa9b1b513eae9da0, type: 3}
+  - {fileID: 8300000, guid: 8e6d1bd276af435409cd5e5af5676fd8, type: 3}
+  - {fileID: 8300000, guid: b5f16377e822e7c49bfe96f7d00e8165, type: 3}
+  currentMusic: 0
 --- !u!82 &1866024094723250927
 AudioSource:
   m_ObjectHideFlags: 0

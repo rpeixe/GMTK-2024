@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51434231898a4a4b8d9d89f34094015, type: 3}
   m_Name: Office4
   m_EditorClassIdentifier: 
-  _tiles: []
+  _tiles:
+  - {fileID: 11400000, guid: 4a5d6283647d8144abd5c60c3817b7b1, type: 2}
+  - {fileID: 11400000, guid: 013e1b3b37ea070488d899f421922488, type: 2}
+  - {fileID: 11400000, guid: e4840d546aa3566418e85c8005ca675f, type: 2}
+  - {fileID: 11400000, guid: ee5b994be40ec7b41a3d4febe8ba7b3c, type: 2}
   _name: Office IV
   _baseCost: 120
   _buildingTime: 17

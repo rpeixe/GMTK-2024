@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51434231898a4a4b8d9d89f34094015, type: 3}
   m_Name: Ornamental3
   m_EditorClassIdentifier: 
-  _tiles: []
+  _tiles:
+  - {fileID: 11400000, guid: 7a43d249d0b2a1d4897309ef2d3bfecd, type: 2}
+  - {fileID: 11400000, guid: 4a7cdb95b42d64d468b3c80c355b99f9, type: 2}
+  - {fileID: 11400000, guid: 04b8a066e675827439c676a13629917a, type: 2}
+  - {fileID: 11400000, guid: f32112fe2eba57a458d9b82ce4b113c9, type: 2}
   _name: Ornamental III
   _baseCost: 150
   _buildingTime: 15

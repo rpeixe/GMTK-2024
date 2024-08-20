@@ -123,61 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &259385477
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 259385478}
-  - component: {fileID: 259385479}
-  m_Layer: 0
-  m_Name: AIManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &259385478
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 259385477}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &259385479
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 259385477}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fad3b92979c71fd06a6e2837f9413423, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _officeBuilding: {fileID: 11400000, guid: 8ba6f0c514ba4ed4fa42f07be557b238, type: 2}
-  _billboardBuilding: {fileID: 11400000, guid: 94f105c28cae36247b099a16f0166060, type: 2}
-  _ornamentalBuilding: {fileID: 11400000, guid: 65d14c31345c21b468410bc865fb86a1, type: 2}
-  _entertainmentBuilding: {fileID: 11400000, guid: f8202ccdde528de459674e933eed9008, type: 2}
-  MyID: 0
-  GoalBuildings: []
-  CurrentGoal: {fileID: 0}
-  CurrentGoalInRange: 0
-  WarStarted: 0
-  IsBerzerk: 0
-  InPanic: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -3852,4 +3797,3 @@ SceneRoots:
   - {fileID: 821201170}
   - {fileID: 8347417287888447646}
   - {fileID: 4870384102150183899}
-  - {fileID: 259385478}

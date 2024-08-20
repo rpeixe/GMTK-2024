@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] TextMeshProUGUI _priceText;
+    [SerializeField] private AudioClip _buildSound;
     private Button _button;
     private BuildingInformation _buildingInformation;
 
@@ -50,6 +51,7 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private void HandleClick()
     {
         LevelManager.Instance.UpgradeBuilding(LevelManager.Instance.Selected);
+        AudioManager.Instance.PlayEffect(_buildSound);
         UIManager.Instance.Unselect();
     }
 

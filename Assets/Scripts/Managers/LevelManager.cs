@@ -9,6 +9,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private float _initialMoney = 10f;
     [SerializeField] private int _mapWidth = 20;
     [SerializeField] private int _mapHeight = 10;
+    [SerializeField] private AudioClip _victorySound;
+    [SerializeField] private AudioClip _defeatSound;
     public GameObject aiManagerPrefab;
 
     public static LevelManager Instance { get; private set; }
@@ -68,12 +70,14 @@ public class LevelManager : MonoBehaviour
     {
         Time.timeScale = 0f;
         UIManager.Instance.ShowVictoryScreen();
+        AudioManager.Instance.PlayEffect(_victorySound);
     }
 
     public void Defeat()
     {
         Time.timeScale = 0f;
         UIManager.Instance.ShowDefeatScreen();
+        AudioManager.Instance.PlayEffect(_defeatSound);
     }
 
     public void UpgradeBuilding(GridCell cell)
