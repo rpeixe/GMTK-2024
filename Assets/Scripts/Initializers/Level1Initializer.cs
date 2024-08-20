@@ -13,9 +13,10 @@ public class Level1Initializer : MonoBehaviour, ILevelInitializer
         //d.Pause();
         d = _dialogueBox.GetComponent<Dialogue>();
         d.InitDialog();
-        d.lines = new (int, string)[2];
+        d.lines = new (int, string)[3];
         d.lines[0] = (0, "Man, the company is dead. There is no way we can survive this market crash!");
         d.lines[1] = (0, "Hold on a sec. Maybe I can do something on this Island.");
+        d.lines[2] = (0, "GOAL: Influence the Jeju Island’s monument to save your company.");
         d.StartDialogue();
         
     }

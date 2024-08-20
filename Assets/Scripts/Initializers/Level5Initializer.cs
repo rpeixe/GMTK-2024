@@ -18,9 +18,10 @@ public class Level5Initializer : MonoBehaviour, ILevelInitializer
     {
         d = _dialogueBox.GetComponent<Dialogue>();
         d.InitDialog();
-        d.lines = new (int, string)[2];
-        d.lines[0] = (2, "Now it is time to prove yourself. Go and take out your rival�s main HQ.");
+        d.lines = new (int, string)[3];
+        d.lines[0] = (2, "Now it is time to prove yourself. Go and take out your rival's main HQ.");
         d.lines[1] = (0, "Sounds hot here in Florianopolis. I will do it.");
+        d.lines[2] = (0, "GOAL: Influence your rival HQ or the two monumnets before she does.");
         d.StartDialogue();
     }
 

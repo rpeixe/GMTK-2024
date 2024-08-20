@@ -20,9 +20,10 @@ public class Level2Initializer : MonoBehaviour, ILevelInitializer
     {
         d = _dialogueBox.GetComponent<Dialogue>();
         d.InitDialog();
-        d.lines = new (int, string)[2];
+        d.lines = new (int, string)[3];
         d.lines[0] = (2, "Hey, you. Nice Job at Jeju Island. Can you do the same here? I will invest in your company.");
         d.lines[1] = (0, "Wow, three monuments in Bruges, and with support. I am on it!");
+        d.lines[2] = (0, "GOAL: Influence the three monuments in Bruges. This time, the investor is in a hurry.");
         d.StartDialogue();
     }
     public void InitializeLevel()
