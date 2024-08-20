@@ -96,6 +96,10 @@ public class LevelManager : MonoBehaviour
     }
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(Instance.gameObject);
+        }
         Instance = this;
     }
 
@@ -113,8 +117,6 @@ public class LevelManager : MonoBehaviour
 
         _levelInitializer = GetComponent<ILevelInitializer>();
         _levelInitializer.InitializeLevel();
-
-        Time.timeScale = 1.0f;
     }
 
     private void Update()

@@ -56,6 +56,7 @@ public class Dialogue : MonoBehaviour
     }
     public void StartDialogue()
     {
+        Pause();
         gameObject.SetActive(true);
         index = 0;
         StartCoroutine(TypeLine());
@@ -75,7 +76,7 @@ public class Dialogue : MonoBehaviour
                 portraitImage.sprite = open[lines[index].Item1];
             }
             textComponent.text += c;
-            yield return new WaitForSeconds(textSpeed);
+            yield return new WaitForSecondsRealtime(textSpeed);
         }
     }
 
@@ -91,6 +92,7 @@ public class Dialogue : MonoBehaviour
         else
         {
             gameObject.SetActive(false);
+            Unpause();
         }
     }
 

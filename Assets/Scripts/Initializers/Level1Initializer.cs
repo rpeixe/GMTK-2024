@@ -10,7 +10,6 @@ public class Level1Initializer : MonoBehaviour, ILevelInitializer
     private Dialogue d;
     public void Dialogue()
     {
-        //d.Pause();
         d = _dialogueBox.GetComponent<Dialogue>();
         d.InitDialog();
         d.lines = new (int, string)[3];
