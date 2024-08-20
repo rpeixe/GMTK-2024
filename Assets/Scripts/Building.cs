@@ -22,6 +22,7 @@ public class Building : MonoBehaviour
     protected float _captureTick = 0.2f;
     protected GenerateIncome _generateIncome;
     protected bool _rangeActive = false;
+    protected bool _initialBuild = true;
 
     public event Action<Building> OnBuildingConstructed;
     public event Action<Building, int, int> OnBuildingCaptured;
@@ -237,7 +238,7 @@ public class Building : MonoBehaviour
             return;
         }
 
-        target.Damage[Owner] += marketing;
+        target.Damage[Owner] += Marketing;
 
         if (target.Damage[Owner] >= target.BuildingInformation.BaseCost)
         {
