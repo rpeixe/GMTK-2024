@@ -246,22 +246,16 @@ public class Building : MonoBehaviour
             Damage[i] = 0;
         }
 
+
+        _generateIncome.ToggleIncome(false);
         if (BuildingInformation.PermitsBuildingWithinRange)
         {
             ToggleBuilding(false);
-            _generateIncome.ToggleIncome(false);
-            Owner = player;
-            _generateIncome.ToggleIncome(true);
-            ToggleBuilding(true);
-        }
-        else
-        {
-            _generateIncome.ToggleIncome(false);
-            Owner = player;
-            _generateIncome.ToggleIncome(true);
         }
 
+        Build(player, Cell, BuildingInformation, false);
         LevelManager.Instance.NumBuildings[Owner]++;
+
         OnBuildingCaptured?.Invoke(this, oldOwner, Owner);
     }
 
