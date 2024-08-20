@@ -485,6 +485,8 @@ public class AIManager : MonoBehaviour
         for (int i = 0; i < 8; ++i)
         {
             int sel = rnd.Next(cells.Count);
+            Debug.Log($"sel: {sel}");
+            Debug.Log($"cells.Count: {cells.Count}");
             int dist = CurrentGoal.DistanceTo(cells[sel]);
             float build_cost;
             if (building_type == "Billboard")
