@@ -44,6 +44,40 @@ public class Building : MonoBehaviour
         return false;
     }
 
+    public int DistanceTo(Building Target)
+    {
+        return((Target.Cell.Position.x - Cell.Position.x) * (Target.Cell.Position.x - Cell.Position.x)+ 
+               (Target.Cell.Position.y - Cell.Position.y) * (Target.Cell.Position.y - Cell.Position.y));
+    }
+
+    public int DistanceTo(Vector2Int Target)
+    {
+        return((Target[0] - Cell.Position.x) * (Target[0] - Cell.Position.x)+ 
+               (Target[1] - Cell.Position.y) * (Target[1] - Cell.Position.y));
+    }
+
+    public List<Vector2Int> GetInflucenceCellCoordinates()
+    {
+        List<Vector2Int> cell_list = new List<Vector2Int>();
+        var cells = LevelManager.Instance.GridController.Cells;
+        int radius = BuildingInformation.InfluenceRadius;
+        for (int x = -radius; x <= radius; x++)
+        {
+            for (int y = -radius; y <= radius; y++)
+            {
+                if (Mathf.Abs(x) + Mathf.Abs(y) > radius)
+                {
+                    continue;
+                }
+                var xPos = Mathf.Clamp(Cell.Position.x + x, 0, LevelManager.Instance.MapWidth-1);
+                var yPos = Mathf.Clamp(Cell.Position.y + y, 0, LevelManager.Instance.MapHeight-1);
+                if (cells[xPos,yPos].CellType == GridCell.CellTypes.Buildable)
+                    cell_list.Add(new Vector2Int(xPos,yPos));
+            }
+        }
+        return cell_list;
+    }
+
     public ArrayList GetTargets()
     {
         

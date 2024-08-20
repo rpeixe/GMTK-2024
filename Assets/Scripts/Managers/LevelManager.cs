@@ -14,9 +14,11 @@ public class LevelManager : MonoBehaviour
     private ILevelInitializer _levelInitializer;
 
     public static LevelManager Instance { get; private set; }
+    public float BriberyFactor = 5.0f;
     public GridController GridController => _gridController;
     public int NumPlayers => _numPlayers;
     public Dictionary<int, float> Currencies { get; set; } = new Dictionary<int, float>();
+    public Dictionary<int, float> Incomes { get; set; } = new Dictionary<int, float>();
     public Dictionary<int, Dictionary<string, List<Building>>> Buildings { get; set; } = new Dictionary<int, Dictionary<string, List<Building>>>();
     public Dictionary<int, int> NumBuildings { get; set; } = new Dictionary<int, int>();
     public float BankruptcyTimeLimit { get; set; } = 30f;
@@ -46,6 +48,11 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    public float CalculateCost(int player, Building building)
+    {
+        return CalculateCost(player, building.Cell, building.BuildingInformation);
+    }
+    
     public float CalculateCost(int player, Vector2Int pos, BuildingInformation buildingInformation)
     {
         return CalculateCost(player, GridController.Cells[pos.x, pos.y], buildingInformation);
