@@ -2,8 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEngine.GraphicsBuffer;
 
 public class Building : MonoBehaviour
 {
@@ -13,20 +11,17 @@ public class Building : MonoBehaviour
     public bool Deactivated { get; set; } = false;
     public Dictionary<int, float> Damage { get; set; } = new Dictionary<int, float>();
     public float MarketingSpeed { get; set; } = 1f;
-    
     public List<Building> Targets { get; set; } = new List<Building>();
-
-    private float marketing;
-
-    private bool _searchingTarget = true;
-
-    private float _searchTargetTick = 0.1f;
-
-    private float _captureTick = 0.2f;
- 
-    private bool _onCooldown = false;
-    private GenerateIncome _generateIncome;
-    private bool _rangeActive = false;
+    public float BaseCost { get; set; }
+    public float Marketing { get; set; }
+    public int Radius { get; set; }
+    public float Income { get; set; }
+    protected bool _searchingTarget = true;
+    protected bool _onCooldown = false;
+    protected float _searchTargetTick = 0.1f;
+    protected float _captureTick = 0.2f;
+    protected GenerateIncome _generateIncome;
+    protected bool _rangeActive = false;
 
 
     public bool IsAllied(Building target)
@@ -36,12 +31,11 @@ public class Building : MonoBehaviour
 
     public bool InRange(Building target)
     {
-        int radius = BuildingInformation.InfluenceRadius;
-        for (int x = -radius; x <= radius; x++)
+        for (int x = -Radius; x <= Radius; x++)
         {
-            for (int y = -radius; y <= radius; y++)
+            for (int y = -Radius; y <= Radius; y++)
             {
-                if (Mathf.Abs(x) + Mathf.Abs(y) > radius)
+                if (Mathf.Abs(x) + Mathf.Abs(y) > Radius)
                 {
                     continue;
                 }
@@ -61,12 +55,11 @@ public class Building : MonoBehaviour
         
         var cells = LevelManager.Instance.GridController.Cells;
         var targetList = new List<Building>();
-        int radius = BuildingInformation.InfluenceRadius;
-        for (int x = -radius; x <= radius; x++)
+        for (int x = -Radius; x <= Radius; x++)
         {
-            for (int y = -radius; y <= radius; y++)
+            for (int y = -Radius; y <= Radius; y++)
             {
-                if (Mathf.Abs(x) + Mathf.Abs(y) > radius)
+                if (Mathf.Abs(x) + Mathf.Abs(y) > Radius)
                 {
                     continue;
                 }
@@ -96,14 +89,13 @@ public class Building : MonoBehaviour
 
         _rangeActive = boolean;
 
-        int radius = BuildingInformation.InfluenceRadius;
         var cells = LevelManager.Instance.GridController.Cells;
         // range logic
-        for (int x = -radius; x <= radius; x++)
+        for (int x = -Radius; x <= Radius; x++)
         {
-            for (int y = -radius; y <= radius; y++)
+            for (int y = -Radius; y <= Radius; y++)
             {
-                if (Mathf.Abs(x) + Mathf.Abs(y) > radius)
+                if (Mathf.Abs(x) + Mathf.Abs(y) > Radius)
                 {
                     continue;
                 }
@@ -152,12 +144,11 @@ public class Building : MonoBehaviour
     public Building GetFirstTarget()
     {
         var cells = LevelManager.Instance.GridController.Cells;
-        int radius = BuildingInformation.InfluenceRadius;
-        for (int x = -radius; x <= radius; x++)
+        for (int x = -Radius; x <= Radius; x++)
         {
-            for (int y = -radius; y <= radius; y++)
+            for (int y = -Radius; y <= Radius; y++)
             {
-                if (Mathf.Abs(x) + Mathf.Abs(y) > radius)
+                if (Mathf.Abs(x) + Mathf.Abs(y) > Radius)
                 {
                     continue;
                 }
@@ -217,13 +208,13 @@ public class Building : MonoBehaviour
 
     public void ReduceCapture(Building target)
     {
-        if (target.Damage[Owner] < Math.Abs(marketing))
+        if (target.Damage[Owner] < Math.Abs(Marketing))
         {
             target.Damage[Owner] = 0;
             Debug.Log(target.Damage[Owner]);
             return;
         }
-        target.Damage[Owner] += marketing;
+        target.Damage[Owner] += Marketing;
         Debug.Log(target.Damage[Owner]);
     }
 
@@ -234,7 +225,7 @@ public class Building : MonoBehaviour
             return;
         }
 
-        target.Damage[Owner] += marketing;
+        target.Damage[Owner] += Marketing;
         Debug.Log(target.Damage[Owner]);
 
         if (target.Damage[Owner] >= target.BuildingInformation.BaseCost)
@@ -254,7 +245,11 @@ public class Building : MonoBehaviour
         _generateIncome.Init(this);
         BuildingInformation = buildingInformation;
         _captureTick = 1 / MarketingSpeed;
-        marketing = BuildingInformation.InfluenceValue;
+        BaseCost = BuildingInformation.BaseCost;
+        Income = BuildingInformation.Income;
+        Marketing = BuildingInformation.InfluenceValue;
+        Radius = BuildingInformation.InfluenceRadius;
+
         LevelManager.Instance.GridController.SetBuilding(cell, this);
         for (int i = 0; i <= LevelManager.Instance.NumPlayers; i++)
         {
@@ -320,8 +315,8 @@ public class Building : MonoBehaviour
     public void Update()
     {
         //checks if target is allied or enemy
-        bool targetAllied = marketing < 0;
-        if (Owner == 0 || marketing == 0)
+        bool targetAllied = Marketing < 0;
+        if (Owner == 0 || Marketing == 0)
         {
             
         }
