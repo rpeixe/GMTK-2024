@@ -17,9 +17,10 @@ public class Level7Initializer : MonoBehaviour, ILevelInitializer
     {
         d = _dialogueBox.GetComponent<Dialogue>();
         d.InitDialog();
-        d.lines = new (int, string)[2]; 
+        d.lines = new (int, string)[3];
         d.lines[0] = (2, "I have bribed the only low - cost building here, as they are too loyal to your rival.");
         d.lines[1] = (0, "Ok, ok, got it. Maximum disadvantage requires a quick job.");
+        d.lines[2] = (0, "GOAL: Get all monuments or your rival's last base.");
         d.StartDialogue();
     }
 

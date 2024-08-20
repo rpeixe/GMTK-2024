@@ -17,9 +17,10 @@ public class Level3Initializer : MonoBehaviour, ILevelInitializer
     {
         d = _dialogueBox.GetComponent<Dialogue>();
         d.InitDialog();
-        d.lines = new (int, string)[2];
+        d.lines = new (int, string)[3];
         d.lines[0] = (2, "I have another bussines for you. Can you get dominate Maiduguri before the competition?");
-        d.lines[1] = (0, "Competition? Oh, oh, sounds harder than the others…");
+        d.lines[1] = (0, "Competition? Oh, oh, sounds harder than the others...");
+        d.lines[2] = (0, "GOAL: Influence the two monuments before your Rival.");
         d.StartDialogue();
     }
     public void InitializeLevel()
