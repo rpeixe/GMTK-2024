@@ -9,9 +9,6 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private float _initialMoney = 10f;
     [SerializeField] private int _mapWidth = 20;
     [SerializeField] private int _mapHeight = 10;
-    [SerializeField] private GameObject _victoryScreen;
-    [SerializeField] private GameObject _defeatScreen;
-    private ILevelInitializer _levelInitializer;
 
     public static LevelManager Instance { get; private set; }
     public float BriberyFactor = 5.0f;
@@ -19,34 +16,18 @@ public class LevelManager : MonoBehaviour
     public int NumPlayers => _numPlayers;
     public Dictionary<int, float> Currencies { get; set; } = new Dictionary<int, float>();
     public Dictionary<int, float> Incomes { get; set; } = new Dictionary<int, float>();
-    public Dictionary<int, Dictionary<string, List<Building>>> Buildings { get; set; } = new Dictionary<int, Dictionary<string, List<Building>>>();
     public Dictionary<int, int> NumBuildings { get; set; } = new Dictionary<int, int>();
     public float BankruptcyTimeLimit { get; set; } = 30f;
     public int MapWidth => _mapWidth;
     public int MapHeight => _mapHeight;
     public GridCell Selected { get; set; }
+    public float TimeBeforeBankruptcy => _timeBeforeBankruptcy;
+    public float PlayerIncome => Incomes[1];
 
-    public void AddCurrency(int player, float currency)
-    {
-        float previousCurrency = Currencies[player];
-        Currencies[player] += currency;
+    private ILevelInitializer _levelInitializer;
+    private float _timeBeforeBankruptcy;
+    private bool _negative = false;
 
-        if (player == 1 && previousCurrency < 0 && Currencies[player] >= 0)
-        {
-            CancelInvoke(nameof(Defeat));
-        }
-    }
-
-    public void RemoveCurrency(int player, float currency)
-    {
-        float previousCurrency = Currencies[player];
-        Currencies[player] -= currency;
-
-        if (player == 1 && Currencies[player] < 0 && previousCurrency >= 0)
-        {
-            Invoke(nameof(Defeat), BankruptcyTimeLimit);
-        }
-    }
 
     public float CalculateCost(int player, Building building)
     {
@@ -70,42 +51,41 @@ public class LevelManager : MonoBehaviour
         return finalCost;
     }
 
-    public void ConstructBuilding(int player, GridCell cell, BuildingInformation buildingInformation, bool free=false, bool instant = false)
+    public Building ConstructBuilding(int player, GridCell cell, BuildingInformation buildingInformation, bool free=false, bool instant = false)
     {
         if (!free)
         {
-            RemoveCurrency(player, CalculateCost(player, cell, buildingInformation));
+            Currencies[player] -= CalculateCost(player, cell, buildingInformation);
         }
         Building building = new GameObject("Building").AddComponent<Building>();
         building.Build(player, cell, buildingInformation, instant);
         NumBuildings[player]++;
+        return building;
     }
 
     public void Victory()
     {
-        UIManager.Instance.Unselect();
         Time.timeScale = 0f;
-        _victoryScreen.SetActive(true);
+        UIManager.Instance.ShowVictoryScreen();
     }
 
     public void Defeat()
     {
-        UIManager.Instance.Unselect();
         Time.timeScale = 0f;
-        _defeatScreen.SetActive(true);
+        UIManager.Instance.ShowDefeatScreen();
     }
 
     public void UpgradeBuilding(GridCell cell)
     {
         Building building = cell.ConstructedBuilding;
-        RemoveCurrency(building.Owner, CalculateCost(building.Owner, building.Cell, building.BuildingInformation.Evolution));
+        Currencies[building.Owner] -= CalculateCost(building.Owner, building.Cell, building.BuildingInformation.Evolution);
         building.Upgrade();
     }
 
     public void DowngradeBuilding(GridCell cell)
     {
         Building building = cell.ConstructedBuilding;
-        AddCurrency(building.Owner, CalculateCost(building.Owner, building.Cell, building.BuildingInformation)/2);
+        Currencies[building.Owner] += CalculateCost(building.Owner, building.Cell, building.BuildingInformation)/2;
         building.Downgrade();
     }
     private void Awake()
@@ -119,6 +99,7 @@ public class LevelManager : MonoBehaviour
         {
             Currencies[i] = _initialMoney;
             NumBuildings[i] = 0;
+            Incomes[i] = 0;
         }
 
         GridController.Cells = new GridCell[_mapWidth, _mapHeight];
@@ -128,5 +109,36 @@ public class LevelManager : MonoBehaviour
         _levelInitializer.InitializeLevel();
 
         Time.timeScale = 1.0f;
+    }
+
+    private void Update()
+    {
+        float previousPlayerCurrency = Currencies[1];
+
+        for (int i = 1; i <= _numPlayers; i++)
+        {
+            Currencies[i] += Incomes[i] * Time.deltaTime;
+        }
+
+        if (Currencies[1] < 0 && previousPlayerCurrency > 0)
+        {
+            _negative = true;
+            _timeBeforeBankruptcy = BankruptcyTimeLimit;
+            UIManager.Instance.ShowBankruptcyTimer();
+        }
+        else if (previousPlayerCurrency < 0 && Currencies[1] > 0)
+        {
+            _negative = false;
+            UIManager.Instance.HideBankruptcyTimer();
+        }
+
+        if (_negative)
+        {
+            _timeBeforeBankruptcy -= Time.deltaTime;
+            if (_timeBeforeBankruptcy <= 0)
+            {
+                Defeat();
+            }
+        }
     }
 }
