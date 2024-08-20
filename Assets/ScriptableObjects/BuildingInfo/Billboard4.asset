@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51434231898a4a4b8d9d89f34094015, type: 3}
   m_Name: Billboard4
   m_EditorClassIdentifier: 
-  _tile: {fileID: 11400000, guid: eed84101b69e8fd44bc6f932261128e2, type: 2}
+  _tiles:
+  - {fileID: 11400000, guid: eed84101b69e8fd44bc6f932261128e2, type: 2}
+  - {fileID: 11400000, guid: a7de596165d5c784cae9b552af86b03a, type: 2}
+  - {fileID: 11400000, guid: 9377fa440b920d941b20b1ca3a6fa879, type: 2}
+  - {fileID: 11400000, guid: dcc49269c24a70f4981be111f548d9af, type: 2}
   _name: Billboard IV
   _baseCost: 300
   _buildingTime: 20

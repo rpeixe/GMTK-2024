@@ -30,15 +30,10 @@ public class GridController : MonoBehaviour
     public bool TerrainView { get; private set; } = false;
 
 
-    public void SetBuilding(Vector2Int pos, Building building)
-    {
-        SetBuilding(Cells[pos.x, pos.y], building);
-    }
-
-    public void SetBuilding(GridCell cell, Building building)
+    public void SetBuilding(GridCell cell, Building building, int player)
     {
         cell.ConstructedBuilding = building;
-        _buildingTilemap.SetTile((Vector3Int)cell.Position, building.BuildingInformation.Tile);
+        _buildingTilemap.SetTile((Vector3Int)cell.Position, building.BuildingInformation.Tiles[player]);
     }
 
     public void SetTarget(Vector2Int pos, TileBase tile)
