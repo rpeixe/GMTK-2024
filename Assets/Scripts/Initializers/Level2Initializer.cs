@@ -21,15 +21,15 @@ public class Level2Initializer : MonoBehaviour, ILevelInitializer
         Building monument2 = LevelManager.Instance.ConstructBuilding(0, LevelManager.Instance.GridController.Cells[5,3], _monument, true, true);
         Building monument3 = LevelManager.Instance.ConstructBuilding(0, LevelManager.Instance.GridController.Cells[4,7], _monument, true, true);
 
-        monument1.OnBuildingCaptured += HandleMonumentCaptured;
-        monument2.OnBuildingCaptured += HandleMonumentCaptured;
-        monument3.OnBuildingCaptured += HandleMonumentCaptured;
+        Building.OnBuildingCaptured += HandleMonumentCaptured;
 
         _timeRemaining = _timeLimitSeconds;
     }
 
     private void HandleMonumentCaptured(Building building, int oldOwner, int newOwner)
     {
+        if (building.BuildingInformation.Type != BuildingInformation.BuildingType.monument) return;
+
         _monumentsCaptured++;
         if (_monumentsCaptured == 3)
         {

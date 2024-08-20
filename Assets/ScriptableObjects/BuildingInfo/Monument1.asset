@@ -22,4 +22,5 @@ MonoBehaviour:
   _evolution: {fileID: 0}
   _previous: {fileID: 0}
   _permitsBuildingWithinRange: 1
+  _type: 5
   _description: 

@@ -13,12 +13,13 @@ public class Level4Initializer : MonoBehaviour, ILevelInitializer
         Building hq1 = LevelManager.Instance.ConstructBuilding(1, LevelManager.Instance.GridController.Cells[14,4], _hq, true, true);
         Building hq2 = LevelManager.Instance.ConstructBuilding(2, LevelManager.Instance.GridController.Cells[5,14], _hq, true, true);
 
-        hq1.OnBuildingCaptured += HandleHqCaptured;
-        hq2.OnBuildingCaptured += HandleHqCaptured;
+        Building.OnBuildingCaptured += HandleHqCaptured;
     }
 
     private void HandleHqCaptured(Building building, int oldOwner, int newOwner)
     {
+        if (building.BuildingInformation.Type != BuildingInformation.BuildingType.hq) return;
+
         if (oldOwner == 1)
         {
             LevelManager.Instance.Defeat();

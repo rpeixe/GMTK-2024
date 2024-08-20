@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6675491054940716456
+--- !u!1 &3602130609217349374
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5425807454248290702}
-  - component: {fileID: 1632359797674939735}
+  - component: {fileID: 7301193399804810940}
+  - component: {fileID: 7807410000127419556}
   m_Layer: 0
-  m_Name: LevelManager
+  m_Name: AIManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5425807454248290702
+--- !u!4 &7301193399804810940
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6675491054940716456}
+  m_GameObject: {fileID: 3602130609217349374}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -32,22 +32,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1632359797674939735
+--- !u!114 &7807410000127419556
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6675491054940716456}
+  m_GameObject: {fileID: 3602130609217349374}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60c6b573cdc546a4c85168916c94ed19, type: 3}
+  m_Script: {fileID: 11500000, guid: fad3b92979c71fd06a6e2837f9413423, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gridController: {fileID: 0}
-  _numPlayers: 1
-  _initialMoney: 10
-  _mapWidth: 20
-  _mapHeight: 10
-  aiManagerPrefab: {fileID: 3602130609217349374, guid: 5ebc88b4cc604d945a2893016fd91cc6, type: 3}
-  BriberyFactor: 5
+  _officeBuilding: {fileID: 11400000, guid: 8ba6f0c514ba4ed4fa42f07be557b238, type: 2}
+  _billboardBuilding: {fileID: 11400000, guid: 94f105c28cae36247b099a16f0166060, type: 2}
+  _ornamentalBuilding: {fileID: 11400000, guid: 65d14c31345c21b468410bc865fb86a1, type: 2}
+  _entertainmentBuilding: {fileID: 11400000, guid: f8202ccdde528de459674e933eed9008, type: 2}
+  MyID: 0
+  GoalBuildings: []
+  CurrentGoal: {fileID: 0}
+  CurrentGoalInRange: 0
+  WarStarted: 0
+  IsBerzerk: 0
+  InPanic: 0

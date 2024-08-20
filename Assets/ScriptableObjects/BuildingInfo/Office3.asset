@@ -21,4 +21,6 @@ MonoBehaviour:
   _income: 1
   _evolution: {fileID: 11400000, guid: 4b08ab6beb2f11a41b1117d8d353ad85, type: 2}
   _previous: {fileID: 11400000, guid: 3131be8ecce79a347ba747c66cf70f02, type: 2}
+  _permitsBuildingWithinRange: 0
+  _type: 1
   _description: Certainly a great building for making profits!

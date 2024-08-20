@@ -22,4 +22,5 @@ MonoBehaviour:
   _evolution: {fileID: 11400000, guid: 3bb03ef6e7e5a284088a9cd53345eb16, type: 2}
   _previous: {fileID: 11400000, guid: 7f373b0e08555304189f438d1fa216a6, type: 2}
   _permitsBuildingWithinRange: 1
+  _type: 3
   _description: Such a nice description!

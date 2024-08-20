@@ -20,4 +20,7 @@ MonoBehaviour:
   _influenceValue: 25
   _income: 0
   _evolution: {fileID: 11400000, guid: cd658e09abdca594cacef35161ac0630, type: 2}
+  _previous: {fileID: 0}
+  _permitsBuildingWithinRange: 0
+  _type: 4
   _description: What a fun place to be!
