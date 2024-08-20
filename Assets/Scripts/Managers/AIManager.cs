@@ -438,6 +438,8 @@ public class AIManager : MonoBehaviour
         Vector2Int coords = new Vector2Int(-1, -1);
         int min_dist = 999;
         List<Vector2Int> cells = reference_building.GetInflucenceCellCoordinates();
+        if (cells.Count == 0)
+            return coords;
         for (int i = 0; i < System.Math.Min(cells.Count, 4); ++i)
         {
             int sel = rnd.Next(cells.Count);
@@ -458,6 +460,8 @@ public class AIManager : MonoBehaviour
         System.Random rnd = new System.Random();
         Vector2Int coords = new Vector2Int(-1, -1);
         List<Vector2Int> cells = reference_building.GetInflucenceCellCoordinates();
+        if (cells.Count == 0)
+            return coords;
         for (int i = 0; i < cells.Count; ++i)
         {
             int sel = rnd.Next(cells.Count);
@@ -483,9 +487,13 @@ public class AIManager : MonoBehaviour
         Vector2Int coords = new Vector2Int(-1, -1);
         int min_dist = 999;
         List<Vector2Int> cells = reference_building.GetInflucenceCellCoordinates();
+        if (cells.Count == 0)
+            return coords;
         for (int i = 0; i < 8; ++i)
         {
             int sel = rnd.Next(cells.Count);
+            Debug.Log($"sel: {sel}");
+            Debug.Log($"cells.Count: {cells.Count}");
             int dist = CurrentGoal.DistanceTo(cells[sel]);
             float build_cost;
             if (building_type == "Billboard")
@@ -509,6 +517,8 @@ public class AIManager : MonoBehaviour
         Vector2Int coords = new Vector2Int(-1, -1);
         int min_dist = 999;
         List<Vector2Int> cells = reference_building.GetInflucenceCellCoordinates();
+        if (cells.Count == 0)
+            return coords;
         for (int i = 0; i < System.Math.Min(cells.Count, 4); ++i)
         {
             int sel = rnd.Next(cells.Count);
