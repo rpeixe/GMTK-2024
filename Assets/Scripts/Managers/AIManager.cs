@@ -11,6 +11,7 @@ public class AIManager : MonoBehaviour
     public int MyID;
     public Dictionary<int, Building> HQs;
     public Dictionary<int, List<Building>> buildings_list { get; set; } = new Dictionary<int, List<Building>>();
+    public List<Building> expansion_buildings { get; set; } = new List<Building>();
     public List<int> buildings_dist { get; set; } = new List<int>();
     public List<Building> GoalBuildings;
     public Building CurrentGoal;
@@ -98,24 +99,24 @@ public class AIManager : MonoBehaviour
     }
 
     void GoalChanged() {
-        for (int i = 0; i < buildings_list[MyID].Count; ++i)
+        for (int i = 0; i < buildings_dist.Count; ++i)
         {
-            Vector2Int coords = buildings_list[MyID][i].Cell.Position;
+            Vector2Int coords = expansion_buildings[i].Cell.Position;
             Vector2Int goal_coords = CurrentGoal.Cell.Position;
             buildings_dist[i] = (coords[0] - goal_coords[0]) * (coords[0] - goal_coords[0]) +
                                 (coords[1] - goal_coords[1]) * (coords[1] - goal_coords[1]);
         }
-        for (int i = buildings_list[MyID].Count - 1; i > 0; --i)
+        for (int i = buildings_dist.Count - 1; i > 0; --i)
         {
             for (int j = i - 1; j >= 0; --j)
             {
                 if (buildings_dist[j] > buildings_dist[i])
                 {
-                    Building tmp_building = buildings_list[MyID][j];
+                    Building tmp_building = expansion_buildings[j];
                     int tmp_distance = buildings_dist[j];
-                    buildings_list[MyID][j] = buildings_list[MyID][i];
+                    expansion_buildings[j] = expansion_buildings[i];
                     buildings_dist[j] = buildings_dist[i];
-                    buildings_list[MyID][i] = tmp_building;
+                    expansion_buildings[i] = tmp_building;
                     buildings_dist[i] = tmp_distance;
                 }
             }
@@ -237,21 +238,25 @@ public class AIManager : MonoBehaviour
         buildings_list[new_building_id].Add(new_building);
         if (new_building_id == MyID)
         {
-            Vector2Int coords = new_building.Cell.Position;
-            Vector2Int goal_coords = CurrentGoal.Cell.Position;
-            int new_dist = (coords[0] - goal_coords[0]) * (coords[0] - goal_coords[0]) +
-                           (coords[1] - goal_coords[1]) * (coords[1] - goal_coords[1]);
-            buildings_dist.Add(new_dist);
-            for (int i = buildings_list[MyID].Count - 1; i > 0; --i)
+            if (new_building.BuildingInformation.Type != BuildingInformation.BuildingType.office) 
             {
-                if (buildings_dist[i] < buildings_dist[i - 1])
+                expansion_buildings.Add(new_building);
+                Vector2Int coords = new_building.Cell.Position;
+                Vector2Int goal_coords = CurrentGoal.Cell.Position;
+                int new_dist = (coords[0] - goal_coords[0]) * (coords[0] - goal_coords[0]) +
+                               (coords[1] - goal_coords[1]) * (coords[1] - goal_coords[1]);
+                buildings_dist.Add(new_dist);
+                for (int i = buildings_dist.Count - 1; i > 0; --i)
                 {
-                    Building tmp_building = buildings_list[MyID][i - 1];
-                    int tmp_distance = buildings_dist[i - 1];
-                    buildings_list[MyID][i - 1] = buildings_list[MyID][i];
-                    buildings_dist[i - 1] = buildings_dist[i];
-                    buildings_list[MyID][i] = tmp_building;
-                    buildings_dist[i] = tmp_distance;
+                    if (buildings_dist[i] < buildings_dist[i - 1])
+                    {
+                        Building tmp_building = expansion_buildings[i - 1];
+                        int tmp_distance = buildings_dist[i - 1];
+                        expansion_buildings[i - 1] = expansion_buildings[i];
+                        buildings_dist[i - 1] = buildings_dist[i];
+                        expansion_buildings[i] = tmp_building;
+                        buildings_dist[i] = tmp_distance;
+                    }
                 }
             }
             if (!IsBerzerk)
@@ -284,6 +289,15 @@ public class AIManager : MonoBehaviour
                 if (buildings_list[id][i] == remove_building)
                 {
                     buildings_list[id].RemoveAt(i);
+                    break;
+                }
+            }
+            n = expansion_buildings.Count;
+            for (int i = 0; i < n; ++i)
+            {
+                if (expansion_buildings[i] == remove_building)
+                {
+                    expansion_buildings.RemoveAt(i);
                     buildings_dist.RemoveAt(i);
                     break;
                 }
@@ -305,53 +319,53 @@ public class AIManager : MonoBehaviour
     {
         System.Random rnd = new System.Random();
         int prob = rnd.Next(100);
-        int n = buildings_list[MyID].Count;
+        int n = expansion_buildings.Count;
         switch (n)
         {
             case 0:
                 return null;
             case 1:
-                return buildings_list[MyID][0];
+                return expansion_buildings[0];
             case 2:
                 if (prob < 90)
-                    return buildings_list[MyID][1];
-                return buildings_list[MyID][0];
+                    return expansion_buildings[1];
+                return expansion_buildings[0];
             case 3:
                 if (prob < 80)
-                    return buildings_list[MyID][2];
+                    return expansion_buildings[2];
                 else if (prob < 95)
-                    return buildings_list[MyID][1];
-                return buildings_list[MyID][0];
+                    return expansion_buildings[1];
+                return expansion_buildings[0];
             case 4:
                 if (prob < 75)
-                    return buildings_list[MyID][3];
+                    return expansion_buildings[3];
                 else if (prob < 90)
-                    return buildings_list[MyID][2];
+                    return expansion_buildings[2];
                 else if (prob < 97)
-                    return buildings_list[MyID][1];
-                return buildings_list[MyID][0];
+                    return expansion_buildings[1];
+                return expansion_buildings[0];
             case 5:
                 if (prob < 70)
-                    return buildings_list[MyID][4];
+                    return expansion_buildings[4];
                 else if (prob < 85)
-                    return buildings_list[MyID][3];
+                    return expansion_buildings[3];
                 else if (prob < 92)
-                    return buildings_list[MyID][2];
+                    return expansion_buildings[2];
                 else if (prob < 98)
-                    return buildings_list[MyID][1];
-                return buildings_list[MyID][0];
+                    return expansion_buildings[1];
+                return expansion_buildings[0];
             default:
                 if (prob < 60)
-                    return buildings_list[MyID][n - 1];
+                    return expansion_buildings[n - 1];
                 else if (prob < 80)
-                    return buildings_list[MyID][n - 2];
+                    return expansion_buildings[n - 2];
                 else if (prob < 90)
-                    return buildings_list[MyID][n - 3];
+                    return expansion_buildings[n - 3];
                 else if (prob < 96)
-                    return buildings_list[MyID][n - 4];
+                    return expansion_buildings[n - 4];
                 else if (prob < 99)
-                    return buildings_list[MyID][n - 5];
-                return buildings_list[MyID][n - 6];
+                    return expansion_buildings[n - 5];
+                return expansion_buildings[n - 6];
         }
     }
 
@@ -360,59 +374,60 @@ public class AIManager : MonoBehaviour
     {
         System.Random rnd = new System.Random();
         int prob = rnd.Next(100);
-        switch (buildings_list[MyID].Count)
+        Debug.Log($"expansion_buildings.Count: {expansion_buildings.Count}");
+        switch (expansion_buildings.Count)
         {
             case 0:
                 return null;
             case 1:
-                return buildings_list[MyID][0];
+                return expansion_buildings[0];
             case 2:
                 if (prob < 90)
-                    return buildings_list[MyID][0];
-                return buildings_list[MyID][1];
+                    return expansion_buildings[0];
+                return expansion_buildings[1];
             case 3:
                 if (prob < 80)
-                    return buildings_list[MyID][0];
+                    return expansion_buildings[0];
                 else if (prob < 95)
-                    return buildings_list[MyID][1];
-                return buildings_list[MyID][2];
+                    return expansion_buildings[1];
+                return expansion_buildings[2];
             case 4:
                 if (prob < 75)
-                    return buildings_list[MyID][0];
+                    return expansion_buildings[0];
                 else if (prob < 90)
-                    return buildings_list[MyID][1];
+                    return expansion_buildings[1];
                 else if (prob < 97)
-                    return buildings_list[MyID][2];
-                return buildings_list[MyID][3];
+                    return expansion_buildings[2];
+                return expansion_buildings[3];
             case 5:
                 if (prob < 70)
-                    return buildings_list[MyID][0];
+                    return expansion_buildings[0];
                 else if (prob < 85)
-                    return buildings_list[MyID][1];
+                    return expansion_buildings[1];
                 else if (prob < 92)
-                    return buildings_list[MyID][2];
+                    return expansion_buildings[2];
                 else if (prob < 98)
-                    return buildings_list[MyID][3];
-                return buildings_list[MyID][4];
+                    return expansion_buildings[3];
+                return expansion_buildings[4];
             default:
                 if (prob < 60)
-                    return buildings_list[MyID][0];
+                    return expansion_buildings[0];
                 else if (prob < 80)
-                    return buildings_list[MyID][1];
+                    return expansion_buildings[1];
                 else if (prob < 90)
-                    return buildings_list[MyID][2];
+                    return expansion_buildings[2];
                 else if (prob < 96)
-                    return buildings_list[MyID][3];
+                    return expansion_buildings[3];
                 else if (prob < 99)
-                    return buildings_list[MyID][4];
-                return buildings_list[MyID][5];
+                    return expansion_buildings[4];
+                return expansion_buildings[5];
         }
     }
 
     // Logic to determine the building to bribe.    
     public Building SelectBuildingToBribe()
     {
-        int ai_buildings = buildings_list[MyID].Count;
+        int ai_buildings = expansion_buildings.Count;
         for (int player = 1; player <= LevelManager.Instance.NumPlayers; ++player)
         {
             if (player == MyID)
@@ -422,7 +437,7 @@ public class AIManager : MonoBehaviour
             {
                 for (int j = 0; j < ai_buildings; ++j)
                 {
-                    if ((buildings_list[MyID][j].InRange(buildings_list[player][i])) &&
+                    if ((expansion_buildings[j].InRange(buildings_list[player][i])) &&
                         (LevelManager.Instance.BriberyFactor * LevelManager.Instance.CalculateCost(MyID, buildings_list[player][i]) <=
                             LevelManager.Instance.Currencies[MyID]))
                         return buildings_list[player][i];
@@ -436,7 +451,7 @@ public class AIManager : MonoBehaviour
     {
         System.Random rnd = new System.Random();
         Vector2Int coords = new Vector2Int(-1, -1);
-        int min_dist = 999;
+        int max_dist = 0;
         List<Vector2Int> cells = reference_building.GetInflucenceCellCoordinates();
         if (cells.Count == 0)
             return coords;
@@ -445,10 +460,10 @@ public class AIManager : MonoBehaviour
             int sel = rnd.Next(cells.Count);
             int dist = HQs[1].DistanceTo(cells[sel]);
             // Precisa fazer o build information de office.
-            if ((min_dist > dist) &&
+            if ((max_dist < dist) &&
                 (LevelManager.Instance.CalculateCost(MyID, cells[sel], _officeBuilding) <= LevelManager.Instance.Currencies[MyID]))
             {
-                min_dist = dist;
+                max_dist = dist;
                 coords = cells[sel];
             }
         }
@@ -492,8 +507,6 @@ public class AIManager : MonoBehaviour
         for (int i = 0; i < 8; ++i)
         {
             int sel = rnd.Next(cells.Count);
-            Debug.Log($"sel: {sel}");
-            Debug.Log($"cells.Count: {cells.Count}");
             int dist = CurrentGoal.DistanceTo(cells[sel]);
             float build_cost;
             if (building_type == "Billboard")
@@ -562,21 +575,21 @@ public class AIManager : MonoBehaviour
 
     public void CheckDowngrades()
     {
-        int n = buildings_list[MyID].Count;
+        int n = expansion_buildings.Count;
         for (int i = 0; i < n; ++i)
         {
-            if (buildings_list[MyID][i].BuildingInformation.Previous == null)
+            if (expansion_buildings[i].BuildingInformation.Previous == null)
             {
                 continue;
             }
             System.Random rnd = new System.Random();
             int prob = rnd.Next(20);
-            List<Building> targets = buildings_list[MyID][i].GetTargets(false);
+            List<Building> targets = expansion_buildings[i].GetTargets(false);
             if ((targets.Count == 0) && (prob == 0) &&
-               LevelManager.Instance.CalculateCost(buildings_list[MyID][i].Owner, buildings_list[MyID][i].Cell,
-               buildings_list[MyID][i].BuildingInformation) / 2 <= LevelManager.Instance.Currencies[MyID])
+               LevelManager.Instance.CalculateCost(expansion_buildings[i].Owner, expansion_buildings[i].Cell,
+               expansion_buildings[i].BuildingInformation) / 2 <= LevelManager.Instance.Currencies[MyID])
             {
-                LevelManager.Instance.DowngradeBuilding(buildings_list[MyID][i].Cell);
+                LevelManager.Instance.DowngradeBuilding(expansion_buildings[i].Cell);
             }
         }
     }
