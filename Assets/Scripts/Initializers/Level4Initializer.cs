@@ -14,7 +14,7 @@ public class Level4Initializer : MonoBehaviour, ILevelInitializer
         d = _dialogueBox.GetComponent<Dialogue>();
         d.InitDialog();
         d.lines = new (int, string)[2];
-        d.lines[0] = (1, "I didn’t like a bit what you did to me. Now is the time for my revenge.");
+        d.lines[0] = (1, "I didnï¿½t like a bit what you did to me. Now is the time for my revenge.");
         d.lines[1] = (0, "Ok, no monuments! That is a death match in the old west style.");
         d.StartDialogue();
     }

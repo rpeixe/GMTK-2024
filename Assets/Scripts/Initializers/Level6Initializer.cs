@@ -21,7 +21,7 @@ public class Level6Initializer : MonoBehaviour, ILevelInitializer
         d.InitDialog();
         d.lines = new (int, string)[2];
         d.lines[0] = (1, "Bring it on. Do you think you got it? Now try beating me and my ally.");
-        d.lines[1] = (0, "Minamitorishima triangles me up, I mean… you got it.");
+        d.lines[1] = (0, "Minamitorishima triangles me up, I meanï¿½ you got it.");
         d.StartDialogue();
     }
     public void InitializeLevel()
