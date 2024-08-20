@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: fad3b92979c71fd06a6e2837f9413423
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - _officeBuilding: {fileID: 11400000, guid: 8ba6f0c514ba4ed4fa42f07be557b238, type: 2}
+  - _billboardBuilding: {fileID: 11400000, guid: 94f105c28cae36247b099a16f0166060, type: 2}
+  - _ornamentalBuilding: {fileID: 11400000, guid: 65d14c31345c21b468410bc865fb86a1, type: 2}
+  - _entertainmentBuilding: {fileID: 11400000, guid: f8202ccdde528de459674e933eed9008, type: 2}
+  - CurrentGoal: {instanceID: 0}
+  - manager: {instanceID: 0}
+  executionOrder: 100
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
