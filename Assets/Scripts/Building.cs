@@ -251,12 +251,14 @@ public class Building : MonoBehaviour
             ToggleBuilding(false);
             _generateIncome.ToggleIncome(false);
             Owner = player;
-            ToggleBuilding(true);
             _generateIncome.ToggleIncome(true);
+            ToggleBuilding(true);
         }
         else
         {
+            _generateIncome.ToggleIncome(false);
             Owner = player;
+            _generateIncome.ToggleIncome(true);
         }
 
         LevelManager.Instance.NumBuildings[Owner]++;
@@ -280,14 +282,15 @@ public class Building : MonoBehaviour
 
     public void ReduceCapture(Building target)
     {
-        if (target.Damage[Owner] < Math.Abs(marketing))
+        for (int i = 1; i < LevelManager.Instance.NumPlayers; i++)
         {
-            target.Damage[Owner] = 0;
-            Debug.Log(target.Damage[Owner]);
-            return;
+            if (target.Damage[i] < Math.Abs(marketing))
+            {
+                target.Damage[i] = 0;
+                return;
+            }
+            target.Damage[i] -= marketing;
         }
-        target.Damage[Owner] += marketing;
-        Debug.Log(target.Damage[Owner]);
     }
 
     public void Capture(Building target)
@@ -315,7 +318,7 @@ public class Building : MonoBehaviour
         }
         _generateIncome.Init(this);
         BuildingInformation = buildingInformation;
-        _captureTick = 1 / MarketingSpeed;
+        _captureTick = 1f / MarketingSpeed;
         marketing = BuildingInformation.InfluenceValue;
         LevelManager.Instance.GridController.SetBuilding(cell, this);
 
