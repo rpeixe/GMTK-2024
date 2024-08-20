@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
+using static UnityEngine.GraphicsBuffer;
 
 public class Building : MonoBehaviour
 {
@@ -12,11 +14,15 @@ public class Building : MonoBehaviour
     public Dictionary<int, float> Damage { get; set; } = new Dictionary<int, float>();
     public float MarketingSpeed { get; set; } = 1f;
     
-    public Building Target { get; set; } = null;
+    public List<Building> Targets { get; set; } = new List<Building>();
 
     private float marketing;
 
-    private float _cooldownTime = 0.2f;
+    private bool _searchingTarget = true;
+
+    private float _searchTargetTick = 0.1f;
+
+    private float _captureTick = 0.2f;
  
     private bool _onCooldown = false;
     private GenerateIncome _generateIncome;
@@ -27,7 +33,12 @@ public class Building : MonoBehaviour
     public event Action<Building, int, int> OnBuildingCaptured;
     public event Action<Building, int> OnBuildingUpgraded;
 
-    public bool InRange(Building Target)
+    public bool IsAllied(Building target)
+    {
+        return Owner == target.Owner;
+    }
+
+    public bool InRange(Building target)
     {
         int radius = BuildingInformation.InfluenceRadius;
         for (int x = -radius; x <= radius; x++)
@@ -38,7 +49,8 @@ public class Building : MonoBehaviour
                 {
                     continue;
                 }
-                if (Target.Cell.Position == new Vector2Int(Cell.Position.x + x, Cell.Position.y + y))
+                if (target.Cell.Position == new Vector2Int(Math.Clamp(Cell.Position.x + x,0,LevelManager.Instance.MapWidth-1), 
+                                                           Math.Clamp(Cell.Position.y + y,0, LevelManager.Instance.MapHeight-1)))
                 {
                     return true;
                 }
@@ -48,11 +60,11 @@ public class Building : MonoBehaviour
         return false;
     }
 
-    public ArrayList GetTargets()
+    public List<Building> GetTargets(bool isAllied)
     {
         
         var cells = LevelManager.Instance.GridController.Cells;
-        var targetList = new ArrayList();
+        var targetList = new List<Building>();
         int radius = BuildingInformation.InfluenceRadius;
         for (int x = -radius; x <= radius; x++)
         {
@@ -66,8 +78,11 @@ public class Building : MonoBehaviour
                 var xPos = Mathf.Clamp(Cell.Position.x + x, 0, LevelManager.Instance.MapWidth-1);
                 var yPos = Mathf.Clamp(Cell.Position.y + y, 0, LevelManager.Instance.MapHeight-1);
                 Building target = cells[xPos, yPos].ConstructedBuilding;
-
-                if (cells[xPos,yPos].ConstructedBuilding?.Owner != Owner)
+                if (cells[xPos, yPos].ConstructedBuilding == null || target == this)
+                {
+                    continue;
+                }
+                if (IsAllied(cells[xPos, yPos].ConstructedBuilding) == isAllied)
                 {
                     targetList.Add(target);
                 }
@@ -97,8 +112,8 @@ public class Building : MonoBehaviour
                     continue;
                 }
 
-                var xPos = Cell.Position.x + x;
-                var yPos = Cell.Position.y + y;
+                var xPos = Mathf.Clamp(Cell.Position.x + x,0, LevelManager.Instance.MapWidth-1);
+                var yPos = Mathf.Clamp(Cell.Position.y + y,0, LevelManager.Instance.MapHeight-1);
 
                 if (xPos >= LevelManager.Instance.MapWidth || yPos >= LevelManager.Instance.MapHeight
                     || xPos < 0 || yPos < 0)
@@ -198,19 +213,37 @@ public class Building : MonoBehaviour
         OnBuildingCaptured?.Invoke(this, oldOwner, Owner);
     }
 
-    public IEnumerator BuildingCooldown()
+    public IEnumerator SearchTargetsTick()
+    {
+        _searchingTarget = false;
+        yield return new WaitForSeconds(_searchTargetTick);
+        _searchingTarget = true;
+    }
+
+    public IEnumerator CaptureTick()
     {
         _onCooldown = true;
-        yield return new WaitForSeconds(_cooldownTime);
+        yield return new WaitForSeconds(_captureTick);
         _onCooldown = false;
 
+    }
+
+    public void ReduceCapture(Building target)
+    {
+        if (target.Damage[Owner] < Math.Abs(marketing))
+        {
+            target.Damage[Owner] = 0;
+            Debug.Log(target.Damage[Owner]);
+            return;
+        }
+        target.Damage[Owner] += marketing;
+        Debug.Log(target.Damage[Owner]);
     }
 
     public void Capture(Building target)
     {
         if (Owner == target.Owner)
         {
-            Target = null;
             return;
         }
 
@@ -219,7 +252,6 @@ public class Building : MonoBehaviour
         if (target.Damage[Owner] >= target.BuildingInformation.BaseCost)
         {
             target.ChangeOwner(Owner);
-            Target = null;
         }
     }
 
@@ -233,7 +265,7 @@ public class Building : MonoBehaviour
         }
         _generateIncome.Init(this);
         BuildingInformation = buildingInformation;
-        _cooldownTime = 1 / MarketingSpeed;
+        _captureTick = 1 / MarketingSpeed;
         marketing = BuildingInformation.InfluenceValue;
         LevelManager.Instance.GridController.SetBuilding(cell, this);
 
@@ -308,21 +340,40 @@ public class Building : MonoBehaviour
 
     public void Update()
     {
-        if (Owner == 0)
+        //checks if target is allied or enemy
+        bool targetAllied = marketing < 0;
+        if (Owner == 0 || marketing == 0)
         {
             
         }
 
-        else if (Target == null)
+        else if (_searchingTarget)
         {
-            Target = GetFirstTarget();
+            Targets = GetTargets(targetAllied);
+            StartCoroutine(SearchTargetsTick());
         }
 
-        else if (!_onCooldown && !Deactivated)
+        if (!_onCooldown && !Deactivated && Targets != null)
         {
-            Capture(Target);
-            StartCoroutine(BuildingCooldown());
+            if (targetAllied)
+            {
+                foreach (var target in Targets)
+                {
+                    ReduceCapture(target);
+                }
+            }
+
+            else
+            {
+                foreach (var target in Targets) 
+                {
+                    Capture(target);
+                }
+            }
+             
+            StartCoroutine(CaptureTick());
         }
+
     }
 
 }
