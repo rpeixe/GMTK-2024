@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51434231898a4a4b8d9d89f34094015, type: 3}
   m_Name: HQ2
   m_EditorClassIdentifier: 
-  _tile: {fileID: 11400000, guid: ad3a494ac0fe6f5439a23e87ecaf792c, type: 2}
+  _tiles:
+  - {fileID: 11400000, guid: ad3a494ac0fe6f5439a23e87ecaf792c, type: 2}
+  - {fileID: 11400000, guid: 57995894492aa2f4ca8fa516336d3dfe, type: 2}
+  - {fileID: 11400000, guid: daad81bb1de22be44b428e714e0125b4, type: 2}
+  - {fileID: 11400000, guid: b939672cb04063e41ad578a3608c3fcb, type: 2}
   _name: HQ II
   _baseCost: 25
   _buildingTime: 5
@@ -22,4 +26,5 @@ MonoBehaviour:
   _evolution: {fileID: 11400000, guid: 40bd74df7a082fd468ede843a093717c, type: 2}
   _previous: {fileID: 11400000, guid: 3a1db6018d1d1d5409d7b95b29b4ebf4, type: 2}
   _permitsBuildingWithinRange: 1
+  _type: 0
   _description: Main Structure

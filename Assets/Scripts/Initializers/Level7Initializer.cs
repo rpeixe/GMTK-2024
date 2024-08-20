@@ -27,6 +27,30 @@ public class Level7Initializer : MonoBehaviour, ILevelInitializer
         Building monument8 = LevelManager.Instance.ConstructBuilding(0, LevelManager.Instance.GridController.Cells[7, 13], _monument, true, true);
 
         Building.OnBuildingCaptured += HandleBuildingCaptured;
+
+
+        Dictionary<int, Building> hqDicts = new Dictionary<int, Building>();
+        hqDicts[1] = hq1;
+        hqDicts[2] = hq2;
+
+        AIManager ai1 = Instantiate(LevelManager.Instance.aiManagerPrefab).GetComponent<AIManager>();
+
+        ai1.setPlayers(2);
+        ai1.SetHQs(hqDicts);
+        ai1.SetGoals(new List<Building>() { monument5, monument6, monument4, monument7, monument3, monument8, monument2, monument1, hq1 });
+
+        ai1.AddBuilding(hq1);
+        ai1.AddBuilding(hq2);
+        ai1.AddBuilding(monument1);
+        ai1.AddBuilding(monument2);
+        ai1.AddBuilding(monument3);
+        ai1.AddBuilding(monument4);
+        ai1.AddBuilding(monument5);
+        ai1.AddBuilding(monument6);
+        ai1.AddBuilding(monument7);
+        ai1.AddBuilding(monument8);
+
+        ai1.StartPlaying();
     }
 
     private void HandleBuildingCaptured(Building building, int oldOwner, int newOwner)
