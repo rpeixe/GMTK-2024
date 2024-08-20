@@ -184,8 +184,10 @@ public class Building : MonoBehaviour
         if (BuildingInformation.PermitsBuildingWithinRange)
         {
             ToggleBuilding(false);
+            _generateIncome.ToggleIncome(false);
             Owner = player;
             ToggleBuilding(true);
+            _generateIncome.ToggleIncome(true);
         }
         else
         {
@@ -269,6 +271,7 @@ public class Building : MonoBehaviour
         {
             ToggleBuilding(false);
         }
+        _generateIncome.ToggleIncome(false);
     }
 
     public void Activate()
@@ -279,13 +282,7 @@ public class Building : MonoBehaviour
         {
             ToggleBuilding(true);
         }
-    }
-
-    public void Sell()
-    {
-        LevelManager.Instance.AddCurrency(Owner, BuildingInformation.BaseCost / 10);
-        LevelManager.Instance.GridController.SetBuilding(Cell, null);
-        Destroy(gameObject);
+        _generateIncome.ToggleIncome(true);
     }
 
     public void Upgrade()
@@ -294,12 +291,18 @@ public class Building : MonoBehaviour
         {
             ToggleBuilding(false);
         }
+        _generateIncome.ToggleIncome(false);
         Build(Owner, Cell, BuildingInformation.Evolution);
         OnBuildingUpgraded?.Invoke(this, Owner);
     }
 
     public void Downgrade()
     {
+        if (BuildingInformation.PermitsBuildingWithinRange)
+        {
+            ToggleBuilding(false);
+        }
+        _generateIncome.ToggleIncome(false);
         Build(Owner, Cell, BuildingInformation.Previous);
     }
 

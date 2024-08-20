@@ -14,6 +14,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _defeatScreen;
     [SerializeField] private BuildingInfoDisplay _buildingInfoDisplay;
     [SerializeField] private TextMeshProUGUI _currencyText;
+    [SerializeField] private TextMeshProUGUI _incomeText;
+    [SerializeField] private GameObject _bankruptcyText;
 
     public static UIManager Instance { get; private set; }
 
@@ -67,6 +69,7 @@ public class UIManager : MonoBehaviour
     public void UpdateCurrencyText()
     {
         _currencyText.text = LevelManager.Instance.Currencies[1].ToString("00.00");
+        _incomeText.text = LevelManager.Instance.PlayerIncome.ToString("00.00");
     }
 
     public void ShowVictoryScreen()
@@ -79,5 +82,15 @@ public class UIManager : MonoBehaviour
     {
         Unselect();
         _defeatScreen.SetActive(true);
+    }
+
+    public void ShowBankruptcyTimer()
+    {
+        _bankruptcyText.SetActive(true);
+    }
+
+    public void HideBankruptcyTimer()
+    {
+        _bankruptcyText.SetActive(false);
     }
 }
