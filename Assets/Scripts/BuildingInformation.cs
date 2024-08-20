@@ -16,7 +16,7 @@ public class BuildingInformation : ScriptableObject
         monument,
     }
 
-    [SerializeField] private TileBase _tile;
+    [SerializeField] private TileBase[] _tiles;
     [SerializeField] private string _name;
     [SerializeField] private float _baseCost;
     [SerializeField] private int _buildingTime;
@@ -29,7 +29,7 @@ public class BuildingInformation : ScriptableObject
     [SerializeField] private BuildingType _type;
     [TextArea][SerializeField] private string _description;
 
-    public TileBase Tile => _tile;
+    public TileBase[] Tiles => _tiles;
     public string Name => _name;
     public float BaseCost => _baseCost;
     public BuildingType Type => _type;

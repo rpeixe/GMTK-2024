@@ -320,7 +320,7 @@ public class Building : MonoBehaviour
         BuildingInformation = buildingInformation;
         _captureTick = 1f / MarketingSpeed;
         marketing = BuildingInformation.InfluenceValue;
-        LevelManager.Instance.GridController.SetBuilding(cell, this);
+        LevelManager.Instance.GridController.SetBuilding(cell, this, player);
 
         if (_initialBuild)
         {
