@@ -11,7 +11,6 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private int _mapHeight = 10;
 
     public static LevelManager Instance { get; private set; }
-    public float BriberyFactor = 5.0f;
     public GridController GridController => _gridController;
     public int NumPlayers => _numPlayers;
     public Dictionary<int, float> Currencies { get; set; } = new Dictionary<int, float>();
@@ -29,11 +28,6 @@ public class LevelManager : MonoBehaviour
     private bool _negative = false;
 
 
-    public float CalculateCost(int player, Building building)
-    {
-        return CalculateCost(player, building.Cell, building.BuildingInformation);
-    }
-    
     public float CalculateCost(int player, Vector2Int pos, BuildingInformation buildingInformation)
     {
         return CalculateCost(player, GridController.Cells[pos.x, pos.y], buildingInformation);

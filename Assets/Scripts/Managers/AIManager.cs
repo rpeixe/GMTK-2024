@@ -19,7 +19,7 @@ public class AIManager : MonoBehaviour
     public bool IsBerzerk = false;
     public bool InPanic = false;
     
- //   AIBaseState currentState;
+   AIBaseState currentState;
    public AIPeaceState PeaceState = new AIPeaceState();
    public AIWarState WarState = new AIWarState();
    public AIBerzerkState BerzerkState = new AIBerzerkState();
