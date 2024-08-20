@@ -21,7 +21,7 @@ MonoBehaviour:
   _baseCost: 2000
   _buildingTime: 40
   _influenceRadius: 12
-  _influenceValue: 60
+  _influenceValue: 0
   _income: 10
   _evolution: {fileID: 11400000, guid: f226d500c9e49354fa4e9d8d374ab691, type: 2}
   _previous: {fileID: 11400000, guid: 69b7dfc22df25c844beed6964ca58d69, type: 2}

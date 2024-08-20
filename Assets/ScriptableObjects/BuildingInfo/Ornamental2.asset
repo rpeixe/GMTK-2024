@@ -27,4 +27,4 @@ MonoBehaviour:
   _previous: {fileID: 11400000, guid: 65d14c31345c21b468410bc865fb86a1, type: 2}
   _permitsBuildingWithinRange: 0
   _type: 2
-  _description: Definitely an inspiring design!
+  _description: Reduces capture.

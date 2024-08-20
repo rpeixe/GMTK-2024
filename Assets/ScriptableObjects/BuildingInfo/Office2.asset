@@ -27,4 +27,4 @@ MonoBehaviour:
   _previous: {fileID: 11400000, guid: 8ba6f0c514ba4ed4fa42f07be557b238, type: 2}
   _permitsBuildingWithinRange: 0
   _type: 1
-  _description: Certainly a great building for making profits!
+  _description: ' increase your income by a good amount.'
