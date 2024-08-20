@@ -132,6 +132,11 @@ public class GridController : MonoBehaviour
         return gridPos;
     }
 
+    public Vector2 GetWorldPos(Vector2Int gridPos)
+    {
+        return _grid.CellToWorld((Vector3Int)gridPos);
+    }
+
     private void HandleBuildingClick(Vector2 mousePosition)
     {
         Vector2Int gridPos = GetTilePos(mousePosition);

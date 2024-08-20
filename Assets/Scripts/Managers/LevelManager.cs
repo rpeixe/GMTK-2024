@@ -11,6 +11,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private int _mapHeight = 10;
     [SerializeField] private AudioClip _victorySound;
     [SerializeField] private AudioClip _defeatSound;
+    [SerializeField] private GameObject buildingPrefab;
     public GameObject aiManagerPrefab;
 
     public static LevelManager Instance { get; private set; }
@@ -60,7 +61,7 @@ public class LevelManager : MonoBehaviour
         {
             Currencies[player] -= CalculateCost(player, cell, buildingInformation);
         }
-        Building building = new GameObject("Building").AddComponent<Building>();
+        Building building = Instantiate(buildingPrefab).GetComponent<Building>();
         building.Build(player, cell, buildingInformation, instant);
         NumBuildings[player]++;
         return building;
