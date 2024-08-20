@@ -10,16 +10,23 @@ using UnityEngine;
 
 public class AIPeaceState : AIBaseState
 {
-    float[] IncomeLevel = new float[5] { 0.1f, 1.2f, 2f, 4f, 10f };
+    float[] IncomeLevel = new float[5] { 0.3f, 1f, 2f, 4f, 10f };
     int[,] BuildChoice = new int[6, 5]
     {
-        {80, 80, 80, 100, 100},
-        {0, 0, 80, 100, 100},
-        {30, 40, 80, 100, 100},
-        {20, 50, 90, 100, 100},
-        {10, 40, 90, 100, 100},
-        {0, 30, 100, 100, 100}
+        {100, 100, 100, 100, 100},
+        {00, 0, 100, 100, 100},
+        {00, 0, 100, 100, 100},
+        {00, 0, 100, 100, 100},
+        {00, 0, 100, 100, 100},
+        {00, 00, 100, 100, 100}
     };
+        /*{100, 100, 100, 100, 100},
+        {30, 60, 100, 100, 100},
+        {30, 40, 100, 100, 100},
+        {20, 30, 100, 100, 100},
+        {10, 20, 100, 100, 100},
+        {0, 20, 100, 100, 100}*/
+
     public override void EnterState(AIManager ai) { }
 
     public override void UpdateState(AIManager ai)

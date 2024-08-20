@@ -11,7 +11,7 @@ using UnityEngine;
 
 public class AIWarState : AIBaseState 
 {
-    float[] IncomeLevel = new float[5]{10, 20, 40,80, 160};
+    float[] IncomeLevel = new float[5]{1f, 2f, 4f, 10f, 20f};
     int[,] BuildChoice = new int[6,5]  {{60, 75, 90, 100, 100},
 		    			{40, 60, 90, 100, 100},
 		    			{20, 40, 90, 100, 100},

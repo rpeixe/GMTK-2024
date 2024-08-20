@@ -81,6 +81,7 @@ public class AIManager : MonoBehaviour
             if (GoalBuildings[i].Owner != MyID)
             {
                 CurrentGoal = GoalBuildings[i];
+                GoalChanged();
                 break;
             }
         }
@@ -94,6 +95,31 @@ public class AIManager : MonoBehaviour
             }
         }
         CurrentGoalInRange = false;
+    }
+
+    void GoalChanged() {
+        for (int i = 0; i < buildings_list[MyID].Count; ++i)
+        {
+            Vector2Int coords = buildings_list[MyID][i].Cell.Position;
+            Vector2Int goal_coords = CurrentGoal.Cell.Position;
+            buildings_dist[i] = (coords[0] - goal_coords[0]) * (coords[0] - goal_coords[0]) +
+                                (coords[1] - goal_coords[1]) * (coords[1] - goal_coords[1]);
+        }
+        for (int i = buildings_list[MyID].Count - 1; i > 0; --i)
+        {
+            for (int j = i - 1; j >= 0; --j)
+            {
+                if (buildings_dist[j] > buildings_dist[i])
+                {
+                    Building tmp_building = buildings_list[MyID][j];
+                    int tmp_distance = buildings_dist[j];
+                    buildings_list[MyID][j] = buildings_list[MyID][i];
+                    buildings_dist[j] = buildings_dist[i];
+                    buildings_list[MyID][i] = tmp_building;
+                    buildings_dist[i] = tmp_distance;
+                }
+            }
+        }
     }
 
     // Called when AI adds a new building, to see if target is in range.
@@ -214,7 +240,7 @@ public class AIManager : MonoBehaviour
             Vector2Int coords = new_building.Cell.Position;
             Vector2Int goal_coords = CurrentGoal.Cell.Position;
             int new_dist = (coords[0] - goal_coords[0]) * (coords[0] - goal_coords[0]) +
-                          (coords[1] - goal_coords[1]) * (coords[1] - goal_coords[1]);
+                           (coords[1] - goal_coords[1]) * (coords[1] - goal_coords[1]);
             buildings_dist.Add(new_dist);
             for (int i = buildings_list[MyID].Count - 1; i > 0; --i)
             {
@@ -456,7 +482,7 @@ public class AIManager : MonoBehaviour
         Vector2Int coords = new Vector2Int(-1, -1);
         int min_dist = 999;
         List<Vector2Int> cells = reference_building.GetInflucenceCellCoordinates();
-        for (int i = 0; i < System.Math.Min(cells.Count, 4); ++i)
+        for (int i = 0; i < 8; ++i)
         {
             int sel = rnd.Next(cells.Count);
             int dist = CurrentGoal.DistanceTo(cells[sel]);

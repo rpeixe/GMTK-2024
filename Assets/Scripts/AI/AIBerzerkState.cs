@@ -24,7 +24,7 @@ public class AIBerzerkState : AIBaseState
         System.Random rnd = new System.Random();
         int prob = rnd.Next(100);
         float current_income = LevelManager.Instance.Incomes[ai.MyID];
-        if ((current_income < 10) && (prob < 50)) {
+        if ((current_income < 2) && (prob < 50)) {
             Building local_building = ai.SelectDefensiveBuilding();
             Vector2Int location = ai.NewOfficeCoordinates(local_building);
             if (location[0] != -1)
