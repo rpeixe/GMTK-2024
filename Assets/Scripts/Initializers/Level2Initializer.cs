@@ -10,12 +10,25 @@ public class Level2Initializer : MonoBehaviour, ILevelInitializer
     [SerializeField] private BuildingInformation _monument;
     [SerializeField] private TextMeshProUGUI _timerText;
     [SerializeField] private float _timeLimitSeconds;
+    [SerializeField] private GameObject _dialogueBox;
 
     private int _monumentsCaptured = 0;
     private float _timeRemaining;
+    private Dialogue d;
 
+    public void Dialogue()
+    {
+        d = _dialogueBox.GetComponent<Dialogue>();
+        d.InitDialog();
+        d.lines = new (int, string)[2];
+        d.lines[0] = (2, "Hey, you. Nice Job at Jeju Island. Can you do the same here? I will invest in your company.");
+        d.lines[1] = (0, "Wow, three monuments in Bruges, and with support. I am on it!");
+        d.StartDialogue();
+    }
     public void InitializeLevel()
     {
+        Dialogue();
+        d.Unpause();
         LevelManager.Instance.ConstructBuilding(1, LevelManager.Instance.GridController.Cells[16,5], _hq, true, true);
         Building monument1 = LevelManager.Instance.ConstructBuilding(0, LevelManager.Instance.GridController.Cells[10,5], _monument, true, true);
         Building monument2 = LevelManager.Instance.ConstructBuilding(0, LevelManager.Instance.GridController.Cells[5,3], _monument, true, true);

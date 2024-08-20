@@ -9,13 +9,24 @@ public class Level6Initializer : MonoBehaviour, ILevelInitializer
     [SerializeField] private BuildingInformation _hq;
     [SerializeField] private BuildingInformation _hq10;
     [SerializeField] private BuildingInformation _monument;
+    [SerializeField] private GameObject _dialogueBox;
+    private Dialogue d;
 
     private int _player1Hqs = 1;
     private int _player2Hqs = 1;
     private int _player3Hqs = 1;
-
+    public void Dialogue()
+    {
+        d = _dialogueBox.GetComponent<Dialogue>();
+        d.InitDialog();
+        d.lines = new (int, string)[2];
+        d.lines[0] = (1, "Bring it on. Do you think you got it? Now try beating me and my ally.");
+        d.lines[1] = (0, "Minamitorishima triangles me up, I mean… you got it.");
+        d.StartDialogue();
+    }
     public void InitializeLevel()
     {
+        Dialogue();
         Building hq1 = LevelManager.Instance.ConstructBuilding(1, LevelManager.Instance.GridController.Cells[13, 1], _hq, true, true);
         Building hq2 = LevelManager.Instance.ConstructBuilding(2, LevelManager.Instance.GridController.Cells[17, 17], _hq, true, true);
         Building hq3 = LevelManager.Instance.ConstructBuilding(3, LevelManager.Instance.GridController.Cells[1, 13], _hq, true, true);

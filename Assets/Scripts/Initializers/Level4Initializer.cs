@@ -7,9 +7,20 @@ using UnityEngine;
 public class Level4Initializer : MonoBehaviour, ILevelInitializer
 {
     [SerializeField] private BuildingInformation _hq;
-
+    [SerializeField] private GameObject _dialogueBox;
+    private Dialogue d;
+    public void Dialogue()
+    {
+        d = _dialogueBox.GetComponent<Dialogue>();
+        d.InitDialog();
+        d.lines = new (int, string)[2];
+        d.lines[0] = (1, "I didn’t like a bit what you did to me. Now is the time for my revenge.");
+        d.lines[1] = (0, "Ok, no monuments! That is a death match in the old west style.");
+        d.StartDialogue();
+    }
     public void InitializeLevel()
     {
+        Dialogue();
         Building hq1 = LevelManager.Instance.ConstructBuilding(1, LevelManager.Instance.GridController.Cells[14,4], _hq, true, true);
         Building hq2 = LevelManager.Instance.ConstructBuilding(2, LevelManager.Instance.GridController.Cells[5,14], _hq, true, true);
 
