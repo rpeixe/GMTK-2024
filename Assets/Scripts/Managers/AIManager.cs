@@ -285,6 +285,7 @@ public class AIManager : MonoBehaviour
                 {
                     buildings_list[id].RemoveAt(i);
                     buildings_dist.RemoveAt(i);
+                    break;
                 }
             }
             if (IsBerzerk)
