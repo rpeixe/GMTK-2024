@@ -23,4 +23,4 @@ MonoBehaviour:
   _previous: {fileID: 0}
   _permitsBuildingWithinRange: 1
   _type: 0
-  _description: Main Structure
+  _description: Main structure.

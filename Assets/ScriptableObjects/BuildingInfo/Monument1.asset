@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51434231898a4a4b8d9d89f34094015, type: 3}
   m_Name: Monument1
   m_EditorClassIdentifier: 
-  _tile: {fileID: 11400000, guid: c1a707ac670b29741b9b92ab0cdf24e0, type: 2}
+  _tiles: []
   _name: Monument
   _baseCost: 150
   _buildingTime: 20
@@ -23,4 +23,4 @@ MonoBehaviour:
   _previous: {fileID: 0}
   _permitsBuildingWithinRange: 1
   _type: 5
-  _description: 
+  _description: Gives a huge income boost.

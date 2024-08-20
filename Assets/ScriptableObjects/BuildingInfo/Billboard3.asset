@@ -27,4 +27,4 @@ MonoBehaviour:
   _previous: {fileID: 11400000, guid: 7f373b0e08555304189f438d1fa216a6, type: 2}
   _permitsBuildingWithinRange: 1
   _type: 3
-  _description: Such a nice description!
+  _description: makes you construct further and capture buildings
