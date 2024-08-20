@@ -12,14 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51434231898a4a4b8d9d89f34094015, type: 3}
   m_Name: HQ3
   m_EditorClassIdentifier: 
-  _tile: {fileID: 11400000, guid: ad3a494ac0fe6f5439a23e87ecaf792c, type: 2}
+  _tiles: []
   _name: HQ III
   _baseCost: 50
   _buildingTime: 10
   _influenceRadius: 4
-  _influenceValue: 2
+  _influenceValue: 0
   _income: 1
   _evolution: {fileID: 11400000, guid: 77b15acea7950ef4db05d3c4679d6d50, type: 2}
   _previous: {fileID: 11400000, guid: 50115bdfc42abc243930508048143b74, type: 2}
   _permitsBuildingWithinRange: 1
-  _description: Main Structure
+  _type: 0
+  _description: Main structure.

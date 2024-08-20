@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51434231898a4a4b8d9d89f34094015, type: 3}
   m_Name: Ornamental2
   m_EditorClassIdentifier: 
-  _tile: {fileID: 11400000, guid: 7a43d249d0b2a1d4897309ef2d3bfecd, type: 2}
+  _tiles: []
   _name: Ornamental II
   _baseCost: 40
   _buildingTime: 10
@@ -23,4 +23,4 @@ MonoBehaviour:
   _previous: {fileID: 11400000, guid: 65d14c31345c21b468410bc865fb86a1, type: 2}
   _permitsBuildingWithinRange: 0
   _type: 2
-  _description: Definitely an inspiring design!
+  _description: Reduces capture.
