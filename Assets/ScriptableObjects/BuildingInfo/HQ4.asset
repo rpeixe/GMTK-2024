@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51434231898a4a4b8d9d89f34094015, type: 3}
   m_Name: HQ4
   m_EditorClassIdentifier: 
-  _tile: {fileID: 11400000, guid: b3b43b0433c5630439406c0fe2fdc1a7, type: 2}
+  _tile: {fileID: 11400000, guid: ad3a494ac0fe6f5439a23e87ecaf792c, type: 2}
   _name: HQ IV
   _baseCost: 100
   _buildingTime: 15

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,30 +6,29 @@ using UnityEngine;
 public class GenerateIncome : MonoBehaviour
 {
     private Building _parentBuilding;
-
-    private void Update()
-    {
-        if (_parentBuilding != null && !_parentBuilding.Deactivated)
-        {
-            AddIncome();
-        }
-    }
+    private bool _applyingIncome;
 
     public void Init(Building parentBuilding)
     {
         _parentBuilding = parentBuilding;
     }
 
-    public void AddIncome()
+    public void ToggleIncome(bool boolean)
     {
-        float income = _parentBuilding.BuildingInformation.Income * _parentBuilding.Cell.RegionClass.ResourceGenerationFactor;
-        if (income > 0)
+        if (_applyingIncome == boolean)
         {
-            LevelManager.Instance.AddCurrency(_parentBuilding.Owner, income * Time.deltaTime);
+            return;
         }
-        else if (income < 0)
+        _applyingIncome = boolean;
+
+        float income = _parentBuilding.BuildingInformation.Income * _parentBuilding.Cell.RegionClass.ResourceGenerationFactor;
+        if (boolean)
         {
-            LevelManager.Instance.RemoveCurrency(_parentBuilding.Owner, -income * Time.deltaTime);
+            LevelManager.Instance.Incomes[_parentBuilding.Owner] += income;
+        }
+        else
+        {
+            LevelManager.Instance.Incomes[_parentBuilding.Owner] -= income;
         }
     }
 }

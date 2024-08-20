@@ -10,8 +10,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _buildWheel;
     [SerializeField] private GameObject _selectedMenu;
     [SerializeField] private GameObject _selectedWheel;
+    [SerializeField] private GameObject _victoryScreen;
+    [SerializeField] private GameObject _defeatScreen;
     [SerializeField] private BuildingInfoDisplay _buildingInfoDisplay;
     [SerializeField] private TextMeshProUGUI _currencyText;
+    [SerializeField] private TextMeshProUGUI _incomeText;
+    [SerializeField] private GameObject _bankruptcyText;
 
     public static UIManager Instance { get; private set; }
 
@@ -28,7 +32,9 @@ public class UIManager : MonoBehaviour
     public void OpenSelectedMenu(Building building)
     {
         _selectedMenu.SetActive(true);
-        _selectedWheel.GetComponent<RectTransform>().position = Input.mousePosition;
+        float x = Mathf.Clamp(Input.mousePosition.x, (1f / 5) * Screen.width, (4f / 5) * Screen.width);
+        float y = Mathf.Clamp(Input.mousePosition.y, (1f / 5) * Screen.width, (4f / 5) * Screen.height);
+        _selectedWheel.GetComponent<RectTransform>().position = new Vector2(x, y);
         LevelManager.Instance.Selected = building.Cell;
     }
 
@@ -36,7 +42,9 @@ public class UIManager : MonoBehaviour
     public void OpenBuildMenu(GridCell cell)
     {
         _buildMenu.SetActive(true);
-        _buildWheel.GetComponent<RectTransform>().position = Input.mousePosition;
+        float x = Mathf.Clamp(Input.mousePosition.x, (1f / 5) * Screen.width, (4f / 5) * Screen.width);
+        float y = Mathf.Clamp(Input.mousePosition.y, (1f / 5) * Screen.width, (4f / 5) * Screen.height);
+        _buildWheel.GetComponent<RectTransform>().position = new Vector2(x, y);
         LevelManager.Instance.Selected = cell;
     }
 
@@ -61,5 +69,28 @@ public class UIManager : MonoBehaviour
     public void UpdateCurrencyText()
     {
         _currencyText.text = LevelManager.Instance.Currencies[1].ToString("00.00");
+        _incomeText.text = LevelManager.Instance.PlayerIncome.ToString("00.00");
+    }
+
+    public void ShowVictoryScreen()
+    {
+        Unselect();
+        _victoryScreen.SetActive(true);
+    }
+
+    public void ShowDefeatScreen()
+    {
+        Unselect();
+        _defeatScreen.SetActive(true);
+    }
+
+    public void ShowBankruptcyTimer()
+    {
+        _bankruptcyText.SetActive(true);
+    }
+
+    public void HideBankruptcyTimer()
+    {
+        _bankruptcyText.SetActive(false);
     }
 }

@@ -30,13 +30,18 @@ public class Highlight : MonoBehaviour
             Vector2Int mousePos  = LevelManager.Instance.GridController.GetTilePos((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition));
             if (mousePos != previousMousePos)
             {
+                GridCell cell = LevelManager.Instance.GridController.Cells[mousePos.x, mousePos.y];
                 LevelManager.Instance.GridController.SetTarget(previousMousePos, null);
-                if (LevelManager.Instance.GridController.Cells[mousePos.x, mousePos.y].CellType == GridCell.CellTypes.Buildable)
+                if (cell.Buildable[1] > 0 || (cell.ConstructedBuilding && cell.ConstructedBuilding.Owner == 1))
                 {
                     LevelManager.Instance.GridController.SetTarget(mousePos, _highlitTile);
                 }
                 previousMousePos = mousePos;
             }
+        }
+        else
+        {
+            LevelManager.Instance.GridController.SetTarget(previousMousePos, null);
         }
     }
 }
