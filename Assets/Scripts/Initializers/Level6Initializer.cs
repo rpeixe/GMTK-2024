@@ -35,6 +35,7 @@ public class Level6Initializer : MonoBehaviour, ILevelInitializer
         Building monument = LevelManager.Instance.ConstructBuilding(0, LevelManager.Instance.GridController.Cells[10, 10], _monument, true, true);
 
         Building.OnBuildingCaptured += HandleHqCaptured;
+        Building.OnBuildingUpgraded += HandleHqUpgraded;
 
 
         Dictionary<int, Building> hqDicts = new Dictionary<int, Building>();
@@ -119,5 +120,11 @@ public class Level6Initializer : MonoBehaviour, ILevelInitializer
                 LevelManager.Instance.Defeat();
             }
         }
+    }
+
+    private void OnDisable()
+    {
+        Building.OnBuildingCaptured -= HandleHqCaptured;
+        Building.OnBuildingUpgraded -= HandleHqUpgraded;
     }
 }

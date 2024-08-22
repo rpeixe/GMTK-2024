@@ -29,7 +29,6 @@ public class Level2Initializer : MonoBehaviour, ILevelInitializer
     public void InitializeLevel()
     {
         Dialogue();
-        d.Unpause();
         LevelManager.Instance.ConstructBuilding(1, LevelManager.Instance.GridController.Cells[16,5], _hq, true, true);
         Building monument1 = LevelManager.Instance.ConstructBuilding(0, LevelManager.Instance.GridController.Cells[10,5], _monument, true, true);
         Building monument2 = LevelManager.Instance.ConstructBuilding(0, LevelManager.Instance.GridController.Cells[5,3], _monument, true, true);
@@ -61,5 +60,10 @@ public class Level2Initializer : MonoBehaviour, ILevelInitializer
         }
 
         _timerText.text = TimeSpan.FromSeconds(_timeRemaining).ToString("mm':'ss");
+    }
+
+    private void OnDisable()
+    {
+        Building.OnBuildingCaptured -= HandleMonumentCaptured;
     }
 }

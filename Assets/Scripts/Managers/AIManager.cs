@@ -70,7 +70,7 @@ public class AIManager : MonoBehaviour
 
     public void StartPlaying()
     {
-        InvokeRepeating(nameof(ProcessAI), 0.0f, 2.0f);
+        InvokeRepeating(nameof(ProcessAI), 2.0f, 2.0f);
     }
 
     // Called to check if goal building changed after a building is added to a player.

@@ -34,4 +34,9 @@ public class Level1Initializer : MonoBehaviour, ILevelInitializer
 
         LevelManager.Instance.Victory();
     }
+
+    private void OnDisable()
+    {
+        Building.OnBuildingCaptured -= HandleMonumentCaptured;
+    }
 }

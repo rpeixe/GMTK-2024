@@ -105,4 +105,8 @@ public class Level7Initializer : MonoBehaviour, ILevelInitializer
             LevelManager.Instance.Victory();
         }
     }
+    private void OnDisable()
+    {
+        Building.OnBuildingCaptured -= HandleBuildingCaptured;
+    }
 }
