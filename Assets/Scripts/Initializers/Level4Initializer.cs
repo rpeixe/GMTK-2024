@@ -57,4 +57,9 @@ public class Level4Initializer : MonoBehaviour, ILevelInitializer
             LevelManager.Instance.Victory();
         }
     }
+
+    private void OnDisable()
+    {
+        Building.OnBuildingCaptured -= HandleHqCaptured;
+    }
 }
