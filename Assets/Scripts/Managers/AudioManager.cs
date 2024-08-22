@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Networking;
 
 public class AudioManager : MonoBehaviour
 {
@@ -10,6 +12,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] public AudioSource _musicSource;
     [SerializeField] public AudioSource _sfxSource;
     [SerializeField] public List<AudioClip> musicList;
+    public string sfxPath = "file://"+Application.dataPath+"/Audio/Sfx/";
     public int currentMusic = 0;
 
     private void Awake()
@@ -39,11 +42,19 @@ public class AudioManager : MonoBehaviour
             _musicSource.Play();
         }
     }
-
     public void PlayEffect(AudioClip clip)
     {
         _sfxSource.PlayOneShot(clip);
     }
+
+    public void PlayEffect(AudioClip clip, float volume)
+    {
+        float temp = _sfxSource.volume;
+        _sfxSource.volume = volume;
+        _sfxSource.PlayOneShot(clip);
+        _musicSource.volume = temp;
+    }
+
 
     public void ToggleMusic()
     {
@@ -67,4 +78,33 @@ public class AudioManager : MonoBehaviour
             currentMusic = (currentMusic + 1) % musicList.Count;
         }
     }
+
+    public async Task<AudioClip> GetSfx(string fileName)
+    {
+        return await GetAudioClip(sfxPath+fileName, AudioType.WAV);
+    }
+
+    public async Task<AudioClip> GetAudioClip(string filePath, AudioType fileType)
+    {
+        Debug.Log(filePath);
+
+        using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(filePath, fileType))
+        {
+            var result = www.SendWebRequest();
+
+            while (!result.isDone) { await Task.Delay(100); }
+
+            if (www.result == UnityWebRequest.Result.ConnectionError)
+            {
+                Debug.Log(www.error);
+                return null;
+            }
+            else
+            {
+                return DownloadHandlerAudioClip.GetContent(www);
+            }
+        }
+    }
+
+
 }
