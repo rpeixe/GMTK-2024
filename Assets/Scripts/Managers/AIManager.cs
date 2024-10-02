@@ -30,9 +30,18 @@ public class AIManager : MonoBehaviour
     {
         currentState = PeaceState;
         currentState.EnterState(this);
+    }
 
+    private void OnEnable()
+    {
         Building.OnBuildingConstructed += AddBuilding;
         Building.OnBuildingCaptured += ConquerBuilding;
+    }
+
+    private void OnDisable()
+    {
+        Building.OnBuildingConstructed -= AddBuilding;
+        Building.OnBuildingCaptured -= ConquerBuilding;
     }
 
     void Update()
